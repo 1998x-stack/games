@@ -1,0 +1,298 @@
+{
+  "schema_version": 1,
+  "source": {
+    "repository": "1998x-stack/1998x-stack-catalog",
+    "snapshot_date": "2026-11-03"
+  },
+  "categories": [
+    {
+      "id": "arcade-action",
+      "name": "街机与动作",
+      "name_en": "Arcade & Action",
+      "count": 7
+    },
+    {
+      "id": "puzzle-casual",
+      "name": "益智与休闲",
+      "name_en": "Puzzle & Casual",
+      "count": 4
+    },
+    {
+      "id": "board-card",
+      "name": "棋类与卡牌",
+      "name_en": "Board & Card",
+      "count": 7
+    },
+    {
+      "id": "game-ai",
+      "name": "游戏 AI",
+      "name_en": "Game AI",
+      "count": 6
+    },
+    {
+      "id": "game-environments",
+      "name": "游戏环境与基准",
+      "name_en": "Game Environments",
+      "count": 7
+    },
+    {
+      "id": "game-creation",
+      "name": "游戏创作工具",
+      "name_en": "Game Creation",
+      "count": 2
+    },
+    {
+      "id": "learning-resources",
+      "name": "教程与参考",
+      "name_en": "Learning Resources",
+      "count": 2
+    }
+  ],
+  "projects": [
+    {
+      "name": "Snake",
+      "description": "贪吃蛇游戏",
+      "category": "arcade-action",
+      "url": "https://github.com/1998x-stack/Snake",
+      "review": "verified"
+    },
+    {
+      "name": "Snake_Web",
+      "description": "网页版贪吃蛇",
+      "category": "arcade-action",
+      "url": "https://github.com/1998x-stack/Snake_Web",
+      "review": "pending"
+    },
+    {
+      "name": "flying_bird",
+      "description": "飞鸟躲避障碍游戏",
+      "category": "arcade-action",
+      "url": "https://github.com/1998x-stack/flying_bird",
+      "review": "verified"
+    },
+    {
+      "name": "jump_jump",
+      "description": "无限跳跃平台游戏",
+      "category": "arcade-action",
+      "url": "https://github.com/1998x-stack/jump_jump",
+      "review": "verified"
+    },
+    {
+      "name": "MarioGame",
+      "description": "马里奥主题游戏项目",
+      "category": "arcade-action",
+      "url": "https://github.com/1998x-stack/MarioGame",
+      "review": "pending"
+    },
+    {
+      "name": "space_ship",
+      "description": "2D 太空射击游戏",
+      "category": "arcade-action",
+      "url": "https://github.com/1998x-stack/space_ship",
+      "review": "verified"
+    },
+    {
+      "name": "pingpong",
+      "description": "双人乒乓物理游戏",
+      "category": "arcade-action",
+      "url": "https://github.com/1998x-stack/pingpong",
+      "review": "verified"
+    },
+    {
+      "name": "2048",
+      "description": "Pygame 版 2048 数字合成",
+      "category": "puzzle-casual",
+      "url": "https://github.com/1998x-stack/2048",
+      "review": "verified"
+    },
+    {
+      "name": "math_game",
+      "description": "数学游戏项目",
+      "category": "puzzle-casual",
+      "url": "https://github.com/1998x-stack/math_game",
+      "review": "pending"
+    },
+    {
+      "name": "xiao_xiao_le_game",
+      "description": "消消乐游戏项目",
+      "category": "puzzle-casual",
+      "url": "https://github.com/1998x-stack/xiao_xiao_le_game",
+      "review": "pending"
+    },
+    {
+      "name": "paint-maze-lab",
+      "description": "滚珠染色迷宫与求解实验室",
+      "category": "puzzle-casual",
+      "url": "https://github.com/1998x-stack/paint-maze-lab",
+      "review": "verified"
+    },
+    {
+      "name": "Go",
+      "description": "围棋规则引擎、界面与 AI",
+      "category": "board-card",
+      "url": "https://github.com/1998x-stack/Go",
+      "review": "verified"
+    },
+    {
+      "name": "go_gym",
+      "description": "围棋 Gymnasium 训练环境",
+      "category": "board-card",
+      "url": "https://github.com/1998x-stack/go_gym",
+      "review": "verified"
+    },
+    {
+      "name": "gomoku_zero",
+      "description": "五子棋智能体项目",
+      "category": "board-card",
+      "url": "https://github.com/1998x-stack/gomoku_zero",
+      "review": "pending"
+    },
+    {
+      "name": "gomoku-exact5-env",
+      "description": "恰好五子连珠规则环境",
+      "category": "board-card",
+      "url": "https://github.com/1998x-stack/gomoku-exact5-env",
+      "review": "pending"
+    },
+    {
+      "name": "TicTacToe",
+      "description": "井字棋游戏",
+      "category": "board-card",
+      "url": "https://github.com/1998x-stack/TicTacToe",
+      "review": "pending"
+    },
+    {
+      "name": "happyLandlord",
+      "description": "斗地主多智能体强化学习",
+      "category": "board-card",
+      "url": "https://github.com/1998x-stack/happyLandlord",
+      "review": "verified"
+    },
+    {
+      "name": "ddz-rl-lab",
+      "description": "斗地主规则、RL 与本地竞技场",
+      "category": "board-card",
+      "url": "https://github.com/1998x-stack/ddz-rl-lab",
+      "review": "verified"
+    },
+    {
+      "name": "MCTS-SNAKE",
+      "description": "基于蒙特卡洛树搜索的贪吃蛇 AI",
+      "category": "game-ai",
+      "url": "https://github.com/1998x-stack/MCTS-SNAKE",
+      "review": "verified"
+    },
+    {
+      "name": "TetrominoDQN",
+      "description": "俄罗斯方块 DQN 智能体训练",
+      "category": "game-ai",
+      "url": "https://github.com/1998x-stack/TetrominoDQN",
+      "review": "verified"
+    },
+    {
+      "name": "Deep-RL-Arcade-Game",
+      "description": "Atari Breakout 深度强化学习",
+      "category": "game-ai",
+      "url": "https://github.com/1998x-stack/Deep-RL-Arcade-Game",
+      "review": "verified"
+    },
+    {
+      "name": "ball-marl",
+      "description": "多智能体球类对抗研究环境",
+      "category": "game-ai",
+      "url": "https://github.com/1998x-stack/ball-marl",
+      "review": "verified"
+    },
+    {
+      "name": "Single-Player-MCTS",
+      "description": "单玩家蒙特卡洛树搜索实现",
+      "category": "game-ai",
+      "url": "https://github.com/1998x-stack/Single-Player-MCTS",
+      "review": "verified"
+    },
+    {
+      "name": "RL-Adventure-2",
+      "description": "强化学习算法与智能体实验",
+      "category": "game-ai",
+      "url": "https://github.com/1998x-stack/RL-Adventure-2",
+      "review": "verified"
+    },
+    {
+      "name": "Arcade-Learning-Environment",
+      "description": "Atari 游戏 AI 研究环境",
+      "category": "game-environments",
+      "url": "https://github.com/1998x-stack/Arcade-Learning-Environment",
+      "review": "verified"
+    },
+    {
+      "name": "awesome-rl-envs",
+      "description": "强化学习环境资源清单，含游戏",
+      "category": "game-environments",
+      "url": "https://github.com/1998x-stack/awesome-rl-envs",
+      "review": "verified"
+    },
+    {
+      "name": "gym-envs",
+      "description": "Gymnasium 教学环境与小游戏",
+      "category": "game-environments",
+      "url": "https://github.com/1998x-stack/gym-envs",
+      "review": "verified"
+    },
+    {
+      "name": "hok_env",
+      "description": "王者荣耀 1v1 强化学习环境",
+      "category": "game-environments",
+      "url": "https://github.com/1998x-stack/hok_env",
+      "review": "verified"
+    },
+    {
+      "name": "microrts",
+      "description": "面向 AI 研究的微型即时战略游戏",
+      "category": "game-environments",
+      "url": "https://github.com/1998x-stack/microrts",
+      "review": "verified"
+    },
+    {
+      "name": "universe",
+      "description": "跨游戏与应用的智能体环境平台",
+      "category": "game-environments",
+      "url": "https://github.com/1998x-stack/universe",
+      "review": "verified"
+    },
+    {
+      "name": "gym",
+      "description": "通用强化学习环境接口与基准",
+      "category": "game-environments",
+      "url": "https://github.com/1998x-stack/gym",
+      "review": "verified"
+    },
+    {
+      "name": "ai-game",
+      "description": "自然语言生成可玩 HTML5 游戏的工作室",
+      "category": "game-creation",
+      "url": "https://github.com/1998x-stack/ai-game",
+      "review": "verified"
+    },
+    {
+      "name": "AI-Game-Generator",
+      "description": "自然语言生成与预览 HTML5 游戏",
+      "category": "game-creation",
+      "url": "https://github.com/1998x-stack/AI-Game-Generator",
+      "review": "verified"
+    },
+    {
+      "name": "Deep-Reinforcement-Learning-Hands-On",
+      "description": "深度强化学习动手教程",
+      "category": "learning-resources",
+      "url": "https://github.com/1998x-stack/Deep-Reinforcement-Learning-Hands-On",
+      "review": "verified"
+    },
+    {
+      "name": "rainbow-is-all-you-need",
+      "description": "从 DQN 到 Rainbow 的教程",
+      "category": "learning-resources",
+      "url": "https://github.com/1998x-stack/rainbow-is-all-you-need",
+      "review": "verified"
+    }
+  ]
+}

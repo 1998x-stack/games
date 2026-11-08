@@ -30,6 +30,10 @@
 | [📚 教程与参考](categories/learning-resources/README.md) | 2 | 强化学习实战与算法实现资料 |
 | **合计** | **35** | **均附公开上游链接** |
 
+## 🎯 三批优化计划
+
+已制定针对全部 **35 个项目**的 [优化路线图](docs/OPTIMIZATION-ROADMAP.md)：以**可验证的游戏体验**为唯一核心目标，按 **P1 体验入口与基础质量（10 项）→ P2 玩法与游戏 AI（13 项）→ P3 研究工具及长期治理（12 项）**推进。每项均有当前证据、具体行动与独立验收标准；计划不代表项目已经实际运行或测试通过。
+
 ## 🗂️ 仓库结构
 
 ```text
@@ -49,6 +53,7 @@ games/
 ├── site/                         # 纯静态 GitHub Pages 站点
 ├── scripts/build_site.py         # 数据校验与站点数据生成
 ├── docs/SELECTION.md             # 收录范围、审查依据、边界
+├── docs/OPTIMIZATION-ROADMAP.md  # 35 项目三批优化与验收计划
 ├── docs/PAGES.md                 # 发布与故障排查
 └── .github/workflows/            # CI + Pages 自动部署
 ```

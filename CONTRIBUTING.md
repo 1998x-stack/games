@@ -20,3 +20,7 @@
 `python scripts/build_site.py` 刷新 `site/data/*.json`；
 `python scripts/build_site.py --check` 校验 JSON、项目页与证据 URL 同步。
 不要将“构建成功”“虚拟 SDL 测试成功”写成“正式网页已验证可玩”。
+
+## P3 完整目录治理
+
+三批状态源为 `data/phase1.json`（10）、`data/phase2.json`（13）、`data/phase3.json`（12）。每个项目应**恰好出现一次**，且并集等于 `data/games.json` 的 35 项。运行 `python3 scripts/build_site.py` 同步静态 JSON；运行 `python3 scripts/build_site.py --check` 进行无损验证。更新任何成功/失败状态时，必须同步相关 `categories/<category>/<project>/README.md` 的证据链接。受限资源、历史环境和后端服务不应直接被宣传为线上可玩；未经核实的 ROM、角色资产和 API 密钥不得拷入门户。

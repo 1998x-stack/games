@@ -48,12 +48,19 @@
 
 新版 UI 将“桌面游戏”“浏览器候选”“本地 Web”“游戏 AI/研究环境”分开呈现，允许按**验证证据**筛选并直达原始运行记录。
 
+## 🔬 第三批深度优化 · P3 进行中
+
+第三批覆盖剩余 **12 个研究环境、游戏生成工具与教程资源**。已对 [AI-Game-Generator](https://github.com/1998x-stack/AI-Game-Generator)、[gym-envs](https://github.com/1998x-stack/gym-envs)、[rainbow-is-all-you-need](https://github.com/1998x-stack/rainbow-is-all-you-need) 实施有自动测试证据的上游修复（3/12）；[ai-game](https://github.com/1998x-stack/ai-game) 另有历史成功工作流，尚未在本轮复验完整生成过程。
+
+已建立 **35/35 项唯一阶段归属及可追溯运行状态**，包括受限 ROM、遗留依赖和需服务端的生成器。状态登记不等于生产可玩或实验已成功；详见 **[第三批完整执行日志](docs/PHASE3-EXECUTION.md)** 和 [P3 状态 JSON](data/phase3.json)。
+
 ## 🗂️ 仓库结构
 
 ```text
 games/
 ├── README.md                     # 仓库入口与分类目录
-├── data/games.json               # 单一可信来源：公开项目元数据
+├── data/games.json               # 35 项公开基础元数据
+├── data/phase{1,2,3}.json        # 三批共 35 项证据状态
 ├── categories/
 │   ├── arcade-action/
 │   ├── puzzle-casual/
@@ -70,6 +77,7 @@ games/
 ├── docs/OPTIMIZATION-ROADMAP.md  # 35 项目三批优化与验收计划
 ├── docs/PHASE1-EXECUTION.md      # 第一批执行日志与测试证据
 ├── docs/PHASE2-EXECUTION.md      # 第二批 13 项运行/研究验收
+├── docs/PHASE3-EXECUTION.md      # 第三批 12 项研究环境与安全验收
 ├── docs/UI-UX-2026.md           # UI 信息架构、设计 Token 与验收标准
 ├── docs/PAGES.md                 # 发布与故障排查
 └── .github/workflows/            # CI + Pages 自动部署
@@ -87,7 +95,7 @@ python3 scripts/build_site.py
 python3 -m http.server 8000 --directory site
 ```
 
-浏览器打开 <http://localhost:8000/>。修改 `data/games.json` 后重新运行 `build_site.py`，生成 `site/data/catalog.json`。
+浏览器打开 <http://localhost:8000/>。修改 `data/games.json` 或 `data/phase*.json` 后重新运行 `build_site.py`，同步 `site/data/catalog.json` 和三个阶段 JSON。
 
 ## 🧭 筛选与标记原则
 

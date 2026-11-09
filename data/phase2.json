@@ -95,10 +95,13 @@
     {
       "name": "TetrominoDQN",
       "mode": "game-ai",
-      "validation": "not-verified",
+      "validation": "gameplay-ci",
       "availability": "not-applicable",
-      "note": "俄罗斯方块 DQN 训练；规则与随机基线未在本轮测试。",
-      "evidence": []
+      "note": "已修复左右/重力移动不更新坐标及多行消除错行；新增旋转/硬降落/终局/独立种子回归，旧 Gym 四元组下通过 CPU 实际无界面对局与三种子 uniform-random-actions JSON 双重一致性验证。尚未训练或评估 DQN 网络，不能当作学习性能结论。",
+      "evidence": [
+        "https://github.com/1998x-stack/TetrominoDQN/actions/runs/42649593846",
+        "https://github.com/1998x-stack/TetrominoDQN/actions/runs/42649556998"
+      ]
     },
     {
       "name": "Deep-RL-Arcade-Game",

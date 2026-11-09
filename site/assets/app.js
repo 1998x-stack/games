@@ -17,7 +17,8 @@
     "match-ci":"真实 AI 对局通过 · 非在线试玩",
     "index-ci":"游戏环境索引一致 · 链接未实测",
     "experiment-ci":"CPU 实验基线复现 · 原书训练待验",
-    "packager-ci":"打包安全回归通过 · 整体服务待验"
+    "packager-ci":"打包安全回归通过 · 整体服务待验",
+    "training-ci":"CPU Actor-Critic 训练通过 · 深度模型待验"
   };
   const types = {"desktop":"桌面游戏","browser-candidate":"浏览器候选",
     "local-web":"本地 Web","environment":"AI / RL 环境",
@@ -25,7 +26,7 @@
   const ok = value => typeof value === "string" &&
     value.startsWith("https://github.com/1998x-stack/");
   const state = {catalog:null, projects:new Map(), category:"all"};
-  const hasPass = e => e && ["browser-ci","build-ci","unit-ci","environment-ci","security-ci","component-ci","historical-ci","match-ci","index-ci","experiment-ci","packager-ci"].includes(e.validation);
+  const hasPass = e => e && ["browser-ci","build-ci","unit-ci","environment-ci","security-ci","component-ci","historical-ci","match-ci","index-ci","experiment-ci","packager-ci","training-ci"].includes(e.validation);
   const fallbackType = {
     "game-creation": "creation-tool",
     "game-environments": "environment",

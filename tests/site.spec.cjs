@@ -49,12 +49,12 @@ test("mode and verification filters distinguish game types and CI outcomes", asy
   await expect(page.locator(".project")).toHaveCount(3);
   await page.locator("#mode").selectOption("all");
   await page.locator("#verification").selectOption("evidence");
-  await expect(page.locator(".project")).toHaveCount(24);
+  await expect(page.locator(".project")).toHaveCount(25);
   await page.locator("#verification").selectOption("failed");
   await expect(page.locator(".project")).toHaveCount(1);
   await expect(page.locator(".project")).toContainText("happyLandlord");
   await page.locator("#verification").selectOption("pending");
-  await expect(page.locator(".project")).toHaveCount(10);
+  await expect(page.locator(".project")).toHaveCount(9);
   await page.locator("#verification").selectOption("all");
   await expect(page.locator(".project")).toHaveCount(35);
 });
@@ -62,7 +62,7 @@ test("mode and verification filters distinguish game types and CI outcomes", asy
 test("source and evidence links are distinct and secure", async ({page}) => {
   await page.goto(URL);
   await expect(page.locator(".project a[data-role='repo']")).toHaveCount(35);
-  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(25);
+  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(26);
   const card = page.locator(".project").filter({has:page.locator("h4",{hasText:"gomoku-exact5-env"})});
   await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /actions\/runs\//);
   for (const link of await page.locator(".project a").all()) {
@@ -144,4 +144,17 @@ test("P3 CPU experiment and game-packager security evidence remain scoped", asyn
   await expect(studio).toContainText("打包安全回归通过");
   await expect(studio).toContainText("需服务端运行");
   await expect(studio.locator("a[data-role='evidence']")).toHaveAttribute("href", /ai-game\/actions\/runs\//);
+});
+
+test("P3 Actor-Critic genuinely trains on CPU but original deep model remains unverified", async ({page}) => {
+  await page.goto(URL);
+  const card = page.locator(".project").filter({has:page.getByRole("heading",{name:"RL-Adventure-2",exact:true})});
+  await expect(card).toContainText("CPU Actor-Critic 训练通过");
+  await expect(card).toContainText("深度模型待验");
+  await expect(card).toContainText("历史依赖限制");
+  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /RL-Adventure-2\/actions\/runs\/42634426202/);
+  await page.locator("#verification").selectOption("evidence");
+  await expect(page.locator(".project")).toHaveCount(25);
+  await page.locator("#mode").selectOption("game-ai");
+  await expect(card).toBeVisible();
 });

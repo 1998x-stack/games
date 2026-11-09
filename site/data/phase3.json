@@ -6,10 +6,12 @@
     {
       "name": "RL-Adventure-2",
       "mode": "game-ai",
-      "validation": "not-verified",
+      "validation": "training-ci",
       "availability": "legacy",
-      "note": "强化学习算法 Notebook 集，尚未在本轮用固定版本 CPU 环境跑通最小算法；不作为可直接试玩项目。",
-      "evidence": []
+      "note": "NumPy 线性 Actor-Critic + Gymnasium 1.1.1 的独立 CPU 教学脚本，三预设种子 2026/2027/2028，每种子 480 局真实策略/价值更新、64 局留出评估。训练后平均奖励 382.109/410.953/484.156，跨种子均值 425.739、样本SD52.606；随机基线 23.234/21.734/21.688。重复JSON结果完全一致、5项单测通过。这不是原 Notebook 的深度 PyTorch A2C。",
+      "evidence": [
+        "https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42634426202"
+      ]
     },
     {
       "name": "Arcade-Learning-Environment",

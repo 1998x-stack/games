@@ -25,3 +25,10 @@ jobs:
         run: |
           python3 -m http.server 8765 --bind 127.0.0.1 --directory site &
           npx playwright test tests/site.spec.cjs --workers=1
+      - name: Save desktop and mobile UI acceptance screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: games-atlas-ui-evidence
+          path: screenshots/
+          if-no-files-found: ignore

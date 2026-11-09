@@ -9,10 +9,10 @@
 | 指标 | 事实 |
 |---|---|
 | P2 计划/状态记录 | **13 / 13**，一项一条独立状态 |
-| 本轮实际修改上游代码并通过新 CI | **6 项**：math_game、xiao_xiao_le_game、MarioGame、gomoku-exact5-env、gomoku_zero、go_gym |
+| 本轮实际修改上游代码并通过新 CI | **7 项**：math_game、xiao_xiao_le_game、MarioGame、gomoku-exact5-env、gomoku_zero、go_gym、TetrominoDQN |
 | 其余有历史成功 CI 证据 | **2 项**：ddz-rl-lab、ball-marl（本轮未重跑） |
 | 有历史失败 CI 记录 | **1 项**：happyLandlord 的安装检查，不隐去失败 |
-| 本轮尚无 CI/运行实测 | **4 项** |
+| 本轮尚无 CI/运行实测 | **3 项** |
 | 真实物理桌面 / 训练性能综合验收 | **未完成**，不推断来自单元测试 |
 
 ## 13 项逐项计划、进度与证据
@@ -28,7 +28,7 @@
 | [happyLandlord](https://github.com/1998x-stack/happyLandlord) | 游戏 AI 研究 · **历史 CI 失败**。历史安装与文档 CI 失败；须先验证依赖、合法牌型和最小训练入口。 | 先定位历史安装 CI 失败原因，建立可复现的基础牌型/非法动作/整局结算测试。 | [工作流 1](https://github.com/1998x-stack/happyLandlord/actions/runs/36802001764) |
 | [ddz-rl-lab](https://github.com/1998x-stack/ddz-rl-lab) | 游戏 AI 研究 · **已有成功 CI**。有历史单测成功记录；未在本轮复现完整自对弈训练。 | 固定环境版本、种子、训练批次验证模型存档/恢复、对局与评价。 | [工作流 1](https://github.com/1998x-stack/ddz-rl-lab/actions/runs/39978510070) |
 | [MCTS-SNAKE](https://github.com/1998x-stack/MCTS-SNAKE) | 游戏 AI 研究 · **本轮未完成运行验收**。MCTS/DQN 贪吃蛇研究项目，尚未建立同条件随机策略基准。 | 固定随机种子、搜索预算和回合数比较 MCTS 与随机策略，记录平均分和方差。 | 尚无执行记录 |
-| [TetrominoDQN](https://github.com/1998x-stack/TetrominoDQN) | 游戏 AI 研究 · **本轮未完成运行验收**。俄罗斯方块 DQN 训练；规则与随机基线未在本轮测试。 | 完善旋转/行消除/终局奖励单测，建立同 seed 随机策略对比。 | 尚无执行记录 |
+| [TetrominoDQN](https://github.com/1998x-stack/TetrominoDQN) | 游戏 AI 研究 · **本轮新增玩法规则及随机基线成功 CI**：修复 _move 未移动位置、多行消除错行、独立 RNG 与终局保护，测试旋转/硬降落/真实无界面回合。**未训练 DQN**。 | 在等种子/等交互预算下运行 DQN 训练→存档→留出评估，再与已固定的随机策略对比。 | [原始成功 CI](https://github.com/1998x-stack/TetrominoDQN/actions/runs/42649593846) · [合并 PR](https://github.com/1998x-stack/TetrominoDQN/pull/2) |
 | [Deep-RL-Arcade-Game](https://github.com/1998x-stack/Deep-RL-Arcade-Game) | 游戏 AI 研究 · **本轮未完成运行验收**。Atari 研究项目含历史版本依赖；ROM 来源与运行环境待核实。 | 在合法 ROM 前提下隔离历史 TensorFlow/Gym，执行单局 Atari 冒烟。 | 尚无执行记录 |
 | [ball-marl](https://github.com/1998x-stack/ball-marl) | 环境 / 基准 · **已有成功 CI**。上游发布门禁 CI 曾成功；本轮未重新运行公平性及策略复测。 | 在相同版本和种子下测试动作约束、奖励守恒和策略切换。 | [工作流 1](https://github.com/1998x-stack/ball-marl/actions/runs/41018092336) |
 | [Single-Player-MCTS](https://github.com/1998x-stack/Single-Player-MCTS) | 游戏 AI 研究 · **本轮未完成运行验收**。单人 MCTS 研究代码；未用已知最优解基准验证。 | 构造已知最优解的小搜索图，验证选择/扩展/回传与预算终止。 | 尚无执行记录 |
@@ -46,6 +46,8 @@
 **五子棋 Exact-5**：补齐规则环境在非法落子/胜负终局后仍可继续 `step` 的状态保护，增加横竖斜五连、六连不胜与 Gymnasium 观察/动作掩码测试。下一步仍要与 gomoku_zero 交叉对齐。
 
 **围棋 go_gym（本轮新增）**：修复错误执子方落子、终局后继续 step、max_steps 被误判为胜负终局及 MCTS 白方 Q 符号；策略缓存键加入最后落子与普通劫历史，超级劫绕开不完整键。新增 CPU 环境/搜索回归与 3×3 固定种子短局；[原始成功 CI](https://github.com/1998x-stack/go_gym/actions/runs/42646215027)。**尚未验证** 9×9/19×19 训练、真实棋力或复杂死活裁决。
+
+**TetrominoDQN（本轮新增）**：修复移动方法只检测不更新坐标的实际玩法阻断、连续满行删除错行、硬降落新方块串动与终局步数保护；新增九项真实规则测试，并对固定三种子每种子三局的随机策略基线运行两次，得到字节一致 JSON。[原始 CI](https://github.com/1998x-stack/TetrominoDQN/actions/runs/42649593846)。遗留 Gym 四元组保留以兼容训练入口。**没有**把随机策略基线升级为 DQN 模型训练证据。
 
 ## UI/UX 与第二批的共同交付
 

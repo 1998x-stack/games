@@ -44,7 +44,7 @@
 
 ## 🧠 第二批深度优化 · P2 进行中
 
-第二批覆盖 **13 个游戏、规则环境与 AI 研究项目**。[逐项 P2 执行日志](docs/PHASE2-EXECUTION.md) 与 [公开阶段数据](data/phase2.json) 均已建立。当前在 **math_game、xiao_xiao_le_game、MarioGame、gomoku-exact5-env、gomoku_zero、go_gym** 实施修复并获得新 CI 成功证据（6/13）；ddz-rl-lab、ball-marl 有历史成功记录，happyLandlord 存在历史失败 CI，余下 4 项尚无本轮运行验收。go_gym 的 CPU 规则回归及固定种子短局已通过；大棋盘训练仍待验。
+第二批覆盖 **13 个游戏、规则环境与 AI 研究项目**。[逐项 P2 执行日志](docs/PHASE2-EXECUTION.md) 与 [公开阶段数据](data/phase2.json) 均已建立。当前在 **math_game、xiao_xiao_le_game、MarioGame、gomoku-exact5-env、gomoku_zero、go_gym、TetrominoDQN** 实施修复并获得新 CI 成功证据（7/13）；ddz-rl-lab、ball-marl 有历史成功记录，happyLandlord 存在历史失败 CI，余下 3 项尚无本轮运行验收。go_gym 的围棋规则/MCTS 修复和 TetrominoDQN 的方块移动/多行消除修复均有实际 CPU CI；大棋盘训练和 DQN 模型训练仍待验。
 
 新版 UI 将“桌面游戏”“浏览器候选”“本地 Web”“游戏 AI/研究环境”分开呈现，新增 **P1/P2/P3 批次筛选、失败/待验优先排序、可分享筛选链接及可展开的验证限制**。自动验证不等于真实上线可玩。
 

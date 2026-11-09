@@ -11,6 +11,7 @@
     "ci-failed":"现有 CI 失败 · 需修复",
     "not-verified":"尚待运行验证",
     "environment-ci":"教学环境协议通过 · 其他示例待验",
+    "gameplay-ci":"实际玩法规则及随机基线通过 · DQN 训练待验",
     "security-ci":"Chromium 沙箱隔离通过 · 整体服务待验",
     "component-ci":"算法组件测试通过 · 训练待验",
     "historical-ci":"历史 CI 成功 · 本轮未复测",
@@ -34,7 +35,7 @@
       /^[0-9]+$/.test(url.slice(prefix.length));
   };
   const state = {catalog:null, projects:new Map(), category:"all"};
-  const hasPass = e => e && ["browser-ci","build-ci","unit-ci","environment-ci","security-ci","component-ci","historical-ci","match-ci","index-ci","experiment-ci","packager-ci","training-ci","comparison-ci","vector-a2c-ci","subprocess-ci"].includes(e.validation);
+  const hasPass = e => e && ["browser-ci","build-ci","unit-ci","environment-ci","gameplay-ci","security-ci","component-ci","historical-ci","match-ci","index-ci","experiment-ci","packager-ci","training-ci","comparison-ci","vector-a2c-ci","subprocess-ci"].includes(e.validation);
   const fallbackType = {
     "game-creation": "creation-tool",
     "game-environments": "environment",

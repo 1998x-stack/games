@@ -19,12 +19,19 @@
   };
   const types = {"desktop":"桌面游戏","browser-candidate":"浏览器候选",
     "local-web":"本地 Web","environment":"AI / RL 环境",
-    "game-ai":"游戏 AI 研究", "creation-tool":"游戏创作工具", "resource":"教程与资料"};
+    "game-ai":"游戏 AI 研究", "creation-tool":"游戏创作工具", "resource":"教程与资料", "unclassified":"运行形态未核实"};
   const ok = value => typeof value === "string" &&
     value.startsWith("https://github.com/1998x-stack/");
   const state = {catalog:null, projects:new Map(), category:"all"};
   const hasPass = e => e && ["browser-ci","build-ci","unit-ci","environment-ci","security-ci","component-ci","historical-ci","match-ci","index-ci"].includes(e.validation);
-  const kind = e => e?.mode || "resource";
+  const fallbackType = {
+    "game-creation": "creation-tool",
+    "game-environments": "environment",
+    "game-ai": "game-ai",
+    "learning-resources": "resource"
+  };
+  // A missing optional manifest must never turn every unverified game into a resource.
+  const kind = (p, e) => e?.mode || fallbackType[p.category] || "unclassified";
 
   const externalLink = (url, label, role) => {
     const a = document.createElement("a");
@@ -48,7 +55,7 @@
     const category = document.createElement("span"); category.textContent = categoryName(p.category);
     const separator = document.createElement("span"); separator.className="meta-divider";
     separator.textContent = " / ";
-    const mode = document.createElement("span"); mode.textContent = types[kind(e)];
+    const mode = document.createElement("span"); mode.textContent = types[kind(p, e)];
     meta.append(category, separator, mode);
     const name = document.createElement("h4"); name.textContent = p.name;
     const desc = document.createElement("p"); desc.textContent = p.description;
@@ -87,11 +94,11 @@
     let rows = catalog.projects.filter(p => {
       const e = getEvidence(p);
       if (state.category !== "all" && p.category !== state.category) return false;
-      if (filters.mode.value !== "all" && kind(e) !== filters.mode.value) return false;
+      if (filters.mode.value !== "all" && kind(p, e) !== filters.mode.value) return false;
       if (filters.verification.value === "evidence" && !hasPass(e)) return false;
       if (filters.verification.value === "failed" && e?.validation !== "ci-failed") return false;
       if (filters.verification.value === "pending" && (hasPass(e) || e?.validation === "ci-failed")) return false;
-      return !q || [p.name,p.description,categoryName(p.category),types[kind(e)]]
+      return !q || [p.name,p.description,categoryName(p.category),types[kind(p, e)]]
         .some(v => v.toLocaleLowerCase().includes(q));
     });
     if (filters.sort.value === "name") {

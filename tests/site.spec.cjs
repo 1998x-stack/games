@@ -119,6 +119,8 @@ test("missing optional third manifest cannot create false verification", async (
   await expect(page.locator("#tracked")).toHaveText("23");
   const generator = page.locator(".project").filter({has:page.locator("h4",{hasText:"AI-Game-Generator"})});
   await expect(generator).toContainText("尚未进入运行验证批次");
+  // Its categorical type is still correct even without the optional P3 manifest.
+  await expect(generator).toContainText("游戏创作工具 / 游戏创作工具");
   await expect(generator.locator("a[data-role='evidence']")).toHaveCount(0);
 });
 

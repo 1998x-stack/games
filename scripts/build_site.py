@@ -12,6 +12,8 @@ PHASE1_INPUT = ROOT / "data" / "phase1.json"
 PHASE1_OUTPUT = ROOT / "site" / "data" / "phase1.json"
 PHASE2_INPUT = ROOT / "data" / "phase2.json"
 PHASE2_OUTPUT = ROOT / "site" / "data" / "phase2.json"
+PHASE3_INPUT = ROOT / "data" / "phase3.json"
+PHASE3_OUTPUT = ROOT / "site" / "data" / "phase3.json"
 SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
 ALLOWED = {"name", "description", "category", "url", "review"}
@@ -110,6 +112,47 @@ def build_phase2():
     return json.dumps(data, ensure_ascii=False, indent=2) + chr(10)
 
 
+def build_phase3():
+    """Publish P3 with a strict three-batch 35-project partition."""
+    public = json.loads(INPUT.read_text(encoding="utf-8"))
+    mapped = {p["name"]: p for p in public["projects"]}
+    phase = json.loads(PHASE3_INPUT.read_text(encoding="utf-8"))
+    assert set(phase) == {"schema_version", "observed_on", "stage", "projects"}
+    assert phase["schema_version"] == 1 and phase["stage"] == "in_progress"
+    expected = {"RL-Adventure-2", "Arcade-Learning-Environment", "awesome-rl-envs",
+                "gym-envs", "hok_env", "microrts", "universe", "gym", "ai-game",
+                "AI-Game-Generator", "Deep-Reinforcement-Learning-Hands-On",
+                "rainbow-is-all-you-need"}
+    rows = phase["projects"]
+    assert len(rows) == 12 and {p["name"] for p in rows} == expected
+    for p in rows:
+        assert set(p) == {"name", "mode", "validation", "availability", "note", "evidence"}
+        assert p["mode"] in ("environment", "game-ai", "creation-tool", "resource")
+        assert p["validation"] in ("not-verified", "environment-ci", "security-ci",
+                                   "component-ci", "historical-ci")
+        assert p["availability"] in ("legacy", "restricted", "needs-server", "not-applicable")
+        assert isinstance(p["note"], str) and p["note"].strip()
+        assert isinstance(p["evidence"], list)
+        assert p["validation"] == "not-verified" or p["evidence"]
+        assert all(isinstance(url, str) and url.startswith(
+            "https://github.com/1998x-stack/" + p["name"] + "/actions/runs/")
+            and url.rsplit("/", 1)[-1].isdigit() for url in p["evidence"])
+        assert p["name"] in mapped
+        page = ROOT / "categories" / mapped[p["name"]]["category"] / p["name"] / "README.md"
+        assert page.is_file()
+        text = page.read_text(encoding="utf-8")
+        assert all(url in text for url in p["evidence"]), "P3 evidence missing from " + p["name"]
+    batches = [
+        {p["name"] for p in json.loads(path.read_text(encoding="utf-8"))["projects"]}
+        for path in (PHASE1_INPUT, PHASE2_INPUT, PHASE3_INPUT)
+    ]
+    assert [len(group) for group in batches] == [10, 13, 12]
+    assert not batches[0] & batches[1] and not batches[0] & batches[2]
+    assert not batches[1] & batches[2], "P1/P2/P3 project overlap"
+    assert set.union(*batches) == set(mapped), "Missing or extra projects across three batches"
+    return json.dumps(phase, ensure_ascii=False, indent=2) + chr(10)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="validate without writing")
@@ -117,15 +160,18 @@ if __name__ == "__main__":
     result = build()
     phase_result = build_phase1()
     phase2_result = build_phase2()
+    phase3_result = build_phase3()
     if args.check:
         assert OUTPUT.is_file(), "First run without --check to generate output"
         assert OUTPUT.read_text(encoding="utf-8") == result, "Site data is out of sync; regenerate"
         assert PHASE1_OUTPUT.is_file() and PHASE1_OUTPUT.read_text(encoding="utf-8") == phase_result, "Phase1 JSON mismatch"
         assert PHASE2_OUTPUT.is_file() and PHASE2_OUTPUT.read_text(encoding="utf-8") == phase2_result, "Phase2 JSON mismatch"
-        print("Catalog 35, P1 10 and P2 13 public statuses in sync.")
+        assert PHASE3_OUTPUT.is_file() and PHASE3_OUTPUT.read_text(encoding="utf-8") == phase3_result, "Phase3 JSON mismatch"
+        print("Catalog 35 / P1 10 / P2 13 / P3 12; complete partition and evidence in sync.")
     else:
         OUTPUT.parent.mkdir(parents=True, exist_ok=True)
         OUTPUT.write_text(result, encoding="utf-8")
         PHASE1_OUTPUT.write_text(phase_result, encoding="utf-8")
         PHASE2_OUTPUT.write_text(phase2_result, encoding="utf-8")
+        PHASE3_OUTPUT.write_text(phase3_result, encoding="utf-8")
         print("Generated site/data/catalog.json (35 public projects).")

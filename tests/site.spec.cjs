@@ -42,7 +42,7 @@ test("mode and verification filters distinguish game types and CI outcomes", asy
   await page.locator("#mode").selectOption("environment");
   await expect(page.locator(".project")).toHaveCount(9);
   await page.locator("#mode").selectOption("game-ai");
-  await expect(page.locator(".project")).toHaveCount(7);
+  await expect(page.locator(".project")).toHaveCount(8);
   await page.locator("#mode").selectOption("creation-tool");
   await expect(page.locator(".project")).toHaveCount(2);
   await page.locator("#mode").selectOption("resource");

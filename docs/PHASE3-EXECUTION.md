@@ -17,7 +17,7 @@
 
 ## 五项新工程交付与测试边界
 
-**1. [AI-Game-Generator](https://github.com/1998x-stack/AI-Game-Generator)**：不受信任的生成 HTML 曾使用 `sandbox="allow-scripts allow-same-origin"`，可能使 srcdoc 脚本继承应用来源权限。现改为仅允许脚本、使用不透明源，校验 `postMessage` 的确切 iframe 发送者并限制错误消息长度。新增轻量安全契约测试和 TypeScript CI。[本轮成功记录](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42619929546)。**限制：** 静态源契约和类型检查不等于浏览器攻击测试或全平台安全审计。
+**1. [AI-Game-Generator](https://github.com/1998x-stack/AI-Game-Generator)**：不受信任的生成 HTML 曾使用 `sandbox="allow-scripts allow-same-origin"`，可能使 srcdoc 脚本继承应用来源权限。现改为仅允许脚本、使用不透明源，校验 `postMessage` 的确切 iframe 发送者并限制错误消息长度。新增静态契约/TypeScript CI，并在原 Next.js 组件上执行 **2 项真实 Chromium 浏览器测试**，验证沙箱不能读取父 DOM/localStorage 及错误来源消息的拒绝。[Chromium 成功记录](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42623528980) · [静态契约记录](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42619929546)。**限制：** 此测试覆盖预览隔离边界，不能代表生成服务、密钥、沙箱子依赖或全平台安全审计。
 
 **2. [gym-envs](https://github.com/1998x-stack/gym-envs)**：FrozenLake/Blackjack 两个教学环境转为现代 Gymnasium `reset(seed)` 与五元组 `step()`；替换全局 RNG、补终局后动作保护和完整回合、`check_env` 测试。[本轮成功记录](https://github.com/1998x-stack/gym-envs/actions/runs/42620238372)。**限制：** 没有宣称其余 classic_control/toy_text 全面兼容。
 
@@ -40,7 +40,7 @@
 | [universe](https://github.com/1998x-stack/universe) | 研究环境 · **本轮未完成运行** · 历史依赖可能不兼容 | 建立隔离的历史运行矩阵；若不能运行，公开阻塞条件，不给“现代 Gym 兼容”标签。 | 本轮暂无成功运行记录 |
 | [gym](https://github.com/1998x-stack/gym) | 研究环境 · **本轮未完成运行** · 历史依赖可能不兼容 | 核对旧 Gym 与 Gymnasium 的 API 差异，提供并行示例而不是迁移整个上游历史源码。 | 本轮暂无成功运行记录 |
 | [ai-game](https://github.com/1998x-stack/ai-game) | 游戏创作工具 · **历史工作流成功；本轮未复测** · 依赖服务端配置与密钥 | 保持原有 CI 不变；后续检验服务端密钥、会话隔离、沙箱预览与无密钥生成失败路径。 | [CI 1](https://github.com/1998x-stack/ai-game/actions/runs/39938832001) |
-| [AI-Game-Generator](https://github.com/1998x-stack/AI-Game-Generator) | 游戏创作工具 · **预览隔离安全契约通过** · 依赖服务端配置与密钥 | 补真正浏览器恶意 HTML 沙箱逃逸测试、构建超时/失败流程，不把静态测试当完整安全审计。 | [CI 1](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42619929546) |
+| [AI-Game-Generator](https://github.com/1998x-stack/AI-Game-Generator) | 游戏创作工具 · **Chromium 预览隔离测试通过** · 依赖服务端配置与密钥 | 扩展跨域网络请求、构建超时和身份/密钥路径测试；现只认证预览来源隔离。 | [浏览器 CI](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42623528980) · [静态契约](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42619929546) |
 | [Deep-Reinforcement-Learning-Hands-On](https://github.com/1998x-stack/Deep-Reinforcement-Learning-Hands-On) | 教学资源 · **本轮未完成运行** · 历史依赖可能不兼容 | 选择 FrozenLake 等无需第三方 ROM 的章节，固定最小依赖与 RNG，验证 CPU 完整回合。 | 本轮暂无成功运行记录 |
 | [rainbow-is-all-you-need](https://github.com/1998x-stack/rainbow-is-all-you-need) | 教学资源 · **优先经验回放组件测试通过** · 历史依赖可能不兼容 | 固定 DQN/Rainbow Notebook 的 Torch/Gym 组合，开展最小同种子训练并记录基线；不要继承过期依赖保证。 | [CI 1](https://github.com/1998x-stack/rainbow-is-all-you-need/actions/runs/42620461728) |
 
@@ -64,7 +64,8 @@
 - [x] 五项实际工程改进取得公开 CI 证据（含真实 RTS 对局及仅静态链接索引检查）
 - [x] 全 35 项阶段数据与静态站点统一校验，阶段没有重复
 - [x] 至少一个原始环境完整回合：microRTS 205 周期 AI 对局（并非多次统计基准）
-- [ ] AI 生成器真实浏览器隔离与无密钥失败路径独立核验
+- [x] AI 生成器实际 Chromium 预览隔离检查（2 项测试）
+- [ ] 生成器无密钥失败/超时路径及全服务隔离审查
 - [ ] 受限资源的合法来源与系统矩阵审查
 - [ ] Games 11 个外链目的站的联网健康度、许可与定期复核（静态提取 CI 已通过）
 - [ ] 正式生产 Pages 网页路径的独立访问抽样

@@ -88,8 +88,9 @@
       "mode": "creation-tool",
       "validation": "security-ci",
       "availability": "needs-server",
-      "note": "生成 HTML 预览已移除 allow-same-origin 并校验 postMessage 来源，静态安全契约及 TypeScript CI 通过；不是整个平台的安全认证。",
+      "note": "生成 HTML 的 iframe 已采用不透明来源和严格消息来源校验；真实 Chromium 2 项浏览器测试证明生成代码无法读取父 DOM/localStorage，并验证错误来源消息不受信任。仅覆盖该预览隔离边界，不是整体平台安全审计。",
       "evidence": [
+        "https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42623528980",
         "https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42619929546"
       ]
     },

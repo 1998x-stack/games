@@ -11,7 +11,7 @@
     "ci-failed":"现有 CI 失败 · 需修复",
     "not-verified":"尚待运行验证",
     "environment-ci":"教学环境协议通过 · 其他示例待验",
-    "security-ci":"预览隔离检查通过 · 整体服务待验",
+    "security-ci":"Chromium 沙箱隔离通过 · 整体服务待验",
     "component-ci":"算法组件测试通过 · 训练待验",
     "historical-ci":"历史 CI 成功 · 本轮未复测",
     "match-ci":"真实 AI 对局通过 · 非在线试玩",

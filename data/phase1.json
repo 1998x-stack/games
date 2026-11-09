@@ -16,11 +16,12 @@
     {
       "name": "Go",
       "mode": "browser-candidate",
-      "validation": "unit-ci",
-      "availability": "production-unverified",
-      "note": "规则 CI 成功；pygbag 构建修复已提交，待复核新版部署",
+      "validation": "build-ci",
+      "availability": "deployment-blocked",
+      "note": "修复 pygbag --build 后静态产物构建成功；configure-pages 因 Pages 尚未启用而失败。规则 CI 成功。",
       "evidence": [
-        "https://github.com/1998x-stack/Go/actions/runs/41014518244"
+        "https://github.com/1998x-stack/Go/actions/runs/42541002385",
+        "https://github.com/1998x-stack/Go/actions/runs/42541002361"
       ]
     },
     {

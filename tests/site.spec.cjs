@@ -49,12 +49,12 @@ test("mode and verification filters distinguish game types and CI outcomes", asy
   await expect(page.locator(".project")).toHaveCount(3);
   await page.locator("#mode").selectOption("all");
   await page.locator("#verification").selectOption("evidence");
-  await expect(page.locator(".project")).toHaveCount(25);
+  await expect(page.locator(".project")).toHaveCount(26);
   await page.locator("#verification").selectOption("failed");
   await expect(page.locator(".project")).toHaveCount(1);
   await expect(page.locator(".project")).toContainText("happyLandlord");
   await page.locator("#verification").selectOption("pending");
-  await expect(page.locator(".project")).toHaveCount(9);
+  await expect(page.locator(".project")).toHaveCount(8);
   await page.locator("#verification").selectOption("all");
   await expect(page.locator(".project")).toHaveCount(35);
 });
@@ -63,7 +63,7 @@ test("source and evidence links are distinct and secure", async ({page}) => {
   await page.goto(URL);
   await expect(page.locator(".project a[data-role='repo']")).toHaveCount(35);
   // One latest proof link per evidenced project; full history stays in phase JSON.
-  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(26);
+  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(27);
   const card = page.locator(".project").filter({has:page.locator("h4",{hasText:"gomoku-exact5-env"})});
   await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /actions\/runs\//);
   for (const link of await page.locator(".project a").all()) {
@@ -155,7 +155,7 @@ test("P3 Actor-Critic genuinely trains on CPU but original deep model remains un
   await expect(card).toContainText("历史依赖限制");
   await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /RL-Adventure-2\/actions\/runs\/42646793026/);
   await page.locator("#verification").selectOption("evidence");
-  await expect(page.locator(".project")).toHaveCount(25);
+  await expect(page.locator(".project")).toHaveCount(26);
   await page.locator("#mode").selectOption("game-ai");
   await expect(card).toBeVisible();
 });
@@ -176,7 +176,7 @@ test("P3 original-horizon A2C evidence keeps different training budgets explicit
   await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /42646793026/);
   await expect(card).not.toContainText("完整原版 Notebook 已验收");
   await page.locator("#verification").selectOption("evidence");
-  await expect(page.locator(".project")).toHaveCount(25);
+  await expect(page.locator(".project")).toHaveCount(26);
 });
 
 test("P3 actual spawned-worker parity preserves historical legacy limitation", async ({page}) => {
@@ -186,4 +186,49 @@ test("P3 actual spawned-worker parity preserves historical legacy limitation", a
   await expect(card).toContainText("原旧版源码待验");
   await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /RL-Adventure-2\/actions\/runs\/42646793026/);
   await expect(card).not.toContainText("已在线可玩");
+});
+
+test("phase deep links, backlog-first sort and mobile-readable evidence scope", async ({page}) => {
+  await page.setViewportSize({width:390,height:844});
+  await page.goto(URL + "?batch=p2&verification=pending&sort=pending");
+  await expect(page.locator("#batch")).toHaveValue("p2");
+  await expect(page.locator("#verification")).toHaveValue("pending");
+  await expect(page.locator(".project")).toHaveCount(4);
+  await page.locator("#verification").selectOption("all");
+  await expect(page.locator(".project")).toHaveCount(13);
+  const firstCard=page.locator(".project").first();
+  await expect(firstCard).toContainText("happyLandlord"); // outstanding failed CI first
+  const go=page.locator(".project").filter({has:page.getByRole("heading",{name:"go_gym",exact:true})});
+  await expect(go).toContainText("教学环境协议通过");
+  await expect(go).toContainText("P2");
+  await go.locator("summary").click();
+  await expect(go.locator("details p")).toContainText("普通劫");
+  await expect(go.locator("details p")).toBeVisible();
+  await expect(go.locator("a[data-role='evidence']")).toHaveAttribute("href","https://github.com/1998x-stack/go_gym/actions/runs/42646215027");
+  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth+1);
+  expect(overflow).toBe(false);
+  await page.reload();
+  await expect(page.locator("#batch")).toHaveValue("p2");
+  await expect(page.locator("#verification")).toHaveValue("all");
+  await expect(page.locator(".project")).toHaveCount(13);
+  await page.locator("#reset").click();
+  await expect(page.locator(".project")).toHaveCount(35);
+  expect(new globalThis.URL(page.url()).search).toBe("");
+});
+
+test("unrelated workflow URL never upgrades a project's verification status", async ({page}) => {
+  await page.route("**/data/phase2.json", async route => {
+    const response=await route.fetch();
+    const data=await response.json();
+    data.projects.find(p=>p.name==="go_gym").evidence=[
+      "https://github.com/1998x-stack/another-project/actions/runs/123456"
+    ];
+    await route.fulfill({json:data});
+  });
+  await page.goto(URL);
+  const go=page.locator(".project").filter({has:page.getByRole("heading",{name:"go_gym",exact:true})});
+  await expect(go).toContainText("尚待运行验证");
+  await expect(go.locator("a[data-role='evidence']")).toHaveCount(0);
+  await go.locator("summary").click();
+  await expect(go.locator("details p")).toContainText("验证记录缺失或与该项目不匹配");
 });

@@ -36,10 +36,13 @@
     {
       "name": "go_gym",
       "mode": "environment",
-      "validation": "not-verified",
+      "validation": "environment-ci",
       "availability": "not-applicable",
-      "note": "围棋 Gymnasium 环境；本轮未跑规则及动作掩码测试。",
-      "evidence": []
+      "note": "普通劫、提子、禁自杀、手番、Gymnasium 双停/非法动作/步数截断和动作掩码，以及 MCTS 白方价值选择、历史敏感缓存，已通过 CPU 回归与固定种子 3×3 UCT 短局 CI。大棋盘策略训练、棋力和人工体验仍未验收。",
+      "evidence": [
+        "https://github.com/1998x-stack/go_gym/actions/runs/42646215027",
+        "https://github.com/1998x-stack/go_gym/actions/runs/42646131399"
+      ]
     },
     {
       "name": "gomoku_zero",

@@ -9,10 +9,10 @@
 | 指标 | 事实 |
 |---|---|
 | P2 计划/状态记录 | **13 / 13**，一项一条独立状态 |
-| 本轮实际修改上游代码并通过新 CI | **5 项**：math_game、xiao_xiao_le_game、MarioGame、gomoku-exact5-env、gomoku_zero |
+| 本轮实际修改上游代码并通过新 CI | **6 项**：math_game、xiao_xiao_le_game、MarioGame、gomoku-exact5-env、gomoku_zero、go_gym |
 | 其余有历史成功 CI 证据 | **2 项**：ddz-rl-lab、ball-marl（本轮未重跑） |
 | 有历史失败 CI 记录 | **1 项**：happyLandlord 的安装检查，不隐去失败 |
-| 本轮尚无 CI/运行实测 | **5 项** |
+| 本轮尚无 CI/运行实测 | **4 项** |
 | 真实物理桌面 / 训练性能综合验收 | **未完成**，不推断来自单元测试 |
 
 ## 13 项逐项计划、进度与证据
@@ -22,7 +22,7 @@
 | [math_game](https://github.com/1998x-stack/math_game) | 桌面游戏 · **已有成功 CI**。新版 Pygame 游戏入口、规则/计时/重开与虚拟 SDL 测试通过；实机尚待验收。 | 实机键盘输入、倒计时与三次失误结算验收；不把虚拟 SDL 视为真人体验测试。 | [工作流 1](https://github.com/1998x-stack/math_game/actions/runs/42549793772) |
 | [xiao_xiao_le_game](https://github.com/1998x-stack/xiao_xiao_le_game) | 桌面游戏 · **已有成功 CI**。三消交换、连锁重力、计分、结束与重开已通过自动测试；旧炸弹机制不作可玩声明。 | 人工验证相邻交换、连续消除、无解重排与素材许可；旧炸弹机制待独立设计。 | [工作流 1](https://github.com/1998x-stack/xiao_xiao_le_game/actions/runs/42550036049) |
 | [MarioGame](https://github.com/1998x-stack/MarioGame) | 桌面游戏 · **已有成功 CI**。Pygame 平台游戏已补 README、资源绝对路径、无声卡兼容与 R 重开，虚拟 SDL 场景 CI 通过；实际设备与受保护素材授权仍待核验。 | 在真实设备测试关卡与输入，并核查已包含素材来源/授权。 | [新 CI](https://github.com/1998x-stack/MarioGame/actions/runs/42551808329) |
-| [go_gym](https://github.com/1998x-stack/go_gym) | 环境 / 基准 · **本轮未完成运行验收**。围棋 Gymnasium 环境；本轮未跑规则及动作掩码测试。 | 核查 reset/step/seed、动作掩码、非法动作、双停与胜负奖励。 | 尚无执行记录 |
+| [go_gym](https://github.com/1998x-stack/go_gym) | 环境 / 基准 · **本轮新增 CPU 合约 CI 成功**。修复手番检查、终局/截断语义、白方 PUCT 价值选择和普通劫缓存，并测试提子/自杀/劫争、观察及掩码。 | 固定多种子进行 9×9 双向执色对局基线，复核超级劫与训练恢复；短局不能代表棋力。 | [本轮成功 CI](https://github.com/1998x-stack/go_gym/actions/runs/42646215027) · [合并 PR](https://github.com/1998x-stack/go_gym/pull/1) |
 | [gomoku_zero](https://github.com/1998x-stack/gomoku_zero) | 游戏 AI 研究 · **已有成功 CI**。GameState 非法/终局动作保护和与 pinned Exact-5 环境一致性脚本通过轻量 CPU CI；完整训练模型及性能仍未验证。 | 完成 CPU 小规模 selfplay→训练→评估流水线，不以规则一致性代替训练效果。 | [新 CI](https://github.com/1998x-stack/gomoku_zero/actions/runs/42552039262) |
 | [gomoku-exact5-env](https://github.com/1998x-stack/gomoku-exact5-env) | 环境 / 基准 · **已有成功 CI**。已测试恰好五连、六连不胜、非法落子与终局 step 保护；非在线可玩游戏。 | 用同一棋盘/动作序列和 gomoku_zero 做跨项目规则与 reward 对照。 | [工作流 1](https://github.com/1998x-stack/gomoku-exact5-env/actions/runs/42550184933) |
 | [happyLandlord](https://github.com/1998x-stack/happyLandlord) | 游戏 AI 研究 · **历史 CI 失败**。历史安装与文档 CI 失败；须先验证依赖、合法牌型和最小训练入口。 | 先定位历史安装 CI 失败原因，建立可复现的基础牌型/非法动作/整局结算测试。 | [工作流 1](https://github.com/1998x-stack/happyLandlord/actions/runs/36802001764) |
@@ -44,6 +44,8 @@
 **gomoku_zero**：增加轻量 CPU 规则契约 CI，固定 exact5 环境提交验证动作序列、终局和非法动作。未执行 PyTorch 训练或效果基准。
 
 **五子棋 Exact-5**：补齐规则环境在非法落子/胜负终局后仍可继续 `step` 的状态保护，增加横竖斜五连、六连不胜与 Gymnasium 观察/动作掩码测试。下一步仍要与 gomoku_zero 交叉对齐。
+
+**围棋 go_gym（本轮新增）**：修复错误执子方落子、终局后继续 step、max_steps 被误判为胜负终局及 MCTS 白方 Q 符号；策略缓存键加入最后落子与普通劫历史，超级劫绕开不完整键。新增 CPU 环境/搜索回归与 3×3 固定种子短局；[原始成功 CI](https://github.com/1998x-stack/go_gym/actions/runs/42646215027)。**尚未验证** 9×9/19×19 训练、真实棋力或复杂死活裁决。
 
 ## UI/UX 与第二批的共同交付
 

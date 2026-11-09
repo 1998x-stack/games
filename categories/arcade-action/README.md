@@ -5,7 +5,7 @@
 | 项目 | 简介 | 说明核对 |
 | --- | --- | --- |
 | [Snake](./Snake/README.md) | 贪吃蛇游戏 | 已核对说明 |
-| [Snake_Web](./Snake_Web/README.md) | 网页版贪吃蛇 | 待复核 |
+| [Snake_Web](./Snake_Web/README.md) | 网页版贪吃蛇 | 已核对说明 |
 | [flying_bird](./flying_bird/README.md) | 飞鸟躲避障碍游戏 | 已核对说明 |
 | [jump_jump](./jump_jump/README.md) | 无限跳跃平台游戏 | 已核对说明 |
 | [MarioGame](./MarioGame/README.md) | 马里奥主题游戏项目 | 待复核 |

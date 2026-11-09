@@ -62,7 +62,7 @@
       "description": "网页版贪吃蛇",
       "category": "arcade-action",
       "url": "https://github.com/1998x-stack/Snake_Web",
-      "review": "pending"
+      "review": "verified"
     },
     {
       "name": "flying_bird",
@@ -160,7 +160,7 @@
       "description": "井字棋游戏",
       "category": "board-card",
       "url": "https://github.com/1998x-stack/TicTacToe",
-      "review": "pending"
+      "review": "verified"
     },
     {
       "name": "happyLandlord",

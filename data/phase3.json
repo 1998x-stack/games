@@ -6,10 +6,11 @@
     {
       "name": "RL-Adventure-2",
       "mode": "game-ai",
-      "validation": "comparison-ci",
+      "validation": "vector-a2c-ci",
       "availability": "legacy",
-      "note": "已在相同 CartPole-v1 / 三种子(2026/2027/2028) / 每种子480局训练+64局留出评估下对比NumPy线性与PyTorch CPU神经网络Actor-Critic。跨种子平均奖励线性425.739±52.606(SD)，神经网络347.130±80.740(SD)，线性在这组三种子表现更好；单种子完整运行时间约4.54秒vs12.21秒(相同CI机器顺序测量)。对照JSON独立重复一致，未复现原Notebook的并行n-step深度A2C；架构、优化器不同，不推断框架因果优劣。",
+      "note": "PyTorch CPU 已按历史 1.actor-critic.ipynb 的 16 环境、5 步 n-step、独立 256-ReLU Actor/Critic 架构做现代 Gymnasium 同步向量复现；原规模每种子 320,000 环境交互，预设种子2026/2027/2028的64局留出评估奖励均值481.891/476.984/466.641，跨种子均值475.172、样本SD7.785。4项契约测试与两次完整JSON复验通过。原 SubprocVecEnv 未逐行复刻；该交互预算与先前480完整训练回合的线性/较小网络对照不相同，禁止据此宣称公平排名。",
       "evidence": [
+        "https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42640528466",
         "https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42637469330",
         "https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42634426202"
       ]

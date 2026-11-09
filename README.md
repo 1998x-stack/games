@@ -54,6 +54,8 @@
 
 其中 microRTS 已在 Java 17 CI 中完成一场真实 AI 对局；FrozenLake 256 回合实验的价值迭代成功 195 局、随机策略成功 2 局；RL-Adventure-2 三种子线性 Actor-Critic 的跨种子均值为 425.739（样本 SD 52.606），新增现代 PyTorch CPU 神经网络同条件对照均值为 347.130（样本 SD 80.740）；两者不同架构，不能断言框架因果优劣，也不代表原历史 A2C Notebook 已复现；awesome-rl-envs 的 11 条引用仅做静态提取，尚未核查外链可用性。 AI-Game-Generator 的预览隔离另通过了 [实际 Chromium 浏览器测试](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42623528980)，但不代表整体生成服务已完成安全审计。
 
+**A2C 原规模复现实证：** [RL-Adventure-2](https://github.com/1998x-stack/RL-Adventure-2) 新增 16 环境 × 5 步 × 4,000 次更新的 PyTorch n-step A2C（每种子 320,000 次交互），三种子留出评估奖励均值 **475.172**、样本 SD **7.785**；[原始成功 CI 与 JSON](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42640528466)。原多进程 Notebook 尚未逐行迁移，且不能和此前不同训练交互预算的模型直接排名。
+
 已建立 **35/35 项唯一阶段归属及可追溯运行状态**，包括受限 ROM、遗留依赖和需服务端的生成器。状态登记不等于生产可玩或实验已成功；详见 **[第三批完整执行日志](docs/PHASE3-EXECUTION.md)** 和 [P3 状态 JSON](data/phase3.json)。
 
 ## 🗂️ 仓库结构

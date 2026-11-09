@@ -1,6 +1,6 @@
 # RL-Adventure-2 · CPU Actor-Critic 策略训练
 
-> **P3 · 2026-11-09 · 现代 PyTorch/NumPy 同种子对照 CI 成功；原历史 n-step A2C 待验**
+> **P3 · 2026-11-09 · 原 Notebook 风格 16 环境 n-step A2C 现代 CPU 复现成功；原多进程实现待验**
 >
 > [原始项目](https://github.com/1998x-stack/RL-Adventure-2) · [P3 日志](../../../docs/PHASE3-EXECUTION.md) · [返回分类](../README.md)
 
@@ -45,6 +45,31 @@ python -m unittest discover -s tests -p "neural_contract_test.py" -v
 python -m p3.compare_models --output build/p3-model-comparison.json --timing-output build/p3-model-timing.json
 ```
 
+## Notebook 风格 16 环境 n-step A2C 原规模实验
+
+新增 `p3/vector_nstep_a2c.py`，使用 Gymnasium 1.1.1 的同步向量环境与 SAME_STEP 自动重置、真实 5 步自举回报、独立 256-ReLU 策略和价值网络，并在时间限制截断时使用实际最终观测而非重置观测。原 Notebook 是历史多进程实现；算法结构复现成功**不等于旧源代码逐行运行**。
+
+每种子训练预算：**16 环境 × 5 步 × 4,000 更新 = 320,000 个环境交互**（等于原 Notebook 的 20,000 个向量步）。每个种子使用 64 局未参与 checkpoint 选择的留出测试：
+
+| 训练种子 | 向量化 n-step A2C 留出奖励均值 |
+|---|---:|
+| 2026 | 481.891 |
+| 2027 | 476.984 |
+| 2028 | 466.641 |
+| 跨种子均值 | **475.172** |
+| 种子均值样本 SD | 7.785 |
+
+[原始 CI、4 项契约测试及双重一致的完整结果 JSON](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42640528466)。原 25,600 次交互的短测跨种子均值为 41.287；两次预算和验证频率都不同，不能只把提升归因于更多交互，也不能和上文 480 完成训练回合预算的模型直接排名。
+
+```bash
+python -m pip install "gymnasium==1.1.1" "numpy==1.26.4"
+python -m pip install "torch==2.5.1+cpu" --index-url https://download.pytorch.org/whl/cpu
+python -m unittest discover -s tests -p "vector_a2c_contract_test.py" -v
+python -m p3.vector_nstep_a2c --updates 4000 --eval-episodes 64
+```
+
+**后续缺口：** 原历史 `SubprocVecEnv` 并行实现复现、严格匹配所有方法的环境交互预算、多种子稳定性扩展与训练成本独立机器复测。
+
 ## 运行
 
 在原仓库根目录：
@@ -56,6 +81,6 @@ python -m p3.cartpole_actor_critic --seed 2026 --train-episodes 480 --eval-episo
 python -m p3.benchmark --output build/p3-multiseed.json
 ```
 
-**限制：** 三种子的样本标准差仅用于描述训练结果波动，不提供泛化性能保证或统计显著性声明；本项目其他 Notebook、深度网络、GPU 训练及原 PyTorch A2C 仍未完成现代环境复现。
+**限制：** 三种子的样本标准差仅用于描述训练结果波动，不提供泛化性能保证或统计显著性声明；本项目其他 Notebook、GPU 训练及原历史多进程 A2C 还未逐行运行；现代 PyTorch n-step 教学实现已单独完成原规模环境交互测试。
 
 [返回 Games 总目录](../../../README.md)

@@ -62,7 +62,7 @@ test("mode and verification filters distinguish game types and CI outcomes", asy
 test("source and evidence links are distinct and secure", async ({page}) => {
   await page.goto(URL);
   await expect(page.locator(".project a[data-role='repo']")).toHaveCount(35);
-  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(26);
+  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(27);
   const card = page.locator(".project").filter({has:page.locator("h4",{hasText:"gomoku-exact5-env"})});
   await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /actions\/runs\//);
   for (const link of await page.locator(".project a").all()) {
@@ -149,10 +149,10 @@ test("P3 CPU experiment and game-packager security evidence remain scoped", asyn
 test("P3 Actor-Critic genuinely trains on CPU but original deep model remains unverified", async ({page}) => {
   await page.goto(URL);
   const card = page.locator(".project").filter({has:page.getByRole("heading",{name:"RL-Adventure-2",exact:true})});
-  await expect(card).toContainText("CPU 线性/神经网络对照通过");
-  await expect(card).toContainText("原 A2C 待验");
+  await expect(card).toContainText("向量化 n-step A2C 复现通过");
+  await expect(card).toContainText("原多进程实现待验");
   await expect(card).toContainText("历史依赖限制");
-  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /RL-Adventure-2\/actions\/runs\/42637469330/);
+  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /RL-Adventure-2\/actions\/runs\/42640528466/);
   await page.locator("#verification").selectOption("evidence");
   await expect(page.locator(".project")).toHaveCount(25);
   await page.locator("#mode").selectOption("game-ai");
@@ -162,7 +162,18 @@ test("P3 Actor-Critic genuinely trains on CPU but original deep model remains un
 test("P3 comparison-card links are evidence-scoped and never imply PyTorch wins", async ({page}) => {
   await page.goto(URL);
   const card = page.locator(".project").filter({has:page.getByRole("heading",{name:"RL-Adventure-2",exact:true})});
-  await expect(card).toContainText("CPU 线性/神经网络对照通过");
+  await expect(card).toContainText("向量化 n-step A2C 复现通过");
   await expect(card).not.toContainText("已在线可玩");
-  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /42637469330/);
+  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /42640528466/);
+});
+
+test("P3 original-horizon A2C evidence keeps different training budgets explicit", async ({page}) => {
+  await page.goto(URL);
+  const card = page.locator(".project").filter({has:page.getByRole("heading",{name:"RL-Adventure-2",exact:true})});
+  await expect(card).toContainText("向量化 n-step A2C 复现通过");
+  await expect(card).toContainText("原多进程实现待验");
+  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /42640528466/);
+  await expect(card).not.toContainText("完整原版 Notebook 已验收");
+  await page.locator("#verification").selectOption("evidence");
+  await expect(page.locator(".project")).toHaveCount(25);
 });

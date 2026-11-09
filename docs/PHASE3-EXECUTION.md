@@ -36,11 +36,13 @@
 
 **9. [RL-Adventure-2 · 同环境模型对照](https://github.com/1998x-stack/RL-Adventure-2)**：加入 PyTorch CPU 双网络神经 Actor-Critic（5-32-2 actor、5-32-1 critic，共 483 个参数），与 NumPy 线性 Actor-Critic（15 个参数）使用相同 CartPole-v1、训练和测试种子、480 局训练预算、每种子 64 局独立留出集进行对照。预定三种子 2026/2027/2028：NumPy 线性模型测试奖励 **382.109 / 410.953 / 484.156**（跨种子均值 **425.739**，样本 SD **52.606**）；PyTorch 网络 **324.297 / 280.266 / 436.828**（均值 **347.130**，样本 SD **80.740**）。本次线性模型成绩较高。CI 同机顺序计时（每种子完整训练、验证和评估）：线性约 **4.54 秒**，网络约 **12.21 秒**；依赖安装不计时。两个完整对照 JSON 字节一致、3 项 PyTorch 真实梯度/环境回归测试通过。[成功 CI、实验与耗时 JSON](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42637469330)。**边界：** 架构、优化器、模型参数量和精度均不同，不能将差异解释为 NumPy 框架固有优势；并非历史 Notebook 的向量化 n-step A2C 复刻。历史 CI 初次失败（测试依赖隔离、概率归一化）已修正并保留记录。
 
+**10. [RL-Adventure-2 · 原 Notebook n-step A2C 结构复现](https://github.com/1998x-stack/RL-Adventure-2)**：新增现代 PyTorch CPU 实现，保留原示例 **16 个环境、5 步折扣自举、独立 256-ReLU Actor/Critic 与熵正则**。按原 Notebook 的 20,000 个向量步训练（**320,000 次真实环境交互/种子**），使用 SAME_STEP 自动重置及正确的时间截断末状态自举。预定三种子 2026/2027/2028：在各 64 局独立留出集上的平均奖励为 **481.891 / 476.984 / 466.641**，跨种子均值 **475.172**，样本 SD **7.785**。**4 项测试通过，完整实验双重 JSON 字节一致**；原规模单种子 CI 耗时约 35 秒，依赖安装不计时。[成功 CI 与逐种子 JSON](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42640528466)。此前只有 25,600 次交互/种子的 smoke 得分均值 41.287，说明短预算并未充分评估学习能力，且本轮同时降低了验证频率，不能证明提升仅源于交互次数。**边界：** 新代码为 Gymnasium `SyncVectorEnv`，不是 2018 年原 `SubprocVecEnv` 的逐行复刻；早先线性模型、较小神经网络用 480 个完整训练回合作预算，不能据不同交互量直接排名。
+
 ## 12 项清单：证据、限制与下一步
 
 | 项目 | 角色与当前验收等级 | 下一项最小独立验收 | 原始证据 |
 |---|---|---|---|
-| [RL-Adventure-2](https://github.com/1998x-stack/RL-Adventure-2) | 游戏 AI · **现代 PyTorch 神经网络 vs NumPy 线性模型三种子对照 CI 成功** · 原历史 A2C Notebook 仍未复现 | 下一步隔离原 Notebook 的并行 n-step A2C，采用独立训练/留出集及多个 seed；对照不证明框架优劣因果。 | [PyTorch/NumPy 对照与耗时](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42637469330) · [原 NumPy 训练](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42634426202) |
+| [RL-Adventure-2](https://github.com/1998x-stack/RL-Adventure-2) | 游戏 AI · **原 Notebook 风格 16 环境 5 步 n-step A2C 在现代环境成功复现** · 原多进程版本尚未逐行验收 | 在匹配训练交互量后复核不同算法，并补真实多进程后端对照；保留训练预算差异与历史失败记录。 | [n-step 原规模 CI](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42640528466) · [小网络对照](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42637469330) · [线性训练](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42634426202) |
 | [Arcade-Learning-Environment](https://github.com/1998x-stack/Arcade-Learning-Environment) | 研究环境 · **本轮未完成运行** · 第三方资源/平台受限 | 先核实 ROM 合法来源、ALE/Gymnasium 安装版本，再做单回合 step/reset；禁止打包任何第三方 ROM。 | 本轮暂无成功运行记录 |
 | [awesome-rl-envs](https://github.com/1998x-stack/awesome-rl-envs) | 教学资源 · **目录导出 CI 通过；目的站未核查** · 不是静态试玩产品 | 对 11 个目标网站做带日期的健康度与权利审查；只声明当前通过目录提取校验。 | [CI 1](https://github.com/1998x-stack/awesome-rl-envs/actions/runs/42623240121) |
 | [gym-envs](https://github.com/1998x-stack/gym-envs) | 研究环境 · **两个教学环境协议测试通过** · 不是静态试玩产品 | 剩余经典控制示例逐个从旧 Gym 迁移；保持本轮仅两款 Toy Text 环境验收口径。 | [CI 1](https://github.com/1998x-stack/gym-envs/actions/runs/42620238372) |
@@ -72,7 +74,7 @@
 - [x] 全部 12 项的身份、公开上游链接、运行/版权风险、下一项验收已登记
 - [x] 八项实际工程改进取得公开 CI 证据（含 RTS 对局、FrozenLake 256 回合对照、游戏打包安全回归和静态链接索引）
 - [x] 全 35 项阶段数据与静态站点统一校验，阶段没有重复
-- [x] microRTS 205 周期对局、FrozenLake 256 回合规划/随机基线，以及 RL-Adventure-2 线性训练与现代 PyTorch CPU 网络同种子对照（仍非原历史 n-step A2C Notebook）
+- [x] microRTS 205 周期对局、FrozenLake 256 回合规划/随机基线、RL-Adventure-2 线性/小网络对照，以及现代 **16 环境 5 步 n-step A2C 原规模 CPU 训练**（非原历史多进程代码逐行复刻）
 - [x] AI 生成器实际 Chromium 预览隔离检查（2 项测试）
 - [ ] 生成器无密钥失败/超时路径及全服务隔离审查（仅 ai-game 打包输入的链接边界已完成）
 - [ ] 受限资源的合法来源与系统矩阵审查

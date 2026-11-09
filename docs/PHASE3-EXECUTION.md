@@ -38,11 +38,14 @@
 
 **10. [RL-Adventure-2 · 原 Notebook n-step A2C 结构复现](https://github.com/1998x-stack/RL-Adventure-2)**：新增现代 PyTorch CPU 实现，保留原示例 **16 个环境、5 步折扣自举、独立 256-ReLU Actor/Critic 与熵正则**。按原 Notebook 的 20,000 个向量步训练（**320,000 次真实环境交互/种子**），使用 SAME_STEP 自动重置及正确的时间截断末状态自举。预定三种子 2026/2027/2028：在各 64 局独立留出集上的平均奖励为 **481.891 / 476.984 / 466.641**，跨种子均值 **475.172**，样本 SD **7.785**。**4 项测试通过，完整实验双重 JSON 字节一致**；原规模单种子 CI 耗时约 35 秒，依赖安装不计时。[成功 CI 与逐种子 JSON](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42640528466)。此前只有 25,600 次交互/种子的 smoke 得分均值 41.287，说明短预算并未充分评估学习能力，且本轮同时降低了验证频率，不能证明提升仅源于交互次数。**边界：** 新代码为 Gymnasium `SyncVectorEnv`，不是 2018 年原 `SubprocVecEnv` 的逐行复刻；早先线性模型、较小神经网络用 480 个完整训练回合作预算，不能据不同交互量直接排名。
 
+**11. RL-Adventure-2 · 真实多进程向量后端等价性验收**：新建 Gymnasium 1.1.1 AsyncVectorEnv（spawn 独立工作进程）与已有 SyncVectorEnv 的严格对照。4 项自动测试检查子进程 PID/退出清理、SAME_STEP 时间截断的 final_obs、短训练 Actor/Critic 权重更新。对预设 seed=2026，双方使用相同 16 环境 × 5 步 × 4,000 更新 = **320,000 次真实环境交互/后端**；训练记录与 64 局留出评估 JSON 除后端标识外**逐字段完全一致**，均得 **481.891** 平均奖励。[完整成功 CI、对照与时间工件](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42646793026)。此次 GitHub 单机先同步后异步计时 **59.755 秒 vs 89.500 秒**（含验证/评估，不含依赖安装），不能据此概括跨硬件性能。**注意：** 这是现代 Gymnasium 的真实多进程替代方案，不是历史 common/multiprocessing_env.py 的旧 Gym 四元组源码逐行复现；三种不同算法的训练预算仍未统一为等环境交互量。
+
+
 ## 12 项清单：证据、限制与下一步
 
 | 项目 | 角色与当前验收等级 | 下一项最小独立验收 | 原始证据 |
 |---|---|---|---|
-| [RL-Adventure-2](https://github.com/1998x-stack/RL-Adventure-2) | 游戏 AI · **原 Notebook 风格 16 环境 5 步 n-step A2C 在现代环境成功复现** · 原多进程版本尚未逐行验收 | 在匹配训练交互量后复核不同算法，并补真实多进程后端对照；保留训练预算差异与历史失败记录。 | [n-step 原规模 CI](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42640528466) · [小网络对照](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42637469330) · [线性训练](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42634426202) |
+| [RL-Adventure-2](https://github.com/1998x-stack/RL-Adventure-2) | 游戏 AI · **现代真实多进程 AsyncVectorEnv 与同步训练 320k 交互结果完全相同** · 历史四元组 SubprocVecEnv 代码待验 | 下一步严格统一线性、小神经网络与 n-step 三种算法的真实环境交互预算；旧 Gym 多进程源码不得误标为原样兼容。 | [多进程等价性 CI](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42646793026) · [三种子同步原规模 CI](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42640528466) |
 | [Arcade-Learning-Environment](https://github.com/1998x-stack/Arcade-Learning-Environment) | 研究环境 · **本轮未完成运行** · 第三方资源/平台受限 | 先核实 ROM 合法来源、ALE/Gymnasium 安装版本，再做单回合 step/reset；禁止打包任何第三方 ROM。 | 本轮暂无成功运行记录 |
 | [awesome-rl-envs](https://github.com/1998x-stack/awesome-rl-envs) | 教学资源 · **目录导出 CI 通过；目的站未核查** · 不是静态试玩产品 | 对 11 个目标网站做带日期的健康度与权利审查；只声明当前通过目录提取校验。 | [CI 1](https://github.com/1998x-stack/awesome-rl-envs/actions/runs/42623240121) |
 | [gym-envs](https://github.com/1998x-stack/gym-envs) | 研究环境 · **两个教学环境协议测试通过** · 不是静态试玩产品 | 剩余经典控制示例逐个从旧 Gym 迁移；保持本轮仅两款 Toy Text 环境验收口径。 | [CI 1](https://github.com/1998x-stack/gym-envs/actions/runs/42620238372) |
@@ -74,12 +77,12 @@
 - [x] 全部 12 项的身份、公开上游链接、运行/版权风险、下一项验收已登记
 - [x] 八项实际工程改进取得公开 CI 证据（含 RTS 对局、FrozenLake 256 回合对照、游戏打包安全回归和静态链接索引）
 - [x] 全 35 项阶段数据与静态站点统一校验，阶段没有重复
-- [x] microRTS 205 周期对局、FrozenLake 256 回合规划/随机基线、RL-Adventure-2 线性/小网络对照，以及现代 **16 环境 5 步 n-step A2C 原规模 CPU 训练**（非原历史多进程代码逐行复刻）
+- [x] microRTS 对局、FrozenLake 256 回合规划基线、RL-Adventure-2 线性/小网络对照及 **16 环境 5 步 n-step A2C 原规模 CPU 训练**，另完成现代 **AsyncVectorEnv 真实子进程** 对照（320k 环境交互、同步/多进程结果一致；旧多进程源码仍待验）
 - [x] AI 生成器实际 Chromium 预览隔离检查（2 项测试）
 - [ ] 生成器无密钥失败/超时路径及全服务隔离审查（仅 ai-game 打包输入的链接边界已完成）
 - [ ] 受限资源的合法来源与系统矩阵审查
 - [ ] Games 11 个外链目的站的联网健康度、许可与定期复核（静态提取 CI 已通过）
-- [ ] 正式生产 Pages 网页路径的独立访问抽样
+- [x] GitHub Pages 发布前 13 项 Playwright 测试、发布后公网六文件与 Git commit 字节一致性自动核查（不等于人工无障碍/触控验收）
 
 本批任务只有达到对应的真实复现条件才可关闭；**35/35 状态登记不代表 35/35 项目质量验收完成。**
 

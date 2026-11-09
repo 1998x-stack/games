@@ -1,31 +1,116 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101527">
-<meta name="description" content="1998x Games Atlas — 游戏、棋类、游戏 AI、强化学习环境和创作工具的精选公开 GitHub 项目目录。">
-<title>1998x Games Atlas · 游戏项目图鉴</title>
-<link rel="stylesheet" href="assets/style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1221">
+  <meta name="description" content="1998x Games Atlas — 35 个公开游戏、游戏 AI、博弈环境与创作工具，带可追溯的测试证据和多维筛选。">
+  <title>Games Atlas — 1998x 游戏与智能项目图鉴</title>
+  <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-<a class="skip" href="#results">跳转到项目</a>
-<header class="hero"><div class="inner">
-<div class="nav"><a class="logo" href="./">✦ 1998x <span>Games Atlas</span></a><a class="github" href="https://github.com/1998x-stack/games" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
-<div class="eyebrow">CURATED OPEN-SOURCE GAME PROJECTS</div>
-<h1>探索游戏世界，<br><em>从创作到智能。</em></h1>
-<p class="intro">游戏作品、益智与棋类、游戏 AI、研究环境与创作工具，一处发现，直达原始项目。分类透明，来源可追溯。运行状态必须有实测证据。</p>
-<div class="stats"><div><strong id="total">35</strong><small>公开项目</small></div><div><strong>7</strong><small>专题分类</small></div><div><strong>2026.11</strong><small>来源快照</small></div></div>
-</div></header>
-<main class="inner">
-<section class="browse" aria-labelledby="browse-heading">
-<div class="section-head"><div><div class="eyebrow muted">DISCOVER / 浏览目录</div><h2 id="browse-heading">找到你的下一款项目</h2></div><p>按类别探索，或直接搜索仓库名称与简介。</p></div>
-<div class="controls"><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索项目、玩法、技术关键词…" autocomplete="off" aria-label="搜索项目"></label><select id="category" aria-label="筛选分类"><option value="all">所有分类</option></select></div>
-<div id="chips" class="chips" aria-label="分类快捷筛选"></div>
-<div class="results-head"><h3 id="results">项目目录</h3><span id="counter" aria-live="polite">正在加载…</span></div>
-<div id="cards" class="cards" aria-live="polite"></div>
-<p id="empty" class="empty" hidden>没有匹配项目。试试其他关键词或分类。</p>
-</section>
+<a class="skip" href="#results">跳转到项目列表</a>
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="./" aria-label="1998x Games Atlas 首页"><span class="brand-mark" aria-hidden="true">✳</span><span>1998x <strong>Games Atlas</strong></span></a>
+    <nav class="nav-links" aria-label="网站导航">
+      <a href="#explore">探索项目</a>
+      <a href="https://github.com/1998x-stack/games/blob/main/docs/PHASE2-EXECUTION.md">优化进度</a>
+      <a class="nav-external" href="https://github.com/1998x-stack/games" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+    <button id="theme" class="theme-toggle" type="button" aria-pressed="false" aria-label="切换浅色主题">◐ <span>主题</span></button>
+  </div>
+</header>
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero-layout">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> OPEN SOURCE / CURATED INDEX</p>
+        <h1 id="hero-title">探索好游戏。<br><span>看见真实能力。</span></h1>
+        <p class="hero-desc">从独立游戏到博弈智能，找到值得尝试、学习和继续开发的项目。每个条目都有明确分类，已测试的项目附原始证据；尚未验收的，我们会如实标注。</p>
+        <div class="hero-actions">
+          <a class="button-primary" href="#explore">开始探索 <span aria-hidden="true">↗</span></a>
+          <a class="button-text" href="https://github.com/1998x-stack/games/blob/main/docs/OPTIMIZATION-ROADMAP.md">查看三批路线图 <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="metric-strip" aria-label="项目统计">
+          <div><strong id="total">35</strong><span>公开项目</span></div>
+          <div><strong id="category-count">7</strong><span>主题分类</span></div>
+          <div><strong id="tracked">23</strong><span>P1/P2 跟踪项目</span></div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orb orb-one"></div><div class="orb orb-two"></div>
+        <div class="art-grid"></div>
+        <div class="art-top">GAMES / SYSTEMS / PLAY</div>
+        <div class="art-focus"><span class="art-star">✳</span><span class="art-orbit">✦</span></div>
+        <div class="art-foot"><span>01 · DISCOVER</span><span>02 · VERIFY</span><span>03 · EXPLORE</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="trust-band" aria-label="验证边界">
+    <div class="container trust-content">
+      <div class="trust-symbol" aria-hidden="true">✓</div>
+      <div><strong>透明胜过夸大</strong><p>CI 通过 ≠ 生产页面已可玩。桌面游戏、研究环境和网页试玩采用不同的验证标准。</p></div>
+      <a href="https://github.com/1998x-stack/games/blob/main/docs/SELECTION.md">了解收录原则 <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+  <section id="explore" class="explore container" aria-labelledby="browse-heading">
+    <div class="section-kicker">EXPLORE THE COLLECTION / 探索目录</div>
+    <div class="section-head"><div><h2 id="browse-heading">发现下一个值得研究的项目<span class="heading-dot">.</span></h2><p>按玩法、运行方式或验证状态精准筛选。每张项目卡都能直达原仓库及可用的测试记录。</p></div><span class="phase-note">第一批 + 第二批 · 持续推进中</span></div>
+    <div class="filter-panel" role="search" aria-label="搜索和筛选项目">
+      <label class="search">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <span class="sr-only">搜索项目名称、分类与简介</span>
+        <input id="search" type="search" placeholder="搜索游戏、项目名、算法关键词…" autocomplete="off">
+        <kbd aria-hidden="true">/</kbd>
+      </label>
+      <div class="select-grid">
+        <label><span>项目分类</span><select id="category"><option value="all">全部分类</option></select></label>
+        <label><span>运行形态</span><select id="mode">
+          <option value="all">所有形态</option>
+          <option value="browser-candidate">浏览器候选</option>
+          <option value="local-web">本地 Web</option>
+          <option value="desktop">桌面游戏</option>
+          <option value="environment">AI / RL 环境</option>
+          <option value="game-ai">游戏 AI 研究</option>
+          <option value="resource">资料与工具</option>
+        </select></label>
+        <label><span>验证状态</span><select id="verification">
+          <option value="all">所有状态</option>
+          <option value="evidence">有成功测试证据</option>
+          <option value="failed">存在失败记录</option>
+          <option value="pending">尚待验证</option>
+        </select></label>
+        <label><span>排序</span><select id="sort">
+          <option value="default">推荐目录顺序</option>
+          <option value="name">项目名称 A–Z</option>
+          <option value="evidence">有证据优先</option>
+        </select></label>
+      </div>
+      <div id="chips" class="chips" aria-label="快速选择分类"></div>
+    </div>
+    <div class="results-toolbar">
+      <div><p class="eyebrow low">COLLECTION</p><h3 id="results">项目列表</h3></div>
+      <div class="result-actions"><span id="counter" aria-live="polite">正在加载…</span><button type="button" id="reset">清除筛选 <span aria-hidden="true">×</span></button></div>
+    </div>
+    <div id="cards" class="cards"></div>
+    <div id="empty" class="empty" hidden><span aria-hidden="true">◇</span><h3>没有找到匹配项目</h3><p>换一个关键词，或清除筛选条件。</p><button id="empty-reset" type="button">显示所有项目</button></div>
+    <noscript><p class="empty-static">此目录需要 JavaScript 才能启用搜索。你仍可在 <a href="https://github.com/1998x-stack/games">GitHub README</a> 中浏览所有项目。</p></noscript>
+  </section>
+  <section class="roadmap-section">
+    <div class="container roadmap-layout">
+      <div><p class="section-kicker">BUILDING WITH EVIDENCE</p><h2>持续进化，<br>而不是堆砌项目。</h2><p>第一批改进体验入口与基本质量，第二批强化游戏规则与 AI 环境的可复现性。每一次进展都保留提交、测试与未解决问题。</p></div>
+      <div class="roadmap-links">
+        <a href="https://github.com/1998x-stack/games/blob/main/docs/PHASE1-EXECUTION.md"><span>01</span><strong>第一批 · 游戏体验与基础质量</strong><span aria-hidden="true">↗</span></a>
+        <a href="https://github.com/1998x-stack/games/blob/main/docs/PHASE2-EXECUTION.md"><span>02</span><strong>第二批 · 玩法规则与游戏 AI</strong><span aria-hidden="true">↗</span></a>
+        <a href="https://github.com/1998x-stack/games/blob/main/docs/OPTIMIZATION-ROADMAP.md"><span>03</span><strong>完整三批优化路线图</strong><span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
 </main>
-<footer><div class="inner foot"><div><strong>✦ 1998x Games Atlas</strong><p>为探索而整理 · Built for discovery.</p></div><div>仅索引公开项目 · 不托管上游源码<br><a href="https://github.com/1998x-stack/games/blob/main/docs/SELECTION.md">收录原则</a> · <a href="https://github.com/1998x-stack/games/blob/main/docs/PHASE1-EXECUTION.md">第一批进度</a> · <a href="https://github.com/1998x-stack/games">GitHub</a></div></div></footer>
+<footer class="footer"><div class="container footer-grid">
+  <div><span class="footer-brand">✳ 1998x Games Atlas</span><p>为了探索而整理。连接游戏创作、规则工程与机器智能。</p><small>公开目录 · 不镜像上游源码 · 不承诺未经验证的可玩性</small></div>
+  <div><strong>资源</strong><a href="https://github.com/1998x-stack/games">GitHub 仓库</a><a href="https://github.com/1998x-stack/games/blob/main/docs/SELECTION.md">收录与许可边界</a><a href="https://github.com/1998x-stack/games/issues">报告问题</a></div>
+</div></footer>
 <script src="assets/app.js" defer></script>
 </body></html>

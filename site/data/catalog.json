@@ -107,17 +107,17 @@
     },
     {
       "name": "math_game",
-      "description": "数学游戏项目",
+      "description": "四则运算速算游戏，含计时、计分和可测试规则",
       "category": "puzzle-casual",
       "url": "https://github.com/1998x-stack/math_game",
-      "review": "pending"
+      "review": "verified"
     },
     {
       "name": "xiao_xiao_le_game",
-      "description": "消消乐游戏项目",
+      "description": "10×10 三消游戏，支持连锁计分与重玩",
       "category": "puzzle-casual",
       "url": "https://github.com/1998x-stack/xiao_xiao_le_game",
-      "review": "pending"
+      "review": "verified"
     },
     {
       "name": "paint-maze-lab",
@@ -149,10 +149,10 @@
     },
     {
       "name": "gomoku-exact5-env",
-      "description": "恰好五子连珠规则环境",
+      "description": "恰好五连规则 Gymnasium 环境，含终局契约测试",
       "category": "board-card",
       "url": "https://github.com/1998x-stack/gomoku-exact5-env",
-      "review": "pending"
+      "review": "verified"
     },
     {
       "name": "TicTacToe",

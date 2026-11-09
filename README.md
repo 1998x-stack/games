@@ -11,9 +11,9 @@
 
 ## 🌐 在线目录
 
-**GitHub Pages 预期地址：<https://1998x-stack.github.io/games/>**（首次启用时需在 **Settings → Pages → Source** 选择 **GitHub Actions**；以实际部署状态为准）。
+**网站：<https://1998x-stack.github.io/games/>**（GitHub Pages 工作流已部署；正式公网的人工视觉验收仍与自动测试区分）。
 
-网站支持中文分类导航、搜索、类型筛选、响应式卡片与原仓库直达。源码位于 [`site/`](site/)，详见 [Pages 部署说明](docs/PAGES.md)。
+新版网站支持多维检索、项目运行形态/CI 证据区分、深浅主题、移动端布局和原仓库/证据独立链接。设计与自动化验收见 [UI/UX 设计规范](docs/UI-UX-2026.md)。源码位于 [`site/`](site/)，详见 [Pages 部署说明](docs/PAGES.md)。
 
 ## 📊 收录概览
 
@@ -42,6 +42,12 @@
 
 第一批的 **10 份项目占位页均已补齐运行指令、CI 证据与未通过的验收项**。主页同时呈现每项的原仓库和原始 CI 记录，清晰区分“测试通过”与“正式线上已经可玩”。**Snake_Web 和 Go 的独立 Pages 部署仍被仓库设置阻断**，不能视为线上已验收。
 
+## 🧠 第二批深度优化 · P2 进行中
+
+第二批覆盖 **13 个游戏、规则环境与 AI 研究项目**。[逐项 P2 执行日志](docs/PHASE2-EXECUTION.md) 与 [公开阶段数据](data/phase2.json) 均已建立。当前在 **math_game / xiao_xiao_le_game / gomoku-exact5-env** 实施了修复并获得新 CI 成功证据；ddz-rl-lab、ball-marl 有历史成功记录，happyLandlord 存在历史失败 CI，其余不冒称已验收。
+
+新版 UI 将“桌面游戏”“浏览器候选”“本地 Web”“游戏 AI/研究环境”分开呈现，允许按**验证证据**筛选并直达原始运行记录。
+
 ## 🗂️ 仓库结构
 
 ```text
@@ -63,6 +69,8 @@ games/
 ├── docs/SELECTION.md             # 收录范围、审查依据、边界
 ├── docs/OPTIMIZATION-ROADMAP.md  # 35 项目三批优化与验收计划
 ├── docs/PHASE1-EXECUTION.md      # 第一批执行日志与测试证据
+├── docs/PHASE2-EXECUTION.md      # 第二批 13 项运行/研究验收
+├── docs/UI-UX-2026.md           # UI 信息架构、设计 Token 与验收标准
 ├── docs/PAGES.md                 # 发布与故障排查
 └── .github/workflows/            # CI + Pages 自动部署
 ```

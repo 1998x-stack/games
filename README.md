@@ -50,9 +50,9 @@
 
 ## 🔬 第三批深度优化 · P3 进行中
 
-第三批覆盖剩余 **12 个研究环境、游戏生成工具与教程资源**。已对 [AI-Game-Generator](https://github.com/1998x-stack/AI-Game-Generator)、[gym-envs](https://github.com/1998x-stack/gym-envs)、[rainbow-is-all-you-need](https://github.com/1998x-stack/rainbow-is-all-you-need)、[microrts](https://github.com/1998x-stack/microrts)、[awesome-rl-envs](https://github.com/1998x-stack/awesome-rl-envs) 实施并通过相应 CI 的工程改进（5/12）；[ai-game](https://github.com/1998x-stack/ai-game) 另有历史成功工作流，尚未在本轮复验完整生成过程。
+第三批覆盖剩余 **12 个研究环境、游戏生成工具与教程资源**。已对 [AI-Game-Generator](https://github.com/1998x-stack/AI-Game-Generator)、[gym-envs](https://github.com/1998x-stack/gym-envs)、[rainbow-is-all-you-need](https://github.com/1998x-stack/rainbow-is-all-you-need)、[microrts](https://github.com/1998x-stack/microrts)、[awesome-rl-envs](https://github.com/1998x-stack/awesome-rl-envs) 实施并通过相应 CI 的工程改进；另在 [ai-game](https://github.com/1998x-stack/ai-game) 完成打包输入的符号链接安全回归、在 [Deep-Reinforcement-Learning-Hands-On](https://github.com/1998x-stack/Deep-Reinforcement-Learning-Hands-On) 完成固定种子 CPU FrozenLake 基线（共 **7/12** 项取得本轮新 CI 成功证据）。完整服务端安全和深度模型训练尚未验收。
 
-其中 microRTS 已在 Java 17 CI 中完成一场真实 AI 对局；awesome-rl-envs 的 11 条游戏环境引用仅做静态提取，尚未核查外链可用性。 AI-Game-Generator 的预览隔离另通过了 [实际 Chromium 浏览器测试](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42623528980)，但不代表整体生成服务已完成安全审计。
+其中 microRTS 已在 Java 17 CI 中完成一场真实 AI 对局；FrozenLake 256 回合实验的价值迭代成功 195 局、随机策略成功 2 局；awesome-rl-envs 的 11 条引用仅做静态提取，尚未核查外链可用性。 AI-Game-Generator 的预览隔离另通过了 [实际 Chromium 浏览器测试](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42623528980)，但不代表整体生成服务已完成安全审计。
 
 已建立 **35/35 项唯一阶段归属及可追溯运行状态**，包括受限 ROM、遗留依赖和需服务端的生成器。状态登记不等于生产可玩或实验已成功；详见 **[第三批完整执行日志](docs/PHASE3-EXECUTION.md)** 和 [P3 状态 JSON](data/phase3.json)。
 

@@ -9,13 +9,13 @@
 | 口径 | 真实结果 |
 |---|---:|
 | 第三批计划项目 / 索引说明与下一步验收 | **12 / 12** |
-| 已修改第三批上游源码且新 CI 成功 | **5 / 12** |
-| 仅具历史成功 CI 记录、尚未复测 | **1 / 12**（ai-game） |
-| 无本轮成功运行或实验记录 | **6 / 12** |
+| 已修改第三批上游源码且新 CI 成功 | **7 / 12** |
+| 仅具历史成功 CI 记录、尚未复测 | **0 / 12**（ai-game 已进行本轮验证） |
+| 无本轮成功运行或实验记录 | **5 / 12** |
 | 真实公网生成器与完整训练性能验收 | **0**，不能由组件测试推断 |
 | 全部 Games 项目已分配唯一阶段 | **35 / 35**（P1 10 + P2 13 + P3 12） |
 
-## 五项新工程交付与测试边界
+## 七项工程交付与测试边界
 
 **1. [AI-Game-Generator](https://github.com/1998x-stack/AI-Game-Generator)**：不受信任的生成 HTML 曾使用 `sandbox="allow-scripts allow-same-origin"`，可能使 srcdoc 脚本继承应用来源权限。现改为仅允许脚本、使用不透明源，校验 `postMessage` 的确切 iframe 发送者并限制错误消息长度。新增静态契约/TypeScript CI，并在原 Next.js 组件上执行 **2 项真实 Chromium 浏览器测试**，验证沙箱不能读取父 DOM/localStorage 及错误来源消息的拒绝。[Chromium 成功记录](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42623528980) · [静态契约记录](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42619929546)。**限制：** 此测试覆盖预览隔离边界，不能代表生成服务、密钥、沙箱子依赖或全平台安全审计。
 
@@ -26,6 +26,11 @@
 **4. [microrts](https://github.com/1998x-stack/microrts)**：Java 17 CI 编译反射加载的 WorkerRush、LightRush AI，并运行真实 8×8 引擎对局，**205 周期正常终局，winner=0**。[原始成功对局](https://github.com/1998x-stack/microrts/actions/runs/42622693078)。**限制：** 单局完整游戏结果不能代表模型强弱比较，AI JAR 的再分发权利需独立核对。
 
 **5. [awesome-rl-envs](https://github.com/1998x-stack/awesome-rl-envs)**：仅从上游 README 的 Games 章节提取 11 个链接为独立 JSON，使用固定解析、去重、HTTPS 检查和原文一致性 CI。[原始成功记录](https://github.com/1998x-stack/awesome-rl-envs/actions/runs/42623240121)。**限制：** 未对 11 个目的站进行联网健康度、安装、ROM 或授权检查，亦不增加 Games 35 项顶层计数。
+
+**6. [Deep-Reinforcement-Learning-Hands-On](https://github.com/1998x-stack/Deep-Reinforcement-Learning-Hands-On)**：保留原书旧版 Gym 代码，独立新增 Gymnasium 1.1.1 的 CPU-only FrozenLake 价值迭代对照。固定 4×4 slippery 地图、seed=2026、256 回合，价值迭代成功 **195/256（76.17%）**，随机策略成功 **2/256（0.78%）**，两次 JSON 结果一致。[原始实验与工件](https://github.com/1998x-stack/Deep-Reinforcement-Learning-Hands-On/actions/runs/42630664159)。**边界：** 这是模型规划基线，不是书中神经网络训练或全部章节的运行验收。
+
+**7. [ai-game](https://github.com/1998x-stack/ai-game)**：修复构建器读取符号链接脚本或素材时可能跨出游戏工作区的路径，增加外部临时文件/目录的拒绝回归测试和具体错误保留。完整 Verify CI 的类型检查、Lint、单测、生产构建及浏览器冒烟通过。[本轮完整验证](https://github.com/1998x-stack/ai-game/actions/runs/42631295419) · [既有历史记录](https://github.com/1998x-stack/ai-game/actions/runs/39938832001)。**边界：** 不代表完整服务端密钥、身份验证或其他生成流程均通过安全审计。
+
 
 ## 12 项清单：证据、限制与下一步
 
@@ -39,9 +44,9 @@
 | [microrts](https://github.com/1998x-stack/microrts) | 研究环境 · **真实 AI 对局 CI 通过** · 不是静态试玩产品 | 固定地图/AI 后补多组 seed 与双向对照，记录胜率、时长和离散性；单局不算性能基准。 | [CI 1](https://github.com/1998x-stack/microrts/actions/runs/42622693078) |
 | [universe](https://github.com/1998x-stack/universe) | 研究环境 · **本轮未完成运行** · 历史依赖可能不兼容 | 建立隔离的历史运行矩阵；若不能运行，公开阻塞条件，不给“现代 Gym 兼容”标签。 | 本轮暂无成功运行记录 |
 | [gym](https://github.com/1998x-stack/gym) | 研究环境 · **本轮未完成运行** · 历史依赖可能不兼容 | 核对旧 Gym 与 Gymnasium 的 API 差异，提供并行示例而不是迁移整个上游历史源码。 | 本轮暂无成功运行记录 |
-| [ai-game](https://github.com/1998x-stack/ai-game) | 游戏创作工具 · **历史工作流成功；本轮未复测** · 依赖服务端配置与密钥 | 保持原有 CI 不变；后续检验服务端密钥、会话隔离、沙箱预览与无密钥生成失败路径。 | [CI 1](https://github.com/1998x-stack/ai-game/actions/runs/39938832001) |
+| [ai-game](https://github.com/1998x-stack/ai-game) | 游戏创作工具 · **本轮打包安全回归与 Verify CI 成功** · 依赖服务端配置与密钥 | 继续审查会话隔离、无密钥失败/超时及整个生成服务的安全边界。 | [本轮完整 CI](https://github.com/1998x-stack/ai-game/actions/runs/42631295419) · [历史 CI](https://github.com/1998x-stack/ai-game/actions/runs/39938832001) |
 | [AI-Game-Generator](https://github.com/1998x-stack/AI-Game-Generator) | 游戏创作工具 · **Chromium 预览隔离测试通过** · 依赖服务端配置与密钥 | 扩展跨域网络请求、构建超时和身份/密钥路径测试；现只认证预览来源隔离。 | [浏览器 CI](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42623528980) · [静态契约](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42619929546) |
-| [Deep-Reinforcement-Learning-Hands-On](https://github.com/1998x-stack/Deep-Reinforcement-Learning-Hands-On) | 教学资源 · **本轮未完成运行** · 历史依赖可能不兼容 | 选择 FrozenLake 等无需第三方 ROM 的章节，固定最小依赖与 RNG，验证 CPU 完整回合。 | 本轮暂无成功运行记录 |
+| [Deep-Reinforcement-Learning-Hands-On](https://github.com/1998x-stack/Deep-Reinforcement-Learning-Hands-On) | 教学资源 · **256 回合 CPU 规划/随机对照实验通过** · 其他章节仍为历史依赖 | 在保留原书代码的条件下验证其他无 ROM 章节，不把本实验等同深度 RL 训练。 | [固定种子评估 CI](https://github.com/1998x-stack/Deep-Reinforcement-Learning-Hands-On/actions/runs/42630664159) |
 | [rainbow-is-all-you-need](https://github.com/1998x-stack/rainbow-is-all-you-need) | 教学资源 · **优先经验回放组件测试通过** · 历史依赖可能不兼容 | 固定 DQN/Rainbow Notebook 的 Torch/Gym 组合，开展最小同种子训练并记录基线；不要继承过期依赖保证。 | [CI 1](https://github.com/1998x-stack/rainbow-is-all-you-need/actions/runs/42620461728) |
 
 ## 门户与 CI 同步
@@ -61,11 +66,11 @@
 ## 第三批验收条件
 
 - [x] 全部 12 项的身份、公开上游链接、运行/版权风险、下一项验收已登记
-- [x] 五项实际工程改进取得公开 CI 证据（含真实 RTS 对局及仅静态链接索引检查）
+- [x] 七项实际工程改进取得公开 CI 证据（含 RTS 对局、FrozenLake 256 回合对照、游戏打包安全回归和静态链接索引）
 - [x] 全 35 项阶段数据与静态站点统一校验，阶段没有重复
-- [x] 至少一个原始环境完整回合：microRTS 205 周期 AI 对局（并非多次统计基准）
+- [x] 已有 microRTS 205 周期对局及 FrozenLake 256 回合规划/随机基线（不等于神经网络训练验收）
 - [x] AI 生成器实际 Chromium 预览隔离检查（2 项测试）
-- [ ] 生成器无密钥失败/超时路径及全服务隔离审查
+- [ ] 生成器无密钥失败/超时路径及全服务隔离审查（仅 ai-game 打包输入的链接边界已完成）
 - [ ] 受限资源的合法来源与系统矩阵审查
 - [ ] Games 11 个外链目的站的联网健康度、许可与定期复核（静态提取 CI 已通过）
 - [ ] 正式生产 Pages 网页路径的独立访问抽样

@@ -66,6 +66,12 @@
       </label>
       <div class="select-grid">
         <label><span>项目分类</span><select id="category"><option value="all">全部分类</option></select></label>
+        <label><span>优化批次</span><select id="batch">
+          <option value="all">全部批次</option>
+          <option value="p1">P1 · 体验入口（10）</option>
+          <option value="p2">P2 · 玩法与 AI（13）</option>
+          <option value="p3">P3 · 研究治理（12）</option>
+        </select></label>
         <label><span>运行形态</span><select id="mode">
           <option value="all">所有形态</option>
           <option value="browser-candidate">浏览器候选</option>
@@ -86,6 +92,7 @@
           <option value="default">推荐目录顺序</option>
           <option value="name">项目名称 A–Z</option>
           <option value="evidence">有证据优先</option>
+          <option value="pending">失败与待验优先</option>
         </select></label>
       </div>
       <div id="chips" class="chips" aria-label="快速选择分类"></div>

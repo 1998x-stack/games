@@ -96,13 +96,15 @@ def build_phase2():
     for p in rows:
         assert set(p) == {"name", "mode", "validation", "availability", "note", "evidence"}
         assert p["mode"] in ("desktop", "environment", "game-ai")
-        assert p["validation"] in ("unit-ci", "not-verified", "ci-failed")
+        assert p["validation"] in ("unit-ci", "environment-ci", "not-verified", "ci-failed")
         assert p["availability"] in ("production-unverified", "not-applicable")
         assert isinstance(p["note"], str) and p["note"].strip()
         assert isinstance(p["evidence"], list)
         assert all(isinstance(link, str) and link.startswith(
-            "https://github.com/1998x-stack/") for link in p["evidence"])
-        assert p["validation"] == "not-verified" or p["evidence"]
+            "https://github.com/1998x-stack/" + p["name"] + "/actions/runs/")
+            and link.rsplit("/", 1)[-1].isdigit() for link in p["evidence"]), (
+                "P2 evidence must belong to the project: " + p["name"])
+        assert bool(p["evidence"]) == (p["validation"] != "not-verified")
         assert p["name"] in mapped
         project = mapped[p["name"]]
         page = ROOT / "categories" / project["category"] / p["name"] / "README.md"

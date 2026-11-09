@@ -103,7 +103,7 @@ test("desktop design screenshot and semantic structure", async ({page}) => {
 test("third-batch evidence and restrictions cannot imply online play", async ({page}) => {
   await page.goto(URL);
   const creator = page.locator(".project").filter({has:page.locator("h4",{hasText:"AI-Game-Generator"})});
-  await expect(creator).toContainText("预览隔离检查通过");
+  await expect(creator).toContainText("Chromium 沙箱隔离通过");
   await expect(creator).toContainText("需服务端运行");
   await expect(creator.locator("a[data-role='evidence']")).toHaveAttribute("href", /actions\/runs\//);
   const restricted = page.locator(".project").filter({has:page.locator("h4",{hasText:"hok_env"})});

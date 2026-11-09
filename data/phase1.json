@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "observed_on": "2026-11-09",
+  "stage": "in_progress",
+  "projects": [
+    {
+      "name": "space_ship",
+      "mode": "browser-candidate",
+      "validation": "build-ci",
+      "availability": "production-unverified",
+      "note": "Pages 构建成功，尚无真实浏览器验收",
+      "evidence": [
+        "https://github.com/1998x-stack/space_ship/actions/runs/42237371518"
+      ]
+    },
+    {
+      "name": "Go",
+      "mode": "browser-candidate",
+      "validation": "unit-ci",
+      "availability": "production-unverified",
+      "note": "规则 CI 成功；pygbag 构建修复已提交，待复核新版部署",
+      "evidence": [
+        "https://github.com/1998x-stack/Go/actions/runs/41014518244"
+      ]
+    },
+    {
+      "name": "Snake_Web",
+      "mode": "browser-candidate",
+      "validation": "browser-ci",
+      "availability": "deployment-blocked",
+      "note": "9 项规则与 Chromium 冒烟通过；Pages 未启用导致部署失败",
+      "evidence": [
+        "https://github.com/1998x-stack/Snake_Web/actions/runs/42540673921"
+      ]
+    },
+    {
+      "name": "paint-maze-lab",
+      "mode": "local-web",
+      "validation": "browser-ci",
+      "availability": "production-unverified",
+      "note": "本地服务浏览器验收 CI 成功；无独立静态 Pages 验证",
+      "evidence": [
+        "https://github.com/1998x-stack/paint-maze-lab/actions/runs/40991015829"
+      ]
+    },
+    {
+      "name": "2048",
+      "mode": "desktop",
+      "validation": "unit-ci",
+      "availability": "production-unverified",
+      "note": "Python 游戏 CI 成功；未验证当前桌面实机输入",
+      "evidence": [
+        "https://github.com/1998x-stack/2048/actions/runs/35679406201"
+      ]
+    },
+    {
+      "name": "TicTacToe",
+      "mode": "desktop",
+      "validation": "not-verified",
+      "availability": "production-unverified",
+      "note": "有测试文件与 README，本轮未运行",
+      "evidence": []
+    },
+    {
+      "name": "jump_jump",
+      "mode": "desktop",
+      "validation": "not-verified",
+      "availability": "production-unverified",
+      "note": "有 headless 核心和测试，本轮未运行",
+      "evidence": []
+    },
+    {
+      "name": "Snake",
+      "mode": "desktop",
+      "validation": "unit-ci",
+      "availability": "production-unverified",
+      "note": "修复核心增长、尺寸与重启；虚拟 SDL 下自动测试通过",
+      "evidence": [
+        "https://github.com/1998x-stack/Snake/actions/runs/42540848635"
+      ]
+    },
+    {
+      "name": "flying_bird",
+      "mode": "desktop",
+      "validation": "not-verified",
+      "availability": "production-unverified",
+      "note": "Pygame 游戏与 DQN 训练并存；本轮未运行",
+      "evidence": []
+    },
+    {
+      "name": "pingpong",
+      "mode": "desktop",
+      "validation": "not-verified",
+      "availability": "production-unverified",
+      "note": "Pygame/Box2D 双人游戏，本轮未运行",
+      "evidence": []
+    }
+  ]
+}

@@ -8,6 +8,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 INPUT = ROOT / "data" / "games.json"
 OUTPUT = ROOT / "site" / "data" / "catalog.json"
+PHASE1_INPUT = ROOT / "data" / "phase1.json"
+PHASE1_OUTPUT = ROOT / "site" / "data" / "phase1.json"
 SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
 ALLOWED = {"name", "description", "category", "url", "review"}
@@ -45,16 +47,40 @@ def build():
     }, "categories": cats, "projects": projects}
     return json.dumps(clean, ensure_ascii=False, indent=2) + "\n"
 
+def build_phase1():
+    public_names = {row['name'] for row in json.loads(INPUT.read_text(encoding='utf-8'))['projects']}
+    phase = json.loads(PHASE1_INPUT.read_text(encoding='utf-8'))
+    assert set(phase) == {'schema_version', 'observed_on', 'stage', 'projects'}
+    assert phase['schema_version'] == 1 and phase['stage'] == 'in_progress'
+    rows = phase['projects']
+    expected = {'Snake', 'Snake_Web', 'flying_bird', 'jump_jump', 'space_ship',
+                'pingpong', 'paint-maze-lab', '2048', 'Go', 'TicTacToe'}
+    assert len(rows) == 10 and {p['name'] for p in rows} == expected
+    assert len({p['name'] for p in rows}) == len(rows) and expected.issubset(public_names)
+    for p in rows:
+        assert set(p) == {'name','mode','validation','availability','note','evidence'}
+        assert p['mode'] in ('desktop','local-web','browser-candidate')
+        assert p['validation'] in ('not-verified','unit-ci','browser-ci','build-ci')
+        assert p['availability'] in ('production-unverified','deployment-blocked')
+        assert isinstance(p['note'], str) and p['note'].strip()
+        assert isinstance(p['evidence'], list)
+        assert all(isinstance(u,str) and u.startswith('https://github.com/1998x-stack/') for u in p['evidence'])
+        assert p['evidence'] or p['validation'] == 'not-verified'
+    return json.dumps(phase, ensure_ascii=False, indent=2) + '\n'
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="validate without writing")
     args = parser.parse_args()
     result = build()
+    phase_result = build_phase1()
     if args.check:
         assert OUTPUT.is_file(), "First run without --check to generate output"
         assert OUTPUT.read_text(encoding="utf-8") == result, "Site data is out of sync; regenerate"
-        print("Catalog validated; published JSON is in sync (35 projects, 7 categories).")
+        assert PHASE1_OUTPUT.is_file() and PHASE1_OUTPUT.read_text(encoding="utf-8") == phase_result, "Phase1 JSON mismatch"
+        print("Catalog (35 projects) and P1 statuses (10 projects) are synchronized.")
     else:
         OUTPUT.parent.mkdir(parents=True, exist_ok=True)
         OUTPUT.write_text(result, encoding="utf-8")
+        PHASE1_OUTPUT.write_text(phase_result, encoding="utf-8")
         print("Generated site/data/catalog.json (35 public projects).")

@@ -42,19 +42,19 @@ test("mode and verification filters distinguish game types and CI outcomes", asy
   await page.locator("#mode").selectOption("environment");
   await expect(page.locator(".project")).toHaveCount(9);
   await page.locator("#mode").selectOption("game-ai");
-  await expect(page.locator(".project")).toHaveCount(8);
+  await expect(page.locator(".project")).toHaveCount(7);
   await page.locator("#mode").selectOption("creation-tool");
   await expect(page.locator(".project")).toHaveCount(2);
   await page.locator("#mode").selectOption("resource");
   await expect(page.locator(".project")).toHaveCount(3);
   await page.locator("#mode").selectOption("all");
   await page.locator("#verification").selectOption("evidence");
-  await expect(page.locator(".project")).toHaveCount(26);
+  await expect(page.locator(".project")).toHaveCount(27);
   await page.locator("#verification").selectOption("failed");
   await expect(page.locator(".project")).toHaveCount(1);
   await expect(page.locator(".project")).toContainText("happyLandlord");
   await page.locator("#verification").selectOption("pending");
-  await expect(page.locator(".project")).toHaveCount(8);
+  await expect(page.locator(".project")).toHaveCount(7);
   await page.locator("#verification").selectOption("all");
   await expect(page.locator(".project")).toHaveCount(35);
 });
@@ -63,7 +63,7 @@ test("source and evidence links are distinct and secure", async ({page}) => {
   await page.goto(URL);
   await expect(page.locator(".project a[data-role='repo']")).toHaveCount(35);
   // One latest proof link per evidenced project; full history stays in phase JSON.
-  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(27);
+  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(28);
   const card = page.locator(".project").filter({has:page.locator("h4",{hasText:"gomoku-exact5-env"})});
   await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /actions\/runs\//);
   for (const link of await page.locator(".project a").all()) {
@@ -155,7 +155,7 @@ test("P3 Actor-Critic genuinely trains on CPU but original deep model remains un
   await expect(card).toContainText("历史依赖限制");
   await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /RL-Adventure-2\/actions\/runs\/42646793026/);
   await page.locator("#verification").selectOption("evidence");
-  await expect(page.locator(".project")).toHaveCount(26);
+  await expect(page.locator(".project")).toHaveCount(27);
   await page.locator("#mode").selectOption("game-ai");
   await expect(card).toBeVisible();
 });
@@ -176,7 +176,7 @@ test("P3 original-horizon A2C evidence keeps different training budgets explicit
   await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /42646793026/);
   await expect(card).not.toContainText("完整原版 Notebook 已验收");
   await page.locator("#verification").selectOption("evidence");
-  await expect(page.locator(".project")).toHaveCount(26);
+  await expect(page.locator(".project")).toHaveCount(27);
 });
 
 test("P3 actual spawned-worker parity preserves historical legacy limitation", async ({page}) => {
@@ -193,7 +193,7 @@ test("phase deep links, backlog-first sort and mobile-readable evidence scope", 
   await page.goto(URL + "?batch=p2&verification=pending&sort=pending");
   await expect(page.locator("#batch")).toHaveValue("p2");
   await expect(page.locator("#verification")).toHaveValue("pending");
-  await expect(page.locator(".project")).toHaveCount(4);
+  await expect(page.locator(".project")).toHaveCount(3);
   await page.locator("#verification").selectOption("all");
   await expect(page.locator(".project")).toHaveCount(13);
   const firstCard=page.locator(".project").first();
@@ -231,4 +231,18 @@ test("unrelated workflow URL never upgrades a project's verification status", as
   await expect(go.locator("a[data-role='evidence']")).toHaveCount(0);
   await go.locator("summary").click();
   await expect(go.locator("details p")).toContainText("验证记录缺失或与该项目不匹配");
+});
+
+test("P2 Tetris gameplay proof is scoped to mechanics and random policy, not DQN", async ({page}) => {
+  await page.goto(URL + "?batch=p2&mode=game-ai");
+  const card=page.locator(".project").filter({has:page.getByRole("heading",{name:"TetrominoDQN",exact:true})});
+  await expect(card).toContainText("实际玩法规则及随机基线通过");
+  await expect(card).toContainText("DQN 训练待验");
+  await expect(card).toContainText("P2");
+  await card.locator("summary").click();
+  await expect(card.locator("details p")).toContainText("尚未训练或评估 DQN");
+  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href",
+    "https://github.com/1998x-stack/TetrominoDQN/actions/runs/42649593846");
+  await page.locator("#verification").selectOption("evidence");
+  await expect(card).toBeVisible();
 });

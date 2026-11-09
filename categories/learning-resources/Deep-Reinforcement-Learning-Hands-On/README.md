@@ -1,27 +1,24 @@
-# Deep-Reinforcement-Learning-Hands-On · 教学与资料
+# Deep-Reinforcement-Learning-Hands-On · 强化学习教材实验
 
-> **第三批 P3 · 2026-11-09 · 运行待验证**
->
-> [返回本分类](../README.md) · [第三批证据与计划](../../../docs/PHASE3-EXECUTION.md) · [上游仓库](https://github.com/1998x-stack/Deep-Reinforcement-Learning-Hands-On)
+> P3 · **CPU FrozenLake 基线 CI 成功；原书全章节仍待验收**
 
-**简介：** 深度强化学习动手教程
+[上游项目](https://github.com/1998x-stack/Deep-Reinforcement-Learning-Hands-On) · [P3 实证日志](../../../docs/PHASE3-EXECUTION.md) · [返回分类](../README.md)
 
-## 核实到的运行/维护边界
+项目是强化学习教材的历史代码。原始 Gym/PyTorch 示例完整保留；本轮仅独立增加现代 Gymnasium 的无 ROM 基线。
 
-深度强化学习书籍配套旧版代码与 Atari 示例，涉及历史 Gym API、依赖和 ROM；本轮未复现具体章节。
+## 实验结果与证据
 
-**部署与许可：** 存在历史依赖兼容性限制。收录索引不表示上游素材、游戏 ROM、模型或项目代码获得新的再分发许可。
+- Python 3.11 / Gymnasium 1.1.1 / FrozenLake-v1 4×4 slippery / seed=2026。
+- 256 局：价值迭代 195 局获胜（76.17%），随机动作 2 局获胜（0.78%）。
+- 比较策略共享环境重置 seed；CI 两次导出 JSON 逐字节一致、完整回合/收敛与随机源测试通过。
+- [原始 CI、详细日志与 JSON 工件](https://github.com/1998x-stack/Deep-Reinforcement-Learning-Hands-On/actions/runs/42630664159)
 
-## 可追溯证据
+## 复验
 
-- **本轮没有成功的可复现运行证据**，故不显示可玩或已验收状态。
+在原仓库根目录：
 
+    python -m pip install gymnasium==1.1.1
+    python -m unittest discover -s tests -p 'test_p3_*.py' -v
+    python -m p3.frozenlake_baseline --seed 2026 --episodes 256 --output build/p3-frozenlake.json
 
-
-## 下一步最小验收
-
-注明书籍版本并优先选无 ROM、可 CPU 运行的 FrozenLake 小例，固定依赖和输出。
-
-**升档原则：** 需要可复现命令、适用系统和依赖版本、固定种子/测试条件、原始 CI/截图/日志及失败记录。仅阅读 README 或看到工作流配置不能把状态升级为“可用/可玩”。
-
-[返回 35 项总目录](../../../README.md)
+**尚未完成：** 这是单组模型规划基线，不是神经网络模型训练或原书全部章节迁移；旧版依赖和 Atari ROM 许可仍需独立核查。

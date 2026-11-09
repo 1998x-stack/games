@@ -49,12 +49,12 @@ test("mode and verification filters distinguish game types and CI outcomes", asy
   await expect(page.locator(".project")).toHaveCount(3);
   await page.locator("#mode").selectOption("all");
   await page.locator("#verification").selectOption("evidence");
-  await expect(page.locator(".project")).toHaveCount(23);
+  await expect(page.locator(".project")).toHaveCount(24);
   await page.locator("#verification").selectOption("failed");
   await expect(page.locator(".project")).toHaveCount(1);
   await expect(page.locator(".project")).toContainText("happyLandlord");
   await page.locator("#verification").selectOption("pending");
-  await expect(page.locator(".project")).toHaveCount(11);
+  await expect(page.locator(".project")).toHaveCount(10);
   await page.locator("#verification").selectOption("all");
   await expect(page.locator(".project")).toHaveCount(35);
 });
@@ -62,7 +62,7 @@ test("mode and verification filters distinguish game types and CI outcomes", asy
 test("source and evidence links are distinct and secure", async ({page}) => {
   await page.goto(URL);
   await expect(page.locator(".project a[data-role='repo']")).toHaveCount(35);
-  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(24);
+  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(25);
   const card = page.locator(".project").filter({has:page.locator("h4",{hasText:"gomoku-exact5-env"})});
   await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /actions\/runs\//);
   for (const link of await page.locator(".project a").all()) {
@@ -132,4 +132,16 @@ test("P3 microRTS result and environment index evidence are scoped", async ({pag
   const index = page.locator(".project").filter({has:page.getByRole("heading",{name:"awesome-rl-envs",exact:true})});
   await expect(index).toContainText("链接未实测");
   await expect(index.locator("a[data-role='evidence']")).toHaveAttribute("href", /awesome-rl-envs\/actions\/runs\//);
+});
+
+test("P3 CPU experiment and game-packager security evidence remain scoped", async ({page}) => {
+  await page.goto(URL);
+  const book = page.locator(".project").filter({has:page.getByRole("heading",{name:"Deep-Reinforcement-Learning-Hands-On",exact:true})});
+  await expect(book).toContainText("CPU 实验基线复现");
+  await expect(book).toContainText("历史依赖限制");
+  await expect(book.locator("a[data-role='evidence']")).toHaveAttribute("href", /Deep-Reinforcement-Learning-Hands-On\/actions\/runs\//);
+  const studio = page.locator(".project").filter({has:page.getByRole("heading",{name:"ai-game",exact:true})});
+  await expect(studio).toContainText("打包安全回归通过");
+  await expect(studio).toContainText("需服务端运行");
+  await expect(studio.locator("a[data-role='evidence']")).toHaveAttribute("href", /ai-game\/actions\/runs\//);
 });

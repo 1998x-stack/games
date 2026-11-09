@@ -76,10 +76,11 @@
     {
       "name": "ai-game",
       "mode": "creation-tool",
-      "validation": "historical-ci",
+      "validation": "packager-ci",
       "availability": "needs-server",
-      "note": "Next.js 游戏生成与服务端工具已有历史 Verify CI 成功，但本轮未复测生成完整链路或生产密钥/沙箱安全。",
+      "note": "游戏脚本与素材打包器现拒绝符号链接文件/目录，防止读取工作区外文件并嵌入游戏 HTML；新安全回归、类型检查、Lint、单测、生产构建和 Chromium 冒烟均通过。并非全平台/密钥安全审计。",
       "evidence": [
+        "https://github.com/1998x-stack/ai-game/actions/runs/42631295419",
         "https://github.com/1998x-stack/ai-game/actions/runs/39938832001"
       ]
     },
@@ -97,10 +98,12 @@
     {
       "name": "Deep-Reinforcement-Learning-Hands-On",
       "mode": "resource",
-      "validation": "not-verified",
+      "validation": "experiment-ci",
       "availability": "legacy",
-      "note": "深度强化学习书籍配套旧版代码与 Atari 示例，涉及历史 Gym API、依赖和 ROM；本轮未复现具体章节。",
-      "evidence": []
+      "note": "已在 Gymnasium 1.1.1 的 4×4 FrozenLake 滑动地图中执行固定 seed=2026、256 回合 CPU 评估：价值迭代成功 195/256，随机策略 2/256。重复实验 JSON 字节一致；只验证模型规划基线，不代表书中深度神经网络训练或全部章节。",
+      "evidence": [
+        "https://github.com/1998x-stack/Deep-Reinforcement-Learning-Hands-On/actions/runs/42630664159"
+      ]
     },
     {
       "name": "rainbow-is-all-you-need",

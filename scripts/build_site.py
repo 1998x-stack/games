@@ -66,6 +66,13 @@ def build_phase1():
         assert isinstance(p['evidence'], list)
         assert all(isinstance(u,str) and u.startswith('https://github.com/1998x-stack/') for u in p['evidence'])
         assert p['evidence'] or p['validation'] == 'not-verified'
+        entry = next(item for item in json.loads(INPUT.read_text(encoding='utf-8'))['projects']
+                     if item['name'] == p['name'])
+        page = ROOT / 'categories' / entry['category'] / p['name'] / 'README.md'
+        assert page.is_file()
+        text = page.read_text(encoding='utf-8')
+        assert p['evidence'] and all(url in text for url in p['evidence']), (
+            'P1 project page lacks verification link: ' + p['name'])
     return json.dumps(phase, ensure_ascii=False, indent=2) + '\n'
 
 if __name__ == "__main__":

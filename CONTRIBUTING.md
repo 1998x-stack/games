@@ -9,3 +9,14 @@
 - 请勿提交原项目源码、二进制或未经授权的资源，也不要向本公开仓库复制私有目录记录或密钥。
 
 项目不统一适用单一许可证；第三方源码版权请参阅其各自的许可文件。
+
+## 第一批验证状态维护（P1）
+
+`data/games.json` 中的 `review` 表示核对过上游说明，**不是运行状态**。
+如需更新第一批 10 个游戏的运行/部署状态，应同时修改
+`data/phase1.json` 与相关的 `categories/<category>/<name>/README.md`；
+原始 GitHub Actions 运行链接、实际成功范围和失败原因必须保持可追溯。
+
+`python scripts/build_site.py` 刷新 `site/data/*.json`；
+`python scripts/build_site.py --check` 校验 JSON、项目页与证据 URL 同步。
+不要将“构建成功”“虚拟 SDL 测试成功”写成“正式网页已验证可玩”。

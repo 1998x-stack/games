@@ -49,12 +49,12 @@ test("mode and verification filters distinguish game types and CI outcomes", asy
   await expect(page.locator(".project")).toHaveCount(3);
   await page.locator("#mode").selectOption("all");
   await page.locator("#verification").selectOption("evidence");
-  await expect(page.locator(".project")).toHaveCount(21);
+  await expect(page.locator(".project")).toHaveCount(23);
   await page.locator("#verification").selectOption("failed");
   await expect(page.locator(".project")).toHaveCount(1);
   await expect(page.locator(".project")).toContainText("happyLandlord");
   await page.locator("#verification").selectOption("pending");
-  await expect(page.locator(".project")).toHaveCount(13);
+  await expect(page.locator(".project")).toHaveCount(11);
   await page.locator("#verification").selectOption("all");
   await expect(page.locator(".project")).toHaveCount(35);
 });
@@ -62,7 +62,7 @@ test("mode and verification filters distinguish game types and CI outcomes", asy
 test("source and evidence links are distinct and secure", async ({page}) => {
   await page.goto(URL);
   await expect(page.locator(".project a[data-role='repo']")).toHaveCount(35);
-  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(22);
+  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(24);
   const card = page.locator(".project").filter({has:page.locator("h4",{hasText:"gomoku-exact5-env"})});
   await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /actions\/runs\//);
   for (const link of await page.locator(".project a").all()) {
@@ -120,4 +120,14 @@ test("missing optional third manifest cannot create false verification", async (
   const generator = page.locator(".project").filter({has:page.locator("h4",{hasText:"AI-Game-Generator"})});
   await expect(generator).toContainText("尚未进入运行验证批次");
   await expect(generator.locator("a[data-role='evidence']")).toHaveCount(0);
+});
+
+test("P3 microRTS result and environment index evidence are scoped", async ({page}) => {
+  await page.goto(URL);
+  const match = page.locator(".project").filter({has:page.getByRole("heading",{name:"microrts",exact:true})});
+  await expect(match).toContainText("真实 AI 对局通过");
+  await expect(match.locator("a[data-role='evidence']")).toHaveAttribute("href", /microrts\/actions\/runs\//);
+  const index = page.locator(".project").filter({has:page.getByRole("heading",{name:"awesome-rl-envs",exact:true})});
+  await expect(index).toContainText("链接未实测");
+  await expect(index.locator("a[data-role='evidence']")).toHaveAttribute("href", /awesome-rl-envs\/actions\/runs\//);
 });

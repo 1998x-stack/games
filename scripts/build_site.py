@@ -129,7 +129,7 @@ def build_phase3():
         assert set(p) == {"name", "mode", "validation", "availability", "note", "evidence"}
         assert p["mode"] in ("environment", "game-ai", "creation-tool", "resource")
         assert p["validation"] in ("not-verified", "environment-ci", "security-ci",
-                                   "component-ci", "historical-ci")
+                                   "component-ci", "historical-ci", "index-ci", "match-ci")
         assert p["availability"] in ("legacy", "restricted", "needs-server", "not-applicable")
         assert isinstance(p["note"], str) and p["note"].strip()
         assert isinstance(p["evidence"], list)

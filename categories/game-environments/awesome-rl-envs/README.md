@@ -8,15 +8,24 @@
 
 ## 核实到的运行/维护边界
 
-大型 RL 环境资料目录，包含 Games 等子章节；外链和历史维护状态尚未完成独立检查。
+已从原 README Games 章节提取 11 个去重 HTTPS 外部环境链接，校验源文本一致性；并未检查链接实际健康状况或是否具备游戏/ROM 发布许可。
 
-**部署与许可：** 不属于网页试玩项目。收录索引不表示上游素材、游戏 ROM、模型或项目代码获得新的再分发许可。
+**部署与许可：** 属于研究环境/资源索引，不是已验证的浏览器游戏。上游 JAR/ROM/素材的权利不因 Games Atlas 收录而改变。
 
 ## 可追溯证据
 
-- **本轮没有成功的可复现运行证据**，故不显示可玩或已验收状态。
+- [成功的 GitHub Actions 工作流](https://github.com/1998x-stack/awesome-rl-envs/actions/runs/42623240121)
 
+## 复现静态来源索引
 
+在 [awesome-rl-envs](https://github.com/1998x-stack/awesome-rl-envs) 仓库根目录执行：
+
+```bash
+python scripts/export_game_links.py --check
+python -m unittest discover -s tests -v
+```
+
+**重要：** 不会联网，不能认为导出的 11 个项目已经运行验证。
 
 ## 下一步最小验收
 

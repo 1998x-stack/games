@@ -22,10 +22,12 @@
     {
       "name": "awesome-rl-envs",
       "mode": "resource",
-      "validation": "not-verified",
+      "validation": "index-ci",
       "availability": "not-applicable",
-      "note": "大型 RL 环境资料目录，包含 Games 等子章节；外链和历史维护状态尚未完成独立检查。",
-      "evidence": []
+      "note": "原 Games 章节 11 个环境链接已导出为独立 JSON，静态解析、去重和 HTTPS 规则 CI 通过；目标网站健康度及资源许可证未核验。",
+      "evidence": [
+        "https://github.com/1998x-stack/awesome-rl-envs/actions/runs/42623240121"
+      ]
     },
     {
       "name": "gym-envs",
@@ -48,10 +50,12 @@
     {
       "name": "microrts",
       "mode": "environment",
-      "validation": "not-verified",
+      "validation": "match-ci",
       "availability": "not-applicable",
-      "note": "Java 微型 RTS 博弈研究代码，有地图、AI 与 JAR 依赖；本轮尚未编译或执行完整对局。",
-      "evidence": []
+      "note": "Java 17 已在 CI 中使用真实 RTS 引擎完成 WorkerRush 对 LightRush 的 8×8 无界面对局：205 周期终局，winner=0；不是策略性能统计或在线试玩。",
+      "evidence": [
+        "https://github.com/1998x-stack/microrts/actions/runs/42622693078"
+      ]
     },
     {
       "name": "universe",

@@ -8,15 +8,23 @@
 
 ## 核实到的运行/维护边界
 
-Java 微型 RTS 博弈研究代码，有地图、AI 与 JAR 依赖；本轮尚未编译或执行完整对局。
+使用 Java 17 构建 8×8 WorkerRush/LightRush 完整一局，引擎正常终局，日志结果为 cycles=205、winner=0。尚缺多局胜率/重复种子分布，第三方 JAR 授权未经重新核验。
 
-**部署与许可：** 不属于网页试玩项目。收录索引不表示上游素材、游戏 ROM、模型或项目代码获得新的再分发许可。
+**部署与许可：** 属于研究环境/资源索引，不是已验证的浏览器游戏。上游 JAR/ROM/素材的权利不因 Games Atlas 收录而改变。
 
 ## 可追溯证据
 
-- **本轮没有成功的可复现运行证据**，故不显示可玩或已验收状态。
+- [成功的 GitHub Actions 工作流](https://github.com/1998x-stack/microrts/actions/runs/42622693078)
 
+## 复现真实 AI 对局
 
+在 [microrts](https://github.com/1998x-stack/microrts) 仓库根目录执行：
+
+```bash
+mkdir -p build/p3
+javac -encoding UTF-8 -cp "lib/*:src" -d build/p3 src/ai/abstraction/WorkerRush.java src/ai/abstraction/LightRush.java src/tests/P3HeadlessMatch.java
+java -Djava.awt.headless=true -cp "lib/*:build/p3" tests.P3HeadlessMatch
+```
 
 ## 下一步最小验收
 

@@ -13,7 +13,9 @@
     "environment-ci":"教学环境协议通过 · 其他示例待验",
     "security-ci":"预览隔离检查通过 · 整体服务待验",
     "component-ci":"算法组件测试通过 · 训练待验",
-    "historical-ci":"历史 CI 成功 · 本轮未复测"
+    "historical-ci":"历史 CI 成功 · 本轮未复测",
+    "match-ci":"真实 AI 对局通过 · 非在线试玩",
+    "index-ci":"游戏环境索引一致 · 链接未实测"
   };
   const types = {"desktop":"桌面游戏","browser-candidate":"浏览器候选",
     "local-web":"本地 Web","environment":"AI / RL 环境",
@@ -21,7 +23,7 @@
   const ok = value => typeof value === "string" &&
     value.startsWith("https://github.com/1998x-stack/");
   const state = {catalog:null, projects:new Map(), category:"all"};
-  const hasPass = e => e && ["browser-ci","build-ci","unit-ci","environment-ci","security-ci","component-ci","historical-ci"].includes(e.validation);
+  const hasPass = e => e && ["browser-ci","build-ci","unit-ci","environment-ci","security-ci","component-ci","historical-ci","match-ci","index-ci"].includes(e.validation);
   const kind = e => e?.mode || "resource";
 
   const externalLink = (url, label, role) => {

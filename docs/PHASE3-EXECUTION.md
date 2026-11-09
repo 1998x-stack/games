@@ -9,13 +9,13 @@
 | 口径 | 真实结果 |
 |---|---:|
 | 第三批计划项目 / 索引说明与下一步验收 | **12 / 12** |
-| 已修改第三批上游源码且新 CI 成功 | **3 / 12** |
+| 已修改第三批上游源码且新 CI 成功 | **5 / 12** |
 | 仅具历史成功 CI 记录、尚未复测 | **1 / 12**（ai-game） |
-| 无本轮成功运行或实验记录 | **8 / 12** |
+| 无本轮成功运行或实验记录 | **6 / 12** |
 | 真实公网生成器与完整训练性能验收 | **0**，不能由组件测试推断 |
 | 全部 Games 项目已分配唯一阶段 | **35 / 35**（P1 10 + P2 13 + P3 12） |
 
-## 三项新代码交付与测试边界
+## 五项新工程交付与测试边界
 
 **1. [AI-Game-Generator](https://github.com/1998x-stack/AI-Game-Generator)**：不受信任的生成 HTML 曾使用 `sandbox="allow-scripts allow-same-origin"`，可能使 srcdoc 脚本继承应用来源权限。现改为仅允许脚本、使用不透明源，校验 `postMessage` 的确切 iframe 发送者并限制错误消息长度。新增轻量安全契约测试和 TypeScript CI。[本轮成功记录](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42619929546)。**限制：** 静态源契约和类型检查不等于浏览器攻击测试或全平台安全审计。
 
@@ -23,16 +23,20 @@
 
 **3. [rainbow-is-all-you-need](https://github.com/1998x-stack/rainbow-is-all-you-need)**：修复 `segment_tree.py` 半开区间及 `retrieve` 采样边界，以固定随机种子、空树、零概率叶与权重分布单测验证。[本轮成功记录](https://github.com/1998x-stack/rainbow-is-all-you-need/actions/runs/42620461728)。**限制：** 未复现 Notebook 的 DQN/Rainbow 模型训练或 Atari 性能。
 
+**4. [microrts](https://github.com/1998x-stack/microrts)**：Java 17 CI 编译反射加载的 WorkerRush、LightRush AI，并运行真实 8×8 引擎对局，**205 周期正常终局，winner=0**。[原始成功对局](https://github.com/1998x-stack/microrts/actions/runs/42622693078)。**限制：** 单局完整游戏结果不能代表模型强弱比较，AI JAR 的再分发权利需独立核对。
+
+**5. [awesome-rl-envs](https://github.com/1998x-stack/awesome-rl-envs)**：仅从上游 README 的 Games 章节提取 11 个链接为独立 JSON，使用固定解析、去重、HTTPS 检查和原文一致性 CI。[原始成功记录](https://github.com/1998x-stack/awesome-rl-envs/actions/runs/42623240121)。**限制：** 未对 11 个目的站进行联网健康度、安装、ROM 或授权检查，亦不增加 Games 35 项顶层计数。
+
 ## 12 项清单：证据、限制与下一步
 
 | 项目 | 角色与当前验收等级 | 下一项最小独立验收 | 原始证据 |
 |---|---|---|---|
 | [RL-Adventure-2](https://github.com/1998x-stack/RL-Adventure-2) | 游戏 AI · **本轮未完成运行** · 历史依赖可能不兼容 | 选取无需 ROM 的 CPU 案例，固定 Python/Torch/Gym 与 seed，跑通小训练并报告均值/方差。 | 本轮暂无成功运行记录 |
 | [Arcade-Learning-Environment](https://github.com/1998x-stack/Arcade-Learning-Environment) | 研究环境 · **本轮未完成运行** · 第三方资源/平台受限 | 先核实 ROM 合法来源、ALE/Gymnasium 安装版本，再做单回合 step/reset；禁止打包任何第三方 ROM。 | 本轮暂无成功运行记录 |
-| [awesome-rl-envs](https://github.com/1998x-stack/awesome-rl-envs) | 教学资源 · **本轮未完成运行** · 不是静态试玩产品 | 只对 Games 子章节建立逐链接健康检查清单，给出检查日期和失效/重定向结果。 | 本轮暂无成功运行记录 |
+| [awesome-rl-envs](https://github.com/1998x-stack/awesome-rl-envs) | 教学资源 · **目录导出 CI 通过；目的站未核查** · 不是静态试玩产品 | 对 11 个目标网站做带日期的健康度与权利审查；只声明当前通过目录提取校验。 | [CI 1](https://github.com/1998x-stack/awesome-rl-envs/actions/runs/42623240121) |
 | [gym-envs](https://github.com/1998x-stack/gym-envs) | 研究环境 · **两个教学环境协议测试通过** · 不是静态试玩产品 | 剩余经典控制示例逐个从旧 Gym 迁移；保持本轮仅两款 Toy Text 环境验收口径。 | [CI 1](https://github.com/1998x-stack/gym-envs/actions/runs/42620238372) |
 | [hok_env](https://github.com/1998x-stack/hok_env) | 研究环境 · **本轮未完成运行** · 第三方资源/平台受限 | 确认 Windows gamecore、Linux actor、镜像、训练资源的许可证/系统依赖，建立权限和版本矩阵。 | 本轮暂无成功运行记录 |
-| [microrts](https://github.com/1998x-stack/microrts) | 研究环境 · **本轮未完成运行** · 不是静态试玩产品 | 固定 Java 编译器与原仓库 JAR，构造小地图双 AI 完整对局并输出胜负、时间与随机种子。 | 本轮暂无成功运行记录 |
+| [microrts](https://github.com/1998x-stack/microrts) | 研究环境 · **真实 AI 对局 CI 通过** · 不是静态试玩产品 | 固定地图/AI 后补多组 seed 与双向对照，记录胜率、时长和离散性；单局不算性能基准。 | [CI 1](https://github.com/1998x-stack/microrts/actions/runs/42622693078) |
 | [universe](https://github.com/1998x-stack/universe) | 研究环境 · **本轮未完成运行** · 历史依赖可能不兼容 | 建立隔离的历史运行矩阵；若不能运行，公开阻塞条件，不给“现代 Gym 兼容”标签。 | 本轮暂无成功运行记录 |
 | [gym](https://github.com/1998x-stack/gym) | 研究环境 · **本轮未完成运行** · 历史依赖可能不兼容 | 核对旧 Gym 与 Gymnasium 的 API 差异，提供并行示例而不是迁移整个上游历史源码。 | 本轮暂无成功运行记录 |
 | [ai-game](https://github.com/1998x-stack/ai-game) | 游戏创作工具 · **历史工作流成功；本轮未复测** · 依赖服务端配置与密钥 | 保持原有 CI 不变；后续检验服务端密钥、会话隔离、沙箱预览与无密钥生成失败路径。 | [CI 1](https://github.com/1998x-stack/ai-game/actions/runs/39938832001) |
@@ -57,12 +61,12 @@
 ## 第三批验收条件
 
 - [x] 全部 12 项的身份、公开上游链接、运行/版权风险、下一项验收已登记
-- [x] 三项高价值实际代码修复取得新的公开 CI 证据
+- [x] 五项实际工程改进取得公开 CI 证据（含真实 RTS 对局及仅静态链接索引检查）
 - [x] 全 35 项阶段数据与静态站点统一校验，阶段没有重复
-- [ ] 完成至少一个完整研究实验或原始环境回合（不能以组件单测代替）
+- [x] 至少一个原始环境完整回合：microRTS 205 周期 AI 对局（并非多次统计基准）
 - [ ] AI 生成器真实浏览器隔离与无密钥失败路径独立核验
 - [ ] 受限资源的合法来源与系统矩阵审查
-- [ ] 历史项目标记与外链健康度的定期复核机制
+- [ ] Games 11 个外链目的站的联网健康度、许可与定期复核（静态提取 CI 已通过）
 - [ ] 正式生产 Pages 网页路径的独立访问抽样
 
 本批任务只有达到对应的真实复现条件才可关闭；**35/35 状态登记不代表 35/35 项目质量验收完成。**

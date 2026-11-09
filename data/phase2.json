@@ -26,10 +26,12 @@
     {
       "name": "MarioGame",
       "mode": "desktop",
-      "validation": "not-verified",
+      "validation": "unit-ci",
       "availability": "production-unverified",
-      "note": "有 Pygame 平台游戏与素材，README 为空；待核查启动与素材授权。",
-      "evidence": []
+      "note": "Pygame 平台游戏已补 README、资源绝对路径、无声卡兼容与 R 重开，虚拟 SDL 场景 CI 通过；实际设备与受保护素材授权仍待核验。",
+      "evidence": [
+        "https://github.com/1998x-stack/MarioGame/actions/runs/42551808329"
+      ]
     },
     {
       "name": "go_gym",
@@ -42,10 +44,12 @@
     {
       "name": "gomoku_zero",
       "mode": "game-ai",
-      "validation": "not-verified",
+      "validation": "unit-ci",
       "availability": "not-applicable",
-      "note": "五子棋训练项目；尚未复现小规模训练与跨环境规则一致性。",
-      "evidence": []
+      "note": "GameState 非法/终局动作保护和与 pinned Exact-5 环境一致性脚本通过轻量 CPU CI；完整训练模型及性能仍未验证。",
+      "evidence": [
+        "https://github.com/1998x-stack/gomoku_zero/actions/runs/42552039262"
+      ]
     },
     {
       "name": "gomoku-exact5-env",

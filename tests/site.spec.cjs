@@ -43,12 +43,12 @@ test("mode and verification filters distinguish game types and CI outcomes", asy
   await expect(page.locator(".project")).toHaveCount(3);
   await page.locator("#mode").selectOption("all");
   await page.locator("#verification").selectOption("evidence");
-  await expect(page.locator(".project")).toHaveCount(15);
+  await expect(page.locator(".project")).toHaveCount(17);
   await page.locator("#verification").selectOption("failed");
   await expect(page.locator(".project")).toHaveCount(1);
   await expect(page.locator(".project")).toContainText("happyLandlord");
   await page.locator("#verification").selectOption("pending");
-  await expect(page.locator(".project")).toHaveCount(19);
+  await expect(page.locator(".project")).toHaveCount(17);
   await page.locator("#verification").selectOption("all");
   await expect(page.locator(".project")).toHaveCount(35);
 });
@@ -56,7 +56,7 @@ test("mode and verification filters distinguish game types and CI outcomes", asy
 test("source and evidence links are distinct and secure", async ({page}) => {
   await page.goto(URL);
   await expect(page.locator(".project a[data-role='repo']")).toHaveCount(35);
-  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(16);
+  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(18);
   const card = page.locator(".project").filter({has:page.locator("h4",{hasText:"gomoku-exact5-env"})});
   await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /actions\/runs\//);
   for (const link of await page.locator(".project a").all()) {

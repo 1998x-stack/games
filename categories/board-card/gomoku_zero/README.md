@@ -1,28 +1,30 @@
 # gomoku_zero · 游戏 AI 研究
 
-> **P2 第二批状态** · 2026-11-09 · **本轮未完成运行验收**  
-> [返回 棋类与卡牌 分类](../README.md) · [查看完整 P2 日志](../../../docs/PHASE2-EXECUTION.md)
+> **第二批 P2 · 2026-11-09 · CI 成功，但仍有验收缺口**
+>
+> [原始项目](https://github.com/1998x-stack/gomoku_zero) · [P2 完整日志](../../../docs/PHASE2-EXECUTION.md) · [返回分类](../README.md)
 
-**简介：** 五子棋智能体项目
+**项目简介：** 五子棋智能体项目
 
-**原始项目：** [1998x-stack/gomoku_zero](https://github.com/1998x-stack/gomoku_zero)。此目录仅是索引，不包含源仓库代码或第三方素材。
+## 本轮实际证据
 
-## 实际观察与限制
+GameState 非法/终局动作保护和与 pinned Exact-5 环境一致性脚本通过轻量 CPU CI；完整训练模型及性能仍未验证。
 
-五子棋训练项目；尚未复现小规模训练与跨环境规则一致性。
+- [GitHub CI / 运行证据 1](https://github.com/1998x-stack/gomoku_zero/actions/runs/42552039262)
 
-研究项目不是可直接在线试玩的游戏，不能以 CI 成功替代完整算法训练复现。
+## 复验命令
 
-## 验证证据
+在原仓库根目录运行：
 
-- 本轮尚无实际运行/测试通过记录，必须先执行下一项最小验收。
+```bash
+# 先安装固定版本 gomoku-exact5-env 的公开规则包
+python -m pip install "numpy>=1.23" "gymnasium>=0.29" 
+python -m pip install "git+https://github.com/1998x-stack/gomoku-exact5-env.git@b390b3c3077362ad103d4135413b0796039cd34b"
+PYTHONPATH=src python scripts/check_exact5_contract.py
+```
 
+## 下一项验收
 
+使用固定棋盘集合跨 gomoku_zero / gomoku-exact5-env 对比，进一步执行 CPU 小规模自对弈→训练→评估，记录种子、环境版本和性能基线。**规则契约测试不代表深度学习模型已收敛。**
 
-## 下一项工作与验收门槛
-
-与 gomoku-exact5-env 共用固定棋盘集，对齐规则并运行 CPU 小规模 selfplay→训练→评估。
-
-没有测试日志、环境版本和对应上游提交的升级，不得将本状态变更为“可玩”或“已完成”。
-
-[返回 Games 总目录](../../../README.md)
+当前尚未获得全部真实目标环境体验或实验验收，不显示“生产可玩”标签。

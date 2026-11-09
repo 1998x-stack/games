@@ -103,7 +103,10 @@ def build_phase2():
         assert p["validation"] == "not-verified" or p["evidence"]
         assert p["name"] in mapped
         project = mapped[p["name"]]
-        assert (ROOT / "categories" / project["category"] / p["name"] / "README.md").is_file()
+        page = ROOT / "categories" / project["category"] / p["name"] / "README.md"
+        assert page.is_file()
+        text = page.read_text(encoding="utf-8")
+        assert all(link in text for link in p["evidence"]), "P2 evidence link missing: " + p["name"]
     return json.dumps(data, ensure_ascii=False, indent=2) + chr(10)
 
 

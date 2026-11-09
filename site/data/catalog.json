@@ -82,7 +82,7 @@
       "description": "马里奥主题游戏项目",
       "category": "arcade-action",
       "url": "https://github.com/1998x-stack/MarioGame",
-      "review": "pending"
+      "review": "verified"
     },
     {
       "name": "space_ship",
@@ -145,7 +145,7 @@
       "description": "五子棋智能体项目",
       "category": "board-card",
       "url": "https://github.com/1998x-stack/gomoku_zero",
-      "review": "pending"
+      "review": "verified"
     },
     {
       "name": "gomoku-exact5-env",

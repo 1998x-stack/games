@@ -8,7 +8,7 @@
 | [Snake_Web](./Snake_Web/README.md) | 网页版贪吃蛇 | 已核对说明 |
 | [flying_bird](./flying_bird/README.md) | 飞鸟躲避障碍游戏 | 已核对说明 |
 | [jump_jump](./jump_jump/README.md) | 无限跳跃平台游戏 | 已核对说明 |
-| [MarioGame](./MarioGame/README.md) | 马里奥主题游戏项目 | 待复核 |
+| [MarioGame](./MarioGame/README.md) | Pygame 平台动作游戏，带重开与静音降级 | 已核对说明 |
 | [space_ship](./space_ship/README.md) | 2D 太空射击游戏 | 已核对说明 |
 | [pingpong](./pingpong/README.md) | 双人乒乓物理游戏 | 已核对说明 |
 

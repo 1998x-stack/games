@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "observed_on": "2026-11-09",
+  "stage": "in_progress",
+  "projects": [
+    {
+      "name": "RL-Adventure-2",
+      "mode": "game-ai",
+      "validation": "not-verified",
+      "availability": "legacy",
+      "note": "强化学习算法 Notebook 集，尚未在本轮用固定版本 CPU 环境跑通最小算法；不作为可直接试玩项目。",
+      "evidence": []
+    },
+    {
+      "name": "Arcade-Learning-Environment",
+      "mode": "environment",
+      "validation": "not-verified",
+      "availability": "restricted",
+      "note": "Atari 2600 ALE 游戏环境，涉及独立 ROM 获取与权利限制；本轮没有对任何具体 ROM 执行 episode。",
+      "evidence": []
+    },
+    {
+      "name": "awesome-rl-envs",
+      "mode": "resource",
+      "validation": "not-verified",
+      "availability": "not-applicable",
+      "note": "大型 RL 环境资料目录，包含 Games 等子章节；外链和历史维护状态尚未完成独立检查。",
+      "evidence": []
+    },
+    {
+      "name": "gym-envs",
+      "mode": "environment",
+      "validation": "environment-ci",
+      "availability": "not-applicable",
+      "note": "FrozenLake 与 Blackjack 两个教学环境已更新为 Gymnasium 五元组 step、独立随机源和完整回合/环境契约测试；其他示例未迁移。",
+      "evidence": [
+        "https://github.com/1998x-stack/gym-envs/actions/runs/42620238372"
+      ]
+    },
+    {
+      "name": "hok_env",
+      "mode": "environment",
+      "validation": "not-verified",
+      "availability": "restricted",
+      "note": "王者荣耀 1v1 研究环境依赖 Windows gamecore 与 Linux 交互组件，平台、游戏资源与许可受限；未实际启动。",
+      "evidence": []
+    },
+    {
+      "name": "microrts",
+      "mode": "environment",
+      "validation": "not-verified",
+      "availability": "not-applicable",
+      "note": "Java 微型 RTS 博弈研究代码，有地图、AI 与 JAR 依赖；本轮尚未编译或执行完整对局。",
+      "evidence": []
+    },
+    {
+      "name": "universe",
+      "mode": "environment",
+      "validation": "not-verified",
+      "availability": "legacy",
+      "note": "历史跨游戏/应用 VNC-Docker 环境，存在现代 Python/Gym API 兼容性和远程依赖风险；未运行。",
+      "evidence": []
+    },
+    {
+      "name": "gym",
+      "mode": "environment",
+      "validation": "not-verified",
+      "availability": "legacy",
+      "note": "OpenAI Gym 历史 API 代码仓库，不能把它当作当前 Gymnasium 的同等兼容接口或游戏本体；未重新安装。",
+      "evidence": []
+    },
+    {
+      "name": "ai-game",
+      "mode": "creation-tool",
+      "validation": "historical-ci",
+      "availability": "needs-server",
+      "note": "Next.js 游戏生成与服务端工具已有历史 Verify CI 成功，但本轮未复测生成完整链路或生产密钥/沙箱安全。",
+      "evidence": [
+        "https://github.com/1998x-stack/ai-game/actions/runs/39938832001"
+      ]
+    },
+    {
+      "name": "AI-Game-Generator",
+      "mode": "creation-tool",
+      "validation": "security-ci",
+      "availability": "needs-server",
+      "note": "生成 HTML 预览已移除 allow-same-origin 并校验 postMessage 来源，静态安全契约及 TypeScript CI 通过；不是整个平台的安全认证。",
+      "evidence": [
+        "https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42619929546"
+      ]
+    },
+    {
+      "name": "Deep-Reinforcement-Learning-Hands-On",
+      "mode": "resource",
+      "validation": "not-verified",
+      "availability": "legacy",
+      "note": "深度强化学习书籍配套旧版代码与 Atari 示例，涉及历史 Gym API、依赖和 ROM；本轮未复现具体章节。",
+      "evidence": []
+    },
+    {
+      "name": "rainbow-is-all-you-need",
+      "mode": "resource",
+      "validation": "component-ci",
+      "availability": "legacy",
+      "note": "已修复优先经验回放区间操作与非零采样边界，固定随机样本测试 CI 成功；历史 DQN Notebook/训练仍未复现。",
+      "evidence": [
+        "https://github.com/1998x-stack/rainbow-is-all-you-need/actions/runs/42620461728"
+      ]
+    }
+  ]
+}

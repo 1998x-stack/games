@@ -62,7 +62,8 @@ test("mode and verification filters distinguish game types and CI outcomes", asy
 test("source and evidence links are distinct and secure", async ({page}) => {
   await page.goto(URL);
   await expect(page.locator(".project a[data-role='repo']")).toHaveCount(35);
-  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(27);
+  // One latest proof link per evidenced project; full history stays in phase JSON.
+  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(26);
   const card = page.locator(".project").filter({has:page.locator("h4",{hasText:"gomoku-exact5-env"})});
   await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /actions\/runs\//);
   for (const link of await page.locator(".project a").all()) {

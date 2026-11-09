@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "observed_on": "2026-11-09",
+  "stage": "in_progress",
+  "projects": [
+    {
+      "name": "math_game",
+      "mode": "desktop",
+      "validation": "unit-ci",
+      "availability": "production-unverified",
+      "note": "新版 Pygame 游戏入口、规则/计时/重开与虚拟 SDL 测试通过；实机尚待验收。",
+      "evidence": [
+        "https://github.com/1998x-stack/math_game/actions/runs/42549793772"
+      ]
+    },
+    {
+      "name": "xiao_xiao_le_game",
+      "mode": "desktop",
+      "validation": "unit-ci",
+      "availability": "production-unverified",
+      "note": "三消交换、连锁重力、计分、结束与重开已通过自动测试；旧炸弹机制不作可玩声明。",
+      "evidence": [
+        "https://github.com/1998x-stack/xiao_xiao_le_game/actions/runs/42550036049"
+      ]
+    },
+    {
+      "name": "MarioGame",
+      "mode": "desktop",
+      "validation": "not-verified",
+      "availability": "production-unverified",
+      "note": "有 Pygame 平台游戏与素材，README 为空；待核查启动与素材授权。",
+      "evidence": []
+    },
+    {
+      "name": "go_gym",
+      "mode": "environment",
+      "validation": "not-verified",
+      "availability": "not-applicable",
+      "note": "围棋 Gymnasium 环境；本轮未跑规则及动作掩码测试。",
+      "evidence": []
+    },
+    {
+      "name": "gomoku_zero",
+      "mode": "game-ai",
+      "validation": "not-verified",
+      "availability": "not-applicable",
+      "note": "五子棋训练项目；尚未复现小规模训练与跨环境规则一致性。",
+      "evidence": []
+    },
+    {
+      "name": "gomoku-exact5-env",
+      "mode": "environment",
+      "validation": "unit-ci",
+      "availability": "not-applicable",
+      "note": "已测试恰好五连、六连不胜、非法落子与终局 step 保护；非在线可玩游戏。",
+      "evidence": [
+        "https://github.com/1998x-stack/gomoku-exact5-env/actions/runs/42550184933"
+      ]
+    },
+    {
+      "name": "happyLandlord",
+      "mode": "game-ai",
+      "validation": "ci-failed",
+      "availability": "not-applicable",
+      "note": "历史安装与文档 CI 失败；须先验证依赖、合法牌型和最小训练入口。",
+      "evidence": [
+        "https://github.com/1998x-stack/happyLandlord/actions/runs/36802001764"
+      ]
+    },
+    {
+      "name": "ddz-rl-lab",
+      "mode": "game-ai",
+      "validation": "unit-ci",
+      "availability": "not-applicable",
+      "note": "有历史单测成功记录；未在本轮复现完整自对弈训练。",
+      "evidence": [
+        "https://github.com/1998x-stack/ddz-rl-lab/actions/runs/39978510070"
+      ]
+    },
+    {
+      "name": "MCTS-SNAKE",
+      "mode": "game-ai",
+      "validation": "not-verified",
+      "availability": "not-applicable",
+      "note": "MCTS/DQN 贪吃蛇研究项目，尚未建立同条件随机策略基准。",
+      "evidence": []
+    },
+    {
+      "name": "TetrominoDQN",
+      "mode": "game-ai",
+      "validation": "not-verified",
+      "availability": "not-applicable",
+      "note": "俄罗斯方块 DQN 训练；规则与随机基线未在本轮测试。",
+      "evidence": []
+    },
+    {
+      "name": "Deep-RL-Arcade-Game",
+      "mode": "game-ai",
+      "validation": "not-verified",
+      "availability": "not-applicable",
+      "note": "Atari 研究项目含历史版本依赖；ROM 来源与运行环境待核实。",
+      "evidence": []
+    },
+    {
+      "name": "ball-marl",
+      "mode": "environment",
+      "validation": "unit-ci",
+      "availability": "not-applicable",
+      "note": "上游发布门禁 CI 曾成功；本轮未重新运行公平性及策略复测。",
+      "evidence": [
+        "https://github.com/1998x-stack/ball-marl/actions/runs/41018092336"
+      ]
+    },
+    {
+      "name": "Single-Player-MCTS",
+      "mode": "game-ai",
+      "validation": "not-verified",
+      "availability": "not-applicable",
+      "note": "单人 MCTS 研究代码；未用已知最优解基准验证。",
+      "evidence": []
+    }
+  ]
+}

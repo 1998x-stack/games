@@ -151,12 +151,6 @@
       ["mode","verification","sort"].forEach(k=>filters[k].addEventListener("change",render));
       $("reset").addEventListener("click",clearFilters);
       $("empty-reset").addEventListener("click",clearFilters);
-      document.addEventListener("keydown",event=>{
-        if(event.key==="/" && !event.ctrlKey && !event.metaKey &&
-          !["INPUT","TEXTAREA","SELECT"].includes(document.activeElement?.tagName)){
-          event.preventDefault();filters.search.focus();
-        }
-      });
       render();
     } catch(err) {
       $("counter").textContent="目录加载失败";
@@ -183,5 +177,13 @@
     updateTheme();
   });
   updateTheme();
+  // Search shortcut must work even before optional manifests finish loading.
+  document.addEventListener("keydown", event => {
+    if (event.key === "/" && !event.ctrlKey && !event.metaKey &&
+        !["INPUT","TEXTAREA","SELECT"].includes(document.activeElement?.tagName)) {
+      event.preventDefault();
+      filters.search.focus();
+    }
+  });
   init();
 })();

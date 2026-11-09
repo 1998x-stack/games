@@ -19,6 +19,7 @@ test("catalog and both batch manifests load without misleading playable claims",
 
 test("search, category chips, keyboard shortcut and reset", async ({page}) => {
   await page.goto(URL);
+  await expect(page.locator(".project")).toHaveCount(35);
   await page.keyboard.press("/");
   await expect(page.locator("#search")).toBeFocused();
   await page.locator("#search").fill("Snake_Web");

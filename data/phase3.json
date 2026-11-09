@@ -6,10 +6,11 @@
     {
       "name": "RL-Adventure-2",
       "mode": "game-ai",
-      "validation": "training-ci",
+      "validation": "comparison-ci",
       "availability": "legacy",
-      "note": "NumPy 线性 Actor-Critic + Gymnasium 1.1.1 的独立 CPU 教学脚本，三预设种子 2026/2027/2028，每种子 480 局真实策略/价值更新、64 局留出评估。训练后平均奖励 382.109/410.953/484.156，跨种子均值 425.739、样本SD52.606；随机基线 23.234/21.734/21.688。重复JSON结果完全一致、5项单测通过。这不是原 Notebook 的深度 PyTorch A2C。",
+      "note": "已在相同 CartPole-v1 / 三种子(2026/2027/2028) / 每种子480局训练+64局留出评估下对比NumPy线性与PyTorch CPU神经网络Actor-Critic。跨种子平均奖励线性425.739±52.606(SD)，神经网络347.130±80.740(SD)，线性在这组三种子表现更好；单种子完整运行时间约4.54秒vs12.21秒(相同CI机器顺序测量)。对照JSON独立重复一致，未复现原Notebook的并行n-step深度A2C；架构、优化器不同，不推断框架因果优劣。",
       "evidence": [
+        "https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42637469330",
         "https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42634426202"
       ]
     },

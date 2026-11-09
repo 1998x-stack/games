@@ -149,12 +149,20 @@ test("P3 CPU experiment and game-packager security evidence remain scoped", asyn
 test("P3 Actor-Critic genuinely trains on CPU but original deep model remains unverified", async ({page}) => {
   await page.goto(URL);
   const card = page.locator(".project").filter({has:page.getByRole("heading",{name:"RL-Adventure-2",exact:true})});
-  await expect(card).toContainText("CPU Actor-Critic 训练通过");
-  await expect(card).toContainText("深度模型待验");
+  await expect(card).toContainText("CPU 线性/神经网络对照通过");
+  await expect(card).toContainText("原 A2C 待验");
   await expect(card).toContainText("历史依赖限制");
-  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /RL-Adventure-2\/actions\/runs\/42634426202/);
+  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /RL-Adventure-2\/actions\/runs\/42637469330/);
   await page.locator("#verification").selectOption("evidence");
   await expect(page.locator(".project")).toHaveCount(25);
   await page.locator("#mode").selectOption("game-ai");
   await expect(card).toBeVisible();
+});
+
+test("P3 comparison-card links are evidence-scoped and never imply PyTorch wins", async ({page}) => {
+  await page.goto(URL);
+  const card = page.locator(".project").filter({has:page.getByRole("heading",{name:"RL-Adventure-2",exact:true})});
+  await expect(card).toContainText("CPU 线性/神经网络对照通过");
+  await expect(card).not.toContainText("已在线可玩");
+  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /42637469330/);
 });

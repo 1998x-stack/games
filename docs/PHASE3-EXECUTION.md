@@ -9,13 +9,13 @@
 | 口径 | 真实结果 |
 |---|---:|
 | 第三批计划项目 / 索引说明与下一步验收 | **12 / 12** |
-| 已修改第三批上游源码且新 CI 成功 | **7 / 12** |
+| 已修改第三批上游源码且新 CI 成功 | **8 / 12** |
 | 仅具历史成功 CI 记录、尚未复测 | **0 / 12**（ai-game 已进行本轮验证） |
-| 无本轮成功运行或实验记录 | **5 / 12** |
+| 无本轮成功运行或实验记录 | **4 / 12** |
 | 真实公网生成器与完整训练性能验收 | **0**，不能由组件测试推断 |
 | 全部 Games 项目已分配唯一阶段 | **35 / 35**（P1 10 + P2 13 + P3 12） |
 
-## 七项工程交付与测试边界
+## 八项工程交付与测试边界
 
 **1. [AI-Game-Generator](https://github.com/1998x-stack/AI-Game-Generator)**：不受信任的生成 HTML 曾使用 `sandbox="allow-scripts allow-same-origin"`，可能使 srcdoc 脚本继承应用来源权限。现改为仅允许脚本、使用不透明源，校验 `postMessage` 的确切 iframe 发送者并限制错误消息长度。新增静态契约/TypeScript CI，并在原 Next.js 组件上执行 **2 项真实 Chromium 浏览器测试**，验证沙箱不能读取父 DOM/localStorage 及错误来源消息的拒绝。[Chromium 成功记录](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42623528980) · [静态契约记录](https://github.com/1998x-stack/AI-Game-Generator/actions/runs/42619929546)。**限制：** 此测试覆盖预览隔离边界，不能代表生成服务、密钥、沙箱子依赖或全平台安全审计。
 
@@ -32,11 +32,13 @@
 **7. [ai-game](https://github.com/1998x-stack/ai-game)**：修复构建器读取符号链接脚本或素材时可能跨出游戏工作区的路径，增加外部临时文件/目录的拒绝回归测试和具体错误保留。完整 Verify CI 的类型检查、Lint、单测、生产构建及浏览器冒烟通过。[本轮完整验证](https://github.com/1998x-stack/ai-game/actions/runs/42631295419) · [既有历史记录](https://github.com/1998x-stack/ai-game/actions/runs/39938832001)。**边界：** 不代表完整服务端密钥、身份验证或其他生成流程均通过安全审计。
 
 
+**8. [RL-Adventure-2](https://github.com/1998x-stack/RL-Adventure-2)**：保留原历史 A2C Notebook，新建 NumPy 线性 Actor-Critic + Gymnasium 1.1.1 的真实 CPU 策略/价值函数训练。三个预设独立种子 2026/2027/2028，每种子 480 局训练、64 局留出评估：训练后奖励均值 **382.109 / 410.953 / 484.156**，跨种子均值 **425.739**、样本标准差 **52.606**；随机策略均值 **23.234 / 21.734 / 21.688**，平均差距 **403.521**。验证训练权重变化、JSON 两次完全一致，并留存每种子结果。[成功训练工作流与 JSON 工件](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42634426202)。**限制：** 这是 NumPy 线性模型的算法教学基线，而不是原 PyTorch 深度 A2C 或 PPO 训练。
+
 ## 12 项清单：证据、限制与下一步
 
 | 项目 | 角色与当前验收等级 | 下一项最小独立验收 | 原始证据 |
 |---|---|---|---|
-| [RL-Adventure-2](https://github.com/1998x-stack/RL-Adventure-2) | 游戏 AI · **本轮未完成运行** · 历史依赖可能不兼容 | 选取无需 ROM 的 CPU 案例，固定 Python/Torch/Gym 与 seed，跑通小训练并报告均值/方差。 | 本轮暂无成功运行记录 |
+| [RL-Adventure-2](https://github.com/1998x-stack/RL-Adventure-2) | 游戏 AI · **三种子真实 CPU Actor-Critic 策略训练 CI 成功** · 原深度 Notebook 依赖仍旧 | 补原始 PyTorch A2C 与教学版线性策略的同环境对照；不把小型训练当完整深度模型复现。 | [三种子训练 CI](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42634426202) |
 | [Arcade-Learning-Environment](https://github.com/1998x-stack/Arcade-Learning-Environment) | 研究环境 · **本轮未完成运行** · 第三方资源/平台受限 | 先核实 ROM 合法来源、ALE/Gymnasium 安装版本，再做单回合 step/reset；禁止打包任何第三方 ROM。 | 本轮暂无成功运行记录 |
 | [awesome-rl-envs](https://github.com/1998x-stack/awesome-rl-envs) | 教学资源 · **目录导出 CI 通过；目的站未核查** · 不是静态试玩产品 | 对 11 个目标网站做带日期的健康度与权利审查；只声明当前通过目录提取校验。 | [CI 1](https://github.com/1998x-stack/awesome-rl-envs/actions/runs/42623240121) |
 | [gym-envs](https://github.com/1998x-stack/gym-envs) | 研究环境 · **两个教学环境协议测试通过** · 不是静态试玩产品 | 剩余经典控制示例逐个从旧 Gym 迁移；保持本轮仅两款 Toy Text 环境验收口径。 | [CI 1](https://github.com/1998x-stack/gym-envs/actions/runs/42620238372) |
@@ -66,9 +68,9 @@
 ## 第三批验收条件
 
 - [x] 全部 12 项的身份、公开上游链接、运行/版权风险、下一项验收已登记
-- [x] 七项实际工程改进取得公开 CI 证据（含 RTS 对局、FrozenLake 256 回合对照、游戏打包安全回归和静态链接索引）
+- [x] 八项实际工程改进取得公开 CI 证据（含 RTS 对局、FrozenLake 256 回合对照、游戏打包安全回归和静态链接索引）
 - [x] 全 35 项阶段数据与静态站点统一校验，阶段没有重复
-- [x] 已有 microRTS 205 周期对局及 FrozenLake 256 回合规划/随机基线（不等于神经网络训练验收）
+- [x] microRTS 205 周期对局、FrozenLake 256 回合规划/随机基线，以及 RL-Adventure-2 三种子真实 NumPy Actor-Critic 策略训练（不代表原深度 A2C Notebook 已验收）
 - [x] AI 生成器实际 Chromium 预览隔离检查（2 项测试）
 - [ ] 生成器无密钥失败/超时路径及全服务隔离审查（仅 ai-game 打包输入的链接边界已完成）
 - [ ] 受限资源的合法来源与系统矩阵审查

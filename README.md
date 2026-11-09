@@ -34,6 +34,13 @@
 
 已制定针对全部 **35 个项目**的 [优化路线图](docs/OPTIMIZATION-ROADMAP.md)：以**可验证的游戏体验**为唯一核心目标，按 **P1 体验入口与基础质量（10 项）→ P2 玩法与游戏 AI（13 项）→ P3 研究工具及长期治理（12 项）**推进。每项均有当前证据、具体行动与独立验收标准；计划不代表项目已经实际运行或测试通过。
 
+## 🧪 第一批深度优化正在实施
+
+第一批 10 个游戏的真实验证层级见 [执行日志与证据](docs/PHASE1-EXECUTION.md)：
+**Snake_Web** 已通过规则测试与 Chromium 浏览器冒烟，但仓库尚未启用 GitHub Pages；**Snake** 已通过虚拟 SDL 自动测试；**Go** 的 Pygbag 构建流程已修复，后续部署结果仍需核查。
+
+现在主页使用 `data/phase1.json` 显示可追溯的体验验证等级，**不把“README 已核对”“构建成功”错误显示为“已在线可玩”**。没有生产网页的实际操作证据前，仍显示“待核验”。
+
 ## 🗂️ 仓库结构
 
 ```text
@@ -54,6 +61,7 @@ games/
 ├── scripts/build_site.py         # 数据校验与站点数据生成
 ├── docs/SELECTION.md             # 收录范围、审查依据、边界
 ├── docs/OPTIMIZATION-ROADMAP.md  # 35 项目三批优化与验收计划
+├── docs/PHASE1-EXECUTION.md      # 第一批执行日志与测试证据
 ├── docs/PAGES.md                 # 发布与故障排查
 └── .github/workflows/            # CI + Pages 自动部署
 ```

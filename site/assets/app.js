@@ -5,7 +5,14 @@
   const select = $("category");
   const query = $("search");
   let catalog;
+  let phase1 = new Map();
   let active = "all";
+  const verifyLabels = {
+    "browser-ci": "浏览器自动化通过 · 线上待核验",
+    "unit-ci": "自动测试通过 · 实机待核验",
+    "build-ci": "发布构建成功 · 体验待核验",
+    "not-verified": "运行待核验"
+  };
   const label = (id) => id === "all" ? "全部分类" : catalog.categories.find(c => c.id === id)?.name || id;
   const render = () => {
     const term = query.value.trim().toLocaleLowerCase();
@@ -27,7 +34,8 @@
       const desc = document.createElement("p"); desc.textContent = p.description;
       const bottom = document.createElement("div"); bottom.className = "bottom";
       const state = document.createElement("span");
-      state.textContent = p.review === "verified" ? "README 已核对" : "待进一步复核";
+      const experience = phase1.get(p.name);
+      state.textContent = experience ? verifyLabels[experience.validation] : "运行状态未核验";
       const arrow = document.createElement("span"); arrow.className = "go"; arrow.textContent = "原仓库 ↗";
       bottom.append(state, arrow);
       link.append(meta, heading, desc, bottom); cards.appendChild(link);
@@ -43,6 +51,16 @@
     const response = await fetch("data/catalog.json", {cache:"no-store"});
     if (!response.ok) throw new Error("HTTP " + response.status);
     catalog = await response.json();
+    try {
+      const phaseResponse = await fetch("data/phase1.json", {cache:"no-store"});
+      if (phaseResponse.ok) {
+        const phaseData = await phaseResponse.json();
+        phase1 = new Map(phaseData.projects.map(row => [row.name, row]));
+      }
+    } catch (error) {
+      // Never show a playable label when evidence is missing.
+      console.warn("Experience evidence unavailable; showing unverified states", error);
+    }
     $("total").textContent = String(catalog.projects.length);
     [{id:"all",name:"全部分类"}, ...catalog.categories].forEach(cat => {
       const button = document.createElement("button");

@@ -96,7 +96,7 @@ def build_phase2():
     for p in rows:
         assert set(p) == {"name", "mode", "validation", "availability", "note", "evidence"}
         assert p["mode"] in ("desktop", "environment", "game-ai")
-        assert p["validation"] in ("unit-ci", "environment-ci", "not-verified", "ci-failed")
+        assert p["validation"] in ("unit-ci", "environment-ci", "gameplay-ci", "not-verified", "ci-failed")
         assert p["availability"] in ("production-unverified", "not-applicable")
         assert isinstance(p["note"], str) and p["note"].strip()
         assert isinstance(p["evidence"], list)

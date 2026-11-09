@@ -1,6 +1,6 @@
 # RL-Adventure-2 · CPU Actor-Critic 策略训练
 
-> **P3 · 2026-11-09 · 现代真实多进程 A2C 与同步完全对齐；旧 Gym 多进程源码待验**
+> **P3 · 2026-11-09 · 三算法等帧数 CI 成功；跨工作流复现差异待查**
 >
 > [原始项目](https://github.com/1998x-stack/RL-Adventure-2) · [P3 日志](../../../docs/PHASE3-EXECUTION.md) · [返回分类](../README.md)
 
@@ -91,6 +91,29 @@ python -m p3.vector_nstep_a2c --updates 4000 --eval-episodes 64
 
 **边界：** 新后端是 Gymnasium AsyncVectorEnv，是真实进程但不是旧 Notebook 中依赖 Gym 四元组的 SubprocVecEnv 原样运行。两种执行后端已实现等交互预算；不同训练算法目前没有匹配环境交互预算，不应据现有均值排名。
 
+
+## 三算法精确 320,000 训练帧对照
+
+这次将原先按 **480 个完成回合** 训练的线性/小网络模型，统一改为按 **320,000 次真实环境交互** 训练，并与 16 环境 n-step A2C 使用相同 CartPole-v1、三训练种子和每种子 64 局留出评估。短预算契约测试覆盖硬截止、最终未完成回合标记、Actor/Critic 真实更新；完整实验在 CI 中执行两遍，结果 JSON 逐字节相同。
+
+| 训练种子 | NumPy 线性 MC | PyTorch 小网络 MC | PyTorch 16 环境 n-step |
+|---|---:|---:|---:|
+| 2026 | 497.531 | 500.000 | 481.891 |
+| 2027 | 495.078 | 498.062 | 476.984 |
+| 2028 | 498.219 | 494.297 | 482.297 |
+| 三种子均值 | **496.943** | **497.453** | **480.391** |
+| 样本 SD | 1.651 | 2.900 | 2.957 |
+
+[成功的等帧数工作流和原始工件](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42650112154)。
+
+**解释边界：** CartPole 每局封顶 500，三种方法成绩接近上限。模型容量、优化器、更新次数仍不同；MC 方法在精确帧数终点强制截断并将余下回报当 0，n-step 则持续自举。0.510 分的均值差不能证明神经网络优于线性模型。所有计时仅为单次 GitHub CPU Runner 观察，不代表硬件标准化速度。
+
+**跨工作流复现限制：** 历史单独的 n-step 种子 2028 平均奖励 **466.641**，而本次合并对照为 **482.297**；在另一小网络完整训练前后单独重复 n-step 仍是 **466.641**，[隔离 CI](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42653432398)。原因尚未查明，不能把“本工作流内重复一致”等同于跨训练顺序、跨作业上下文绝对一致。
+
+```bash
+python -m unittest discover -s tests -p "equal_frame_contract_test.py" -v
+python -m p3.equal_frame_comparison --frames 320000 --eval-episodes 64
+```
 
 ## 运行
 

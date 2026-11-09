@@ -150,10 +150,10 @@ test("P3 CPU experiment and game-packager security evidence remain scoped", asyn
 test("P3 Actor-Critic genuinely trains on CPU but original deep model remains unverified", async ({page}) => {
   await page.goto(URL);
   const card = page.locator(".project").filter({has:page.getByRole("heading",{name:"RL-Adventure-2",exact:true})});
-  await expect(card).toContainText("实测多进程 A2C 与同步一致");
-  await expect(card).toContainText("原旧版源码待验");
+  await expect(card).toContainText("三算法等帧数对照通过");
+  await expect(card).toContainText("跨流程复现待查");
   await expect(card).toContainText("历史依赖限制");
-  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /RL-Adventure-2\/actions\/runs\/42646793026/);
+  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /RL-Adventure-2\/actions\/runs\/42650112154/);
   await page.locator("#verification").selectOption("evidence");
   await expect(page.locator(".project")).toHaveCount(27);
   await page.locator("#mode").selectOption("game-ai");
@@ -163,17 +163,17 @@ test("P3 Actor-Critic genuinely trains on CPU but original deep model remains un
 test("P3 comparison-card links are evidence-scoped and never imply PyTorch wins", async ({page}) => {
   await page.goto(URL);
   const card = page.locator(".project").filter({has:page.getByRole("heading",{name:"RL-Adventure-2",exact:true})});
-  await expect(card).toContainText("实测多进程 A2C 与同步一致");
+  await expect(card).toContainText("三算法等帧数对照通过");
   await expect(card).not.toContainText("已在线可玩");
-  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /42646793026/);
+  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /42650112154/);
 });
 
 test("P3 original-horizon A2C evidence keeps different training budgets explicit", async ({page}) => {
   await page.goto(URL);
   const card = page.locator(".project").filter({has:page.getByRole("heading",{name:"RL-Adventure-2",exact:true})});
-  await expect(card).toContainText("实测多进程 A2C 与同步一致");
-  await expect(card).toContainText("原旧版源码待验");
-  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /42646793026/);
+  await expect(card).toContainText("三算法等帧数对照通过");
+  await expect(card).toContainText("跨流程复现待查");
+  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /42650112154/);
   await expect(card).not.toContainText("完整原版 Notebook 已验收");
   await page.locator("#verification").selectOption("evidence");
   await expect(page.locator(".project")).toHaveCount(27);
@@ -182,9 +182,9 @@ test("P3 original-horizon A2C evidence keeps different training budgets explicit
 test("P3 actual spawned-worker parity preserves historical legacy limitation", async ({page}) => {
   await page.goto(URL);
   const card=page.locator(".project").filter({has:page.getByRole("heading",{name:"RL-Adventure-2",exact:true})});
-  await expect(card).toContainText("实测多进程 A2C 与同步一致");
-  await expect(card).toContainText("原旧版源码待验");
-  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /RL-Adventure-2\/actions\/runs\/42646793026/);
+  await expect(card).toContainText("三算法等帧数对照通过");
+  await expect(card).toContainText("跨流程复现待查");
+  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /RL-Adventure-2\/actions\/runs\/42650112154/);
   await expect(card).not.toContainText("已在线可玩");
 });
 
@@ -245,4 +245,15 @@ test("P2 Tetris gameplay proof is scoped to mechanics and random policy, not DQN
     "https://github.com/1998x-stack/TetrominoDQN/actions/runs/42649593846");
   await page.locator("#verification").selectOption("evidence");
   await expect(card).toBeVisible();
+});
+
+test("P3 equal-320k-frame three-algorithm proof keeps reproducibility caveat", async ({page}) => {
+  await page.goto(URL + "?batch=p3&mode=game-ai");
+  const card = page.locator(".project").filter({has:page.getByRole("heading",{name:"RL-Adventure-2",exact:true})});
+  await expect(card).toContainText("三算法等帧数对照通过");
+  await expect(card).toContainText("跨流程复现待查");
+  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /42650112154/);
+  await card.locator("summary").click();
+  await expect(card.locator("details p")).toContainText("2028");
+  await expect(card).not.toContainText("已在线可玩");
 });

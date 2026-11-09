@@ -22,7 +22,8 @@
     "training-ci":"CPU Actor-Critic 训练通过 · 深度模型待验",
     "comparison-ci":"CPU 线性/神经网络对照通过 · 原 A2C 待验",
     "vector-a2c-ci":"向量化 n-step A2C 复现通过 · 原多进程实现待验",
-    "subprocess-ci":"实测多进程 A2C 与同步一致 · 原旧版源码待验"
+    "subprocess-ci":"实测多进程 A2C 与同步一致 · 原旧版源码待验",
+    "equal-frame-ci":"三算法等帧数对照通过 · 跨流程复现待查"
   };
   const types = {"desktop":"桌面游戏","browser-candidate":"浏览器候选",
     "local-web":"本地 Web","environment":"AI / RL 环境",
@@ -35,7 +36,7 @@
       /^[0-9]+$/.test(url.slice(prefix.length));
   };
   const state = {catalog:null, projects:new Map(), category:"all"};
-  const hasPass = e => e && ["browser-ci","build-ci","unit-ci","environment-ci","gameplay-ci","security-ci","component-ci","historical-ci","match-ci","index-ci","experiment-ci","packager-ci","training-ci","comparison-ci","vector-a2c-ci","subprocess-ci"].includes(e.validation);
+  const hasPass = e => e && ["browser-ci","build-ci","unit-ci","environment-ci","gameplay-ci","security-ci","component-ci","historical-ci","match-ci","index-ci","experiment-ci","packager-ci","training-ci","comparison-ci","vector-a2c-ci","subprocess-ci","equal-frame-ci"].includes(e.validation);
   const fallbackType = {
     "game-creation": "creation-tool",
     "game-environments": "environment",

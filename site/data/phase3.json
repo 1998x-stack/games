@@ -6,10 +6,12 @@
     {
       "name": "RL-Adventure-2",
       "mode": "game-ai",
-      "validation": "subprocess-ci",
+      "validation": "equal-frame-ci",
       "availability": "legacy",
-      "note": "已在 Gymnasium 1.1.1 的真实 AsyncVectorEnv 子进程中复验现代 n-step A2C。4项契约测试覆盖两个独立 worker PID、结束清理、SAME_STEP/时间截断最终观测与真实策略/价值参数更新。预设 seed=2026、16 环境×5 步×4000 更新的相同 320000 环境交互下，异步多进程与同步训练/测试 JSON 完全一致；64局留出均值均为 481.891。单次 CI 顺序耗时 sync=59.755秒、async=89.5秒，只对这台 CPU 有效。原历史 2018 SubprocVecEnv 的旧 Gym 四元组代码并未逐行运行，且不同算法之间的环境交互预算尚未严格统一。",
+      "note": "已在同一 Gymnasium CartPole-v1 环境用种子 2026/2027/2028 对 NumPy 线性 MC Actor-Critic、PyTorch 小网络 MC Actor-Critic 和 16 环境 5 步 n-step A2C 逐一执行严格相同的 320000 次训练交互、每种子64局留出评估；三种子奖励均值分别 496.943(SD1.651)、497.453(SD2.900)、480.391(SD2.957)。完整三算法实验在同一工作流中重复两次，确定性 JSON 字节相同。三个模型均接近 CartPole 500 分上限，架构/优化器/更新次数不同；线性和小网络用预算截止时的人为截断且不自举，不能推断因果优劣。注意 n-step 的 seed 2028 在旧独立工作流得到466.641、联合工作流得到482.297；额外隔离测试在另一模型训练前后都为466.641，跨流程差异原因尚未查明。",
       "evidence": [
+        "https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42650112154",
+        "https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42653432398",
         "https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42646793026",
         "https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42640528466",
         "https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42637469330",

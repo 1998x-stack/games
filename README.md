@@ -58,6 +58,8 @@
 
 **真实多进程补充验收：** [RL-Adventure-2 同步与真实 AsyncVectorEnv 对照](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42646793026) 在完全相同的 320,000 环境交互和 seed=2026 下，训练/留出评估 JSON 除后端字段外完全一致，64 局平均奖励均 **481.891**。现代子进程已核验，2018 年旧 Gym SubprocVecEnv 源码未原样运行，跨算法等环境交互对照仍待完成。
 
+**三算法等帧数实证：** [RL-Adventure-2 完整同预算 CI](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42650112154) 将线性 Actor-Critic、PyTorch 小网络和 n-step A2C 按三种子各 **320,000 次真实训练交互**对齐；留出平均奖励分别 **496.943 / 497.453 / 480.391**，均接近 CartPole-v1 的 500 分上限。完整 CI 两次 JSON 一致，但 n-step 种子 2028 的[跨工作流差异隔离审计](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42653432398)尚未解释，不能称全面可复现或按架构因果排名。
+
 已建立 **35/35 项唯一阶段归属及可追溯运行状态**，包括受限 ROM、遗留依赖和需服务端的生成器。状态登记不等于生产可玩或实验已成功；详见 **[第三批完整执行日志](docs/PHASE3-EXECUTION.md)** 和 [P3 状态 JSON](data/phase3.json)。
 
 ## 🗂️ 仓库结构

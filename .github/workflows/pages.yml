@@ -25,6 +25,17 @@ jobs:
         run: python3 scripts/build_site.py --check
       - name: Generate public-only static site JSON
         run: python3 scripts/build_site.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Playwright Chromium for pre-publish browser gate
+        run: |
+          npm install --no-save --no-package-lock @playwright/test@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Require full Games Atlas UI regression before publishing
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory site &
+          npx playwright test tests/site.spec.cjs --workers=1
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

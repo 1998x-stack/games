@@ -25,20 +25,32 @@
     $("empty").hidden = rows.length > 0;
     cards.replaceChildren();
     rows.forEach(p => {
-      const link = document.createElement("a");
-      link.className = "project"; link.href = p.url;
-      link.target = "_blank"; link.rel = "noopener noreferrer";
-      const meta = document.createElement("div");
-      meta.className = "meta"; meta.textContent = label(p.category);
+      const card = document.createElement("article");
+      card.className = "project";
+      const evidence = phase1.get(p.name);
+      const kinds = {"desktop":"桌面游戏","local-web":"本地 Web","browser-candidate":"浏览器候选"};
+      const meta = document.createElement("div"); meta.className = "meta";
+      meta.textContent = label(p.category) + " · " + (kinds[evidence?.mode] || "项目资源");
       const heading = document.createElement("h4"); heading.textContent = p.name;
       const desc = document.createElement("p"); desc.textContent = p.description;
       const bottom = document.createElement("div"); bottom.className = "bottom";
       const state = document.createElement("span");
-      const experience = phase1.get(p.name);
-      state.textContent = experience ? verifyLabels[experience.validation] : "运行状态未核验";
-      const arrow = document.createElement("span"); arrow.className = "go"; arrow.textContent = "原仓库 ↗";
-      bottom.append(state, arrow);
-      link.append(meta, heading, desc, bottom); cards.appendChild(link);
+      state.textContent = (evidence ? verifyLabels[evidence.validation] : "运行状态未核验") +
+        (evidence?.availability === "deployment-blocked" ? " · 部署受阻" : "");
+      if (evidence?.note) state.title = evidence.note;
+      const links = document.createElement("div"); links.className = "links";
+      const upstream = document.createElement("a");
+      upstream.dataset.role = "repo"; upstream.href = p.url;
+      upstream.target = "_blank"; upstream.rel = "noopener noreferrer";
+      upstream.textContent = "原仓库 ↗"; links.append(upstream);
+      if (evidence?.evidence?.length) {
+        const proof = document.createElement("a");
+        proof.dataset.role = "evidence"; proof.href = evidence.evidence[0];
+        proof.target = "_blank"; proof.rel = "noopener noreferrer";
+        proof.textContent = "验证记录 ↗"; links.append(proof);
+      }
+      bottom.append(state, links);
+      card.append(meta, heading, desc, bottom); cards.appendChild(card);
     });
     Array.from(chips.children).forEach(b => {
       const selected = b.dataset.category === active;

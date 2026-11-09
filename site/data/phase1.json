@@ -49,26 +49,30 @@
       "mode": "desktop",
       "validation": "unit-ci",
       "availability": "production-unverified",
-      "note": "Python 游戏 CI 成功；未验证当前桌面实机输入",
+      "note": "按 R 在任意游戏状态重新开局、两块初始砖的 SDL 集成测试成功；真实桌面操作未验收。",
       "evidence": [
-        "https://github.com/1998x-stack/2048/actions/runs/35679406201"
+        "https://github.com/1998x-stack/2048/actions/runs/42548197692"
       ]
     },
     {
       "name": "TicTacToe",
       "mode": "desktop",
-      "validation": "not-verified",
+      "validation": "unit-ci",
       "availability": "production-unverified",
-      "note": "有测试文件与 README，本轮未运行",
-      "evidence": []
+      "note": "井字棋胜负/平局后重开、清洁退出和无声卡模式已通过测试；真实桌面操作未验收。",
+      "evidence": [
+        "https://github.com/1998x-stack/TicTacToe/actions/runs/42547547540"
+      ]
     },
     {
       "name": "jump_jump",
       "mode": "desktop",
-      "validation": "not-verified",
+      "validation": "unit-ci",
       "availability": "production-unverified",
-      "note": "有 headless 核心和测试，本轮未运行",
-      "evidence": []
+      "note": "独立随机种子避免全局污染，并行实例确定性、头部引擎与虚拟 SDL 渲染测试成功；真实桌面未验收。",
+      "evidence": [
+        "https://github.com/1998x-stack/jump_jump/actions/runs/42547633031"
+      ]
     },
     {
       "name": "Snake",
@@ -83,18 +87,22 @@
     {
       "name": "flying_bird",
       "mode": "desktop",
-      "validation": "not-verified",
+      "validation": "unit-ci",
       "availability": "production-unverified",
-      "note": "Pygame 游戏与 DQN 训练并存；本轮未运行",
-      "evidence": []
+      "note": "桌面游戏新增碰撞后重开、无界面模拟和静音降级；虚拟 SDL 通过。独立 DQN 环境未测试。",
+      "evidence": [
+        "https://github.com/1998x-stack/flying_bird/actions/runs/42547834922"
+      ]
     },
     {
       "name": "pingpong",
       "mode": "desktop",
-      "validation": "not-verified",
+      "validation": "unit-ci",
       "availability": "production-unverified",
-      "note": "Pygame/Box2D 双人游戏，本轮未运行",
-      "evidence": []
+      "note": "真实 Box2D 碰撞边界、单次反弹施力和音效、计分与虚拟 SDL 测试通过；真实双人操作待验收。",
+      "evidence": [
+        "https://github.com/1998x-stack/pingpong/actions/runs/42548050012"
+      ]
     }
   ]
 }

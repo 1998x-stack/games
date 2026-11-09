@@ -34,12 +34,13 @@
 
 已制定针对全部 **35 个项目**的 [优化路线图](docs/OPTIMIZATION-ROADMAP.md)：以**可验证的游戏体验**为唯一核心目标，按 **P1 体验入口与基础质量（10 项）→ P2 玩法与游戏 AI（13 项）→ P3 研究工具及长期治理（12 项）**推进。每项均有当前证据、具体行动与独立验收标准；计划不代表项目已经实际运行或测试通过。
 
-## 🧪 第一批深度优化正在实施
+## 🧪 第一批：深度优化进行中
 
-第一批 10 个游戏的真实验证层级见 [执行日志与证据](docs/PHASE1-EXECUTION.md)：
-**Snake_Web** 已通过规则测试与 Chromium 浏览器冒烟，但仓库尚未启用 GitHub Pages；**Snake** 已通过虚拟 SDL 自动测试；**Go** 的 Pygbag 构建流程已修复，后续部署结果仍需核查。
+截至 2026-11-09，**8/10 个 P1 上游项目已实施代码优化并获得相应的 CI/构建证据**：Snake_Web、Snake、Go、2048、TicTacToe、jump_jump、flying_bird、pingpong。另外两个项目 space_ship、paint-maze-lab 具有既有的 Pages/浏览器验收证据，仍须完成正式体验复验。
 
-现在主页使用 `data/phase1.json` 显示可追溯的体验验证等级，**不把“README 已核对”“构建成功”错误显示为“已在线可玩”**。没有生产网页的实际操作证据前，仍显示“待核验”。
+**[逐项执行日志与真实证据](docs/PHASE1-EXECUTION.md)** · **[验收任务 Issue #1](https://github.com/1998x-stack/games/issues/1)**。
+
+主页同时呈现每项的原仓库和原始 CI 记录，清晰区分“测试通过”与“正式线上已经可玩”。**Snake_Web 和 Go 的独立 Pages 部署仍被仓库设置阻断**，不能视为线上已验收。
 
 ## 🗂️ 仓库结构
 

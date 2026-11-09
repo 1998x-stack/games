@@ -26,9 +26,21 @@ test("safe external links and empty search state", async ({page}) => {
   await page.goto("http://127.0.0.1:8765/");
   const card = page.locator(".project").first();
   await expect(card).toBeVisible();
-  await expect(card).toHaveAttribute("rel",/noopener noreferrer/);
-  await expect(card).toHaveAttribute("href",/^https:\/\/github\.com\/1998x-stack\//);
+  const repo = card.locator('a[data-role="repo"]');
+  await expect(repo).toHaveAttribute("rel", /noopener noreferrer/);
+  await expect(repo).toHaveAttribute("href", new RegExp("github.com/1998x-stack/"));
   await page.locator("#search").fill("absent-project-xyz");
   await expect(page.locator(".project")).toHaveCount(0);
   await expect(page.locator("#empty")).toBeVisible();
+});
+
+test("all P1 entries link to upstream CI evidence", async ({page}) => {
+  await page.goto("http://127.0.0.1:8765/");
+  await expect(page.locator(".project a[data-role='repo']")).toHaveCount(35);
+  await expect(page.locator(".project a[data-role='evidence']")).toHaveCount(10);
+  const tic = page.locator(".project").filter({has:page.locator("h4", {hasText:"TicTacToe"})});
+  await expect(tic).toContainText("自动测试通过");
+  const web = page.locator(".project").filter({has:page.locator("h4", {hasText:"Snake_Web"})});
+  await expect(web).toContainText("部署受阻");
+  await expect(web.locator("a[data-role='evidence']")).toHaveAttribute("href", new RegExp("actions/runs/"));
 });

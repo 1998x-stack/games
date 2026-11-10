@@ -257,3 +257,19 @@ test("P3 equal-320k-frame three-algorithm proof keeps reproducibility caveat", a
   await expect(card.locator("details p")).toContainText("2028");
   await expect(card).not.toContainText("已在线可玩");
 });
+
+test("P3 reproducibility audits are discoverable, scoped and safe in evidence history", async ({page}) => {
+  await page.goto(URL + "?batch=p3&mode=game-ai");
+  const card=page.locator(".project").filter({has:page.getByRole("heading",{name:"RL-Adventure-2",exact:true})});
+  await expect(card.locator("a[data-role='evidence']")).toHaveAttribute("href", /42650112154/);
+  await card.locator("summary").click();
+  const history=card.locator("a[data-role='evidence-history']");
+  await expect(history).toHaveCount(10);
+  await expect(card.locator(".evidence-history")).toContainText("10 条");
+  for(const run of ["42738486096","42739164734","42739564261","42739770887"]) {
+    const evidence=history.filter({hasText:run});
+    await expect(evidence).toHaveAttribute("href", "https://github.com/1998x-stack/RL-Adventure-2/actions/runs/"+run);
+    await expect(evidence).toHaveAttribute("rel", /noopener/);
+  }
+  await expect(card.locator("details p")).toContainText("异构CPU");
+});

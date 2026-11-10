@@ -105,6 +105,25 @@
       const explanation=document.createElement("p");
       explanation.textContent=e.note;
       details.append(summary, explanation);
+      // Keep the latest CI prominent and preserve all independently
+      // matched historical/audit runs behind the native disclosure.
+      const evidenceUrls=Array.isArray(e.evidence) ?
+        [...new Set(e.evidence)].filter(url=>proofOk(p.name,url)) : [];
+      if (evidenceUrls.length > 1) {
+        const history=document.createElement("div");
+        history.className="evidence-history";
+        const heading=document.createElement("strong");
+        heading.textContent="原始 CI 及审计记录（"+evidenceUrls.length+" 条）";
+        const list=document.createElement("ol");
+        evidenceUrls.forEach((url,i)=>{
+          const item=document.createElement("li");
+          const id=url.slice(url.lastIndexOf("/")+1);
+          item.append(externalLink(url, (i===0?"主证据 · ":"审计/历史 · ")+"Run "+id, "evidence-history"));
+          list.append(item);
+        });
+        history.append(heading,list);
+        details.append(history);
+      }
     }
     const links = document.createElement("div"); links.className="links";
     links.append(externalLink(p.url, "原仓库 ↗", "repo"));

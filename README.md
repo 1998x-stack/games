@@ -60,6 +60,8 @@
 
 **三算法等帧数实证：** [RL-Adventure-2 完整同预算 CI](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42650112154) 将线性 Actor-Critic、PyTorch 小网络和 n-step A2C 按三种子各 **320,000 次真实训练交互**对齐；留出平均奖励分别 **496.943 / 497.453 / 480.391**，均接近 CartPole-v1 的 500 分上限。完整 CI 两次 JSON 一致，但 n-step 种子 2028 的[跨工作流差异隔离审计](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42653432398)尚未解释，不能称全面可复现或按架构因果排名。
 
+**RL-Adventure-2 复现实证复核：** 历史种子 2028 的独立/联合 CI 得分差异仍未找到确定原因。新增 [同机完整训练顺序复验](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42739564261) 与 [三台独立 Runner 复验](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42739770887)，均得到 466.641、完整 JSON 一致；另两组隔离也无差异。跨 Runner 的三台机器同属 AMD EPYC 7763，不能据此宣称异构硬件完全确定性。门户现支持展开查看各项目全部原始 CI 和审计链接。
+
 已建立 **35/35 项唯一阶段归属及可追溯运行状态**，包括受限 ROM、遗留依赖和需服务端的生成器。状态登记不等于生产可玩或实验已成功；详见 **[第三批完整执行日志](docs/PHASE3-EXECUTION.md)** 和 [P3 状态 JSON](data/phase3.json)。
 
 ## 🗂️ 仓库结构

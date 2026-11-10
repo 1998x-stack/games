@@ -22,5 +22,11 @@
 .project .evidence-details{margin-top:13px;border-top:1px dashed var(--border);padding-top:10px;min-width:0}
 .project .evidence-details summary{color:var(--accent);font-size:.82rem;font-weight:700;cursor:pointer}
 .project .evidence-details p{margin:9px 0 0;color:var(--muted);font-size:.79rem;line-height:1.65;overflow-wrap:anywhere;flex:none}
+.project .evidence-history{margin-top:12px;padding-top:10px;border-top:1px dashed var(--border);font-size:.78rem;color:var(--muted)}
+.project .evidence-history strong{font-size:.77rem;font-weight:700}
+.project .evidence-history ol{display:grid;gap:6px;margin:8px 0 0;padding-left:22px;list-style:decimal}
+.project .evidence-history li{overflow-wrap:anywhere}
+.project .evidence-history a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.project .evidence-history a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
 @media(max-width:1000px){.select-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:760px){.select-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}

@@ -115,6 +115,21 @@ python -m unittest discover -s tests -p "equal_frame_contract_test.py" -v
 python -m p3.equal_frame_comparison --frames 320000 --eval-episodes 64
 ```
 
+## 跨工作流可复现性：四组独立验证
+
+历史等帧数工作流内的 n-step 种子 2028 曾给出 **482.297**，而独立训练 CI 为 **466.641**。两组结果各自重复一致，不能删除任一组来制造一致性。
+
+| 审计范围 | 种子 2028 的实测结果 | CI |
+|---|---|---|
+| 同 Runner：独立调用 vs 联合入口（仅该种子） | 466.641 / 466.641，完整记录相同 | [调用路径](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42738486096) |
+| 同 Runner：训练此前种子 2026、2027 后重复 2028 | 466.641 / 466.641，完整记录相同 | [种子顺序](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42739164734) |
+| 同 Runner：完整三算法×三种子联合执行，2028 前后单独运行 | 三种调用均 466.641，完整记录相同 | [完整顺序](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42739564261) |
+| 三个独立 Runner 运行同一 2028 | 三次均 466.641，完整记录相同 | [跨 Runner](https://github.com/1998x-stack/RL-Adventure-2/actions/runs/42739770887) |
+
+后者三台 Runner 全部为 AMD EPYC 7763，同机完整顺序审计使用 AMD EPYC 9V45；所以这**不是完整的异构 CPU 对照**。旧记录差异原因未证实；PyTorch 确定性设置本身并不保证不同 CPU 指令集或运行平台上全部浮点操作逐位相同。
+
+所有审计保留机器信息、原始结果和对照字段；项目卡“验证范围与限制”内新增可展开的 CI 历史链接。**后续任务：** 异构硬件测试、必要的数值算子轨迹差异定位；在完成前，保留“跨流程复现待查”标签。
+
 ## 运行
 
 在原仓库根目录：
